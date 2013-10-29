@@ -1,7 +1,6 @@
 #!/bin/bash
 
 function runserver {
-    ./elasticsearch/bin/service/elasticsearch start
     cd $1
     pwd
     echo "yes" | python manage.py collectstatic
@@ -13,6 +12,6 @@ function runserver {
     python manage.py runserver
 }
 
-runserver cc
+runserver health
 
 

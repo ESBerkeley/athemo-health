@@ -1,0 +1,27 @@
+.font-size-medium {
+	font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    /*font-size: 14px;
+    line-height: 1.428571429;
+    color: #333;*/
+}
+
+.income-btn {
+    width:200px;
+}
+
+.category {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.side-item {
+	margin-top: 20px;
+}
+
+thead {
+	font-size: 20px;
+}
