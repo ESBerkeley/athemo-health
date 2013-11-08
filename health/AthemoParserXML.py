@@ -7,6 +7,8 @@ from __future__ import print_function
 
 import xlrd
 from xlrd.timemachine import REPR
+import openpyxl
+from openpyxl import load_workbook
 import sys
 import glob
 
@@ -53,3 +55,9 @@ def get_state_rating_info(stateInitials, rating):
         print(sheet.row(row_num)[3].value)
         if sheet.row(row_num)[3].value == rating:
             return sheet.row(row_num)
+
+def safs(stateInitials, age):
+    wb=load_workbook('Marketplace_premium_databook_2014.xlsx')
+    ws=wb.get_sheet_by_name(stateInitials)
+    ws.cell('F2').value= str(age)
+    wb.save('Marketplace_premium_databook_2014.xlsx')
