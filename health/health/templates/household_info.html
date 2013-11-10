@@ -2,55 +2,23 @@
 
 {% block content %}
 <div class="row">
-		<div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-12 col-sm-12 col-md-12" style="/*border: 1px solid #000*/">
+		<div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-12 col-sm-12 col-md-12">
 				<div class=" col-xs-10 col-sm-10 col-md-10 well">
-						<div>
-								<h2>Enter Your Information</h2>
-								<p class="sub_heading">See the health insurance policies available on Obamacare.</p>
-								<div class="category side-item">State: </div>
-								<select data-placeholder="Choose a Country..." class="chosen-select" style="width:200px;" tabindex="2">
-										<option value=""></option>
-										<option value="arizona">Arizona</option>
-								</select>
-								<div class="category side-item">Income:</div>
-								<div class="btn-group">
-										<button type="button" class="btn btn-default income-btn">&lt; $25,000</button>
-										<button type="button" class="btn btn-default income-btn">$25,000 - $50,000</button>
-										<button type="button" class="btn btn-default income-btn">$50,000 - $75,000</button>
-										<button type="button" class="btn btn-default income-btn">$75,001 - $100,000</button>
-										<button type="button" class="btn btn-default income-btn">$100,000+</button>
-								</div>
-								<!--select data-placeholder="Choose a Country..." class="chosen-select" style="width:200px;" tabindex="2">
-										<option value=""></option>
-										<option value="low">&lt; $25,000</option>
-										<option value="low">$25,001 - $50,000</option>
-										<option value="low">$50,001 - $75,000</option>
-										<option value="low">$75,001 - $100,000</option>
-										<option value="low">&gt; $100,001</option>
-								</select-->
-						</div>
-						<div class="category side-item">Age</div>
-						<input type="text" class="form-control" style="width:150px;">
-						<!--select data-placeholder="Select a year..." class="chosen-select" style="width:65px;" tabindex="2">
-								<option value=""></option>
-								<option value="low">1983</option>
-								<option value="low">1982</option>
-								<option value="low">1981</option>
-								<option value="low">1980</option>
-								<option value="low">1979</option>
-						</select-->
-						<div class="category side-item">Number of dependents:</div>
+						<h2>Household Information</h2>
+						<p class="sub_heading">Determine your eligibility for different health insurance plans.</p>
+						<form method="POST">
+						<div class="category side-item">Zip Code: </div>
+						<input type="text" id="zip-code" class="form-control" style="width:150px" />
+						<div class="category side-item">Number of people in household:</div>
+						<input type="text" id="household-count" class="form-control" style="width:150px" />
+						<div class="category side-item">Household Income (Annual)</div>
+						<input type="text" class="form-control" style="width:150px;" />
+						<div class="category side-item">Number of dependents (&lt; 18 years old):</div>
 						<div class="btn-group">
 								<button type="button" class="btn btn-default">0</button>
 								<button type="button" class="btn btn-default">1</button>
 								<button type="button" class="btn btn-default">2</button>
 								<button type="button" class="btn btn-default">3+</button>
-						</div>
-						<div class="category side-item">Plan type:</div>
-						<div class="btn-group">
-								<button type="button" class="btn btn-success">Bronze</button>
-								<button type="button" class="btn btn-warning">Silver</button>
-								<button type="button" class="btn btn-danger">Gold/Plat</button>
 						</div>
 						<br />
 						<br />
