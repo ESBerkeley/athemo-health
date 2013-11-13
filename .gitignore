@@ -2,3 +2,8 @@
 *.pot
 *.pyc
 local_settings.py
+*.idea
+
+#auto gened files?
+health/css/
+health/js

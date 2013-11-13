@@ -1,29 +1,68 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <link href="{{ STATIC_URL }}css/progress.css" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-<div class="row">
-		<div class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-xs-12 col-sm-12 col-md-12">
-				<div class=" col-xs-10 col-sm-10 col-md-10 well">
-						<h2>Household Information</h2>
-						<p class="sub_heading">Determine your eligibility for different health insurance plans.</p>
-						<form method="POST">
-						<div class="category side-item">Zip Code: </div>
-						<input type="text" id="zip-code" class="form-control" style="width:150px" />
-						<div class="category side-item">Number of people in household:</div>
-						<input type="text" id="household-count" class="form-control" style="width:150px" />
-						<div class="category side-item">Household Income (Annual)</div>
-						<input type="text" class="form-control" style="width:150px;" />
-						<div class="category side-item">Number of dependents (&lt; 18 years old):</div>
-						<div class="btn-group">
-								<button type="button" class="btn btn-default">0</button>
-								<button type="button" class="btn btn-default">1</button>
-								<button type="button" class="btn btn-default">2</button>
-								<button type="button" class="btn btn-default">3+</button>
-						</div>
-						<br />
-						<br />
-						<button type="button" class="btn btn-primary">Next</button>
-				</div>
-		</div>
+<div class="progress-section">
+    Insert Progress Bar
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 ">
+            <div class="direction prev">
+                &lt; Prev
+            </div>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <div class="main-form">
+                <div class="heading">
+                    <div class="title">Household Information</div>
+                    <div class="sub_title">Determine your eligibility for different health insurance plans.</div>
+                </div>
+                <div class="row input-row">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <div class="input-label">Zip Code</div>
+                        <input type="text" id="zip-code" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row input-row">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <div class="input-label">Number of people in household</div>
+                        <input type="text" id="zip-code" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row input-row">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <div class="input-label">Household Income (Annual)</div>
+                        <input type="text" id="zip-code" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row input-row">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <div class="input-label">Number of dependents (&lt; 18 years old)</div>
+                        <div class="btn-group">
+                                <button type="button" class="btn btn-default">0</button>
+                                <button type="button" class="btn btn-default">1</button>
+                                <button type="button" class="btn btn-default">2</button>
+                                <button type="button" class="btn btn-default">3+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row input-row">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <input class="btn btn-block btn-primary btn-lg" value="Next" />
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- end col8 -->
+        <div class="col-xs-2 col-sm-2 col-md-2">
+            <div class="direction next">
+                 Next &gt;
+            </div>
+        </div>
+    </div><!-- end row -->
 </div>
 {% endblock %}
