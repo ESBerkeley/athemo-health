@@ -1,0 +1,85 @@
+body {
+    background-color: #f9f9f9;
+}
+
+.info-col {
+    border: 1px solid black;
+    padding-bottom: 20px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 1px solid #d8d8d8;
+    box-shadow: 0 3px 2px -2px gray;
+    background-color: white;
+}
+
+.info-title {
+    font-size: 24px;
+    padding-top: 15px;
+    color: #2a56a3;
+}
+
+.sub-heading {
+    color: #7a7a7a;
+    font-size: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #d8d8d8;
+}
+
+.chosen-select {
+    width: 100%;
+}
+
+.input-label {
+    margin-top: 5px;
+    /*text-transform: uppercase;*/
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.input-row {
+    margin-bottom: 15px;
+}
+
+.person-row {
+    padding-bottom: 10px;
+}
+
+.input-row .person-row:last-of-type {
+    padding-bottom: 5px;
+}
+
+.person-label {
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.age-label {
+    margin-top: 5px;
+}
+
+.input-row .btn-group-vertical, .input-row .btn-group {
+    width: 100%;
+}
+
+.input-row .btn-group.medal .btn{
+    margin-top: -1px;
+    width: 50%;
+}
+
+/* home/medical-popover.html styling */
+
+.popover {
+    max-width: 700px;
+}
+.medical-tip {
+    width: 400px;
+    margin-bottom: 10px;
+}
+
+.medical-container .frequency{
+    font-weight: 600;
+}
+
+.medical-container .visit-num {
+    font-weight: bold;
+}

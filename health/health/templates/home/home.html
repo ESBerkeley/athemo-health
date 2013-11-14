@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link href="{{ STATIC_URL }}css/home.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
+    <script id="medical-embed">{% include "home/medical-popover.html" %}</script>
+    <script id="prescription-embed">{% include "home/prescription-popover.html" %}</script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("#medical-popover").popover({
+            trigger: "hover focus",
+            title: "Medical Visit Estimates",
+            placement: "top",
+            html: true,
+            content: $("#medical-embed").html()
+        });
+
+        $("#prescription-popover").popover({
+            trigger: "hover focus",
+            title: "Prescription Use Estimates",
+            placement: "top",
+            html: true,
+            content: $("#prescription-embed").html()
+        });
+    })
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-3 info-col">
+            <div class="info-title">Find Health Insurance</div>
+            <p class="sub-heading">Enter basic information so we can help find you plans.</p>
+
+            <div class="input-row">
+                <div class="input-label">State</div>
+                <select data-placeholder="Choose a State" class="chosen-select">
+                    <option></option>
+                    <option value="california">CA</option>
+                    <option value="arizona">AZ</option>
+                </select>
+            </div>
+
+            <div class="input-row">
+                <div class="input-label">Annual Household Income</div>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                    <input type="text" class="form-control" placeholder="50000">
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-label household">Household Information</div>
+                <div class="row person-row">
+                    <div class="col-md-4 person-label">Person 1</div>
+                    <div class="col-md-2 age-label">Age</div>
+                    <div class="col-md-6">
+                        <div >
+                            <input type="text" class="form-control input-sm"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row person-row">
+                    <div class="col-md-4 person-label">Person 2</div>
+                    <div class="col-md-2 age-label">Age</div>
+                    <div class="col-md-6">
+                        <div >
+                            <input type="text" class="form-control input-sm"/>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">+ Add Person</a>
+{#                <div class="btn-group">#}
+{#                    <button type="button" class="btn btn-default">0</button>#}
+{#                    <button type="button" class="btn btn-default">1</button>#}
+{#                    <button type="button" class="btn btn-default">2</button>#}
+{#                    <button type="button" class="btn btn-default">3+</button>#}
+{#                </div>#}
+            </div>
+
+            <div class="input-row">
+                <div class="input-label">Household Medical Visits a Year</div>
+                <input type="text" class="form-control" placeholder="10" />
+                <div class="help-text">
+                    <a id="medical-popover" class="false-link">
+                        Need some estimates?
+                    </a>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-label">Household Prescription Use</div>
+                <input type="text" class="form-control" placeholder="2" />
+                <div class="help-text">
+                    <a id="prescription-popover" class="false-link">
+                        Need some estimates?
+                    </a>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-label">Plan type</div>
+                <div class="btn-group-vertical btn-group-sm">
+                    <button id="all-plans" type="button" class="btn btn-default">All Plans</button>
+                </div>
+                <div class="btn-group btn-group-sm medal">
+                    <button type="button" class="btn btn-default">Bronze</button>
+                    <button type="button" class="btn btn-default">Silver</button>
+                </div>
+                <div class="btn-group btn-group-sm medal">
+                    <button type="button" class="btn btn-default">Gold</button>
+                    <button type="button" class="btn btn-default">Platinum</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-9" style="/*border: 1px solid #000; border-left: none;*/">
+            <div class="row">
+                <div class="col-xs-offset-10 col-sm-offset-10 col-md-offset-10 col-xs-3 col-sm-3 col-md-3">
+                    <span class="font-size-medium">Sort by</span>
+                    <select>
+                        <option value="">Cost</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Monthly Cost</th>
+                        <th>Metal</th>
+                        <th>Deductible</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>$100</td>
+                        <td>Gold</td>
+                        <td>$500</td>
+                    </tr>
+                    <tr>
+                        <td>$99</td>
+                        <td>Silver</td>
+                        <td>$300</td>
+                    </tr>
+                    <tr>
+                        <td>$80</td>
+                        <td>Bronze</td>
+                        <td>$500</td>
+                    </tr>
+                    <tr>
+                        <td>$70</td>
+                        <td>Bronze</td>
+                        <td>$500</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}
