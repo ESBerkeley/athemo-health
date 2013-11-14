@@ -32,7 +32,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-3 info-col">
+        <div class="col-xs-6 col-sm-6 col-md-3 info-col standard-col">
             <div class="info-title">Find Health Insurance</div>
             <p class="sub-heading">Enter basic information so we can help find you plans.</p>
 
@@ -74,12 +74,6 @@
                     </div>
                 </div>
                 <a href="#">+ Add Person</a>
-{#                <div class="btn-group">#}
-{#                    <button type="button" class="btn btn-default">0</button>#}
-{#                    <button type="button" class="btn btn-default">1</button>#}
-{#                    <button type="button" class="btn btn-default">2</button>#}
-{#                    <button type="button" class="btn btn-default">3+</button>#}
-{#                </div>#}
             </div>
 
             <div class="input-row">
@@ -107,58 +101,93 @@
                 <div class="btn-group-vertical btn-group-sm">
                     <button id="all-plans" type="button" class="btn btn-default">All Plans</button>
                 </div>
-                <div class="btn-group btn-group-sm medal">
+                <div class="btn-group btn-group-sm btn-medal">
                     <button type="button" class="btn btn-default">Bronze</button>
                     <button type="button" class="btn btn-default">Silver</button>
                 </div>
-                <div class="btn-group btn-group-sm medal">
+                <div class="btn-group btn-group-sm btn-medal">
                     <button type="button" class="btn btn-default">Gold</button>
                     <button type="button" class="btn btn-default">Platinum</button>
                 </div>
             </div>
 
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-9" style="/*border: 1px solid #000; border-left: none;*/">
-            <div class="row">
-                <div class="col-xs-offset-10 col-sm-offset-10 col-md-offset-10 col-xs-3 col-sm-3 col-md-3">
-                    <span class="font-size-medium">Sort by</span>
-                    <select>
-                        <option value="">Cost</option>
-                    </select>
+
+        <div class="col-xs-12 col-sm-6 col-md-9">
+            <div class="col-md-4 plan-col standard-col">
+                <div class="plan-name">Anthem Blue Cross</div>
+                <div class="medal silver">Silver</div>
+                <div class="you-saved">You Save</div>
+                <div class="money-saved">$1400<span class="slash-year">/year</span></div>
+
+                <div class="plan-details">
+                    <br>
+                    <div class="wheel-header">Estimated Cost</div>
+                    <div class="red-cost" style="color: #b00; text-align: center; font-size: 40px; font-weight: 300;">-$2500</div>
+                    <center>
+                        <div>Annual Premium: $2000</div>
+                        <div>Something Premium: $500</div>
+                    </center>
+                    <br><br>
+                    <div class="wheel-header">Savings</div>
+                    <div class="red-cost" style="color: #2fcfaa; text-align: center; font-size: 40px; font-weight: 300;">+$3900</div>
+                    <center>
+                        <div>Annual Premium: $2000</div>
+                        <div>Something Premium: $500</div>
+                    </center>
+                    <br><br>
+                    <button class="btn btn-primary btn-lg" style="width: 100%;">Learn More</button>
                 </div>
             </div>
-            <div class="row">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Monthly Cost</th>
-                        <th>Metal</th>
-                        <th>Deductible</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>$100</td>
-                        <td>Gold</td>
-                        <td>$500</td>
-                    </tr>
-                    <tr>
-                        <td>$99</td>
-                        <td>Silver</td>
-                        <td>$300</td>
-                    </tr>
-                    <tr>
-                        <td>$80</td>
-                        <td>Bronze</td>
-                        <td>$500</td>
-                    </tr>
-                    <tr>
-                        <td>$70</td>
-                        <td>Bronze</td>
-                        <td>$500</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-4 plan-col standard-col">
+                <div class="plan-name">Anthem Blue Cross</div>
+                <div class="medal gold">Gold</div>
+                <div class="you-saved">You Save</div>
+                <div class="money-saved">$1400<span class="slash-year">/year</span></div>
+
+                <div class="plan-details">
+                    <br>
+                    <div class="wheel-header">Estimated Cost</div>
+                    <div class="red-cost" style="color: #b00; text-align: center; font-size: 40px; font-weight: 300;">-$2500</div>
+                    <center>
+                        <div>Annual Premium: $2000</div>
+                        <div>Something Premium: $500</div>
+                    </center>
+                    <br><br>
+                    <div class="wheel-header">Savings</div>
+                    <div class="red-cost" style="color: #2fcfaa; text-align: center; font-size: 40px; font-weight: 300;">+$3900</div>
+                    <center>
+                        <div>Annual Premium: $2000</div>
+                        <div>Something Premium: $500</div>
+                    </center>
+                    <br><br>
+                    <button class="btn btn-primary btn-lg" style="width: 100%;">Learn More</button>
+                </div>
+            </div>
+            <div class="col-md-4 plan-col standard-col">
+                <div class="plan-name">Anthem Blue Cross</div>
+                <div class="medal gold">Gold</div>
+                <div class="you-saved">You Save</div>
+                <div class="money-saved">$1400<span class="slash-year">/year</span></div>
+
+                <div class="plan-details">
+                    <br>
+                    <div class="wheel-header">Estimated Cost</div>
+                    <div class="red-cost" style="color: #b00; text-align: center; font-size: 40px; font-weight: 300;">-$2500</div>
+                    <center>
+                        <div>Annual Premium: $2000</div>
+                        <div>Something Premium: $500</div>
+                    </center>
+                    <br><br>
+                    <div class="wheel-header">Savings</div>
+                    <div class="red-cost" style="color: #2fcfaa; text-align: center; font-size: 40px; font-weight: 300;">+$3900</div>
+                    <center>
+                        <div>Annual Premium: $2000</div>
+                        <div>Something Premium: $500</div>
+                    </center>
+                    <br><br>
+                    <button class="btn btn-primary btn-lg" style="width: 100%;">Learn More</button>
+                </div>
             </div>
         </div>
     </div>
