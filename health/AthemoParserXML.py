@@ -57,8 +57,10 @@ def get_state_rating_info(stateInitials, rating):
             return sheet.row(row_num)
 
 def safs(stateInitials, age):
-    if age > 0 && age < 23:
-        wb=load_workbook('21.xlsx')
+    if age > 0 && age < 21:
+        wb=load_workbook('0to20.xlsx')
+    elif age > 20 && age < 23:
+        wb=load_workbook('25.xlsx')
     elif age > 22 && age < 28:
         wb=load_workbook('25.xlsx')
     elif age > 27 && age < 33:
