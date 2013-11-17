@@ -3,6 +3,7 @@
 *.pyc
 local_settings.py
 *.idea
+*.DS_Store
 
 #auto gened files?
 health/css/
