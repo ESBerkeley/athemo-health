@@ -131,6 +131,12 @@ body {
     font-size: 18px;
 }
 
+.estimated-cost {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 300;
+}
+
 /* home/medical-popover.html styling */
 
 .popover {
