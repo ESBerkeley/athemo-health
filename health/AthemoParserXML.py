@@ -14,6 +14,7 @@ import glob
 
 book = xlrd.open_workbook("Marketplace_premium_databook_2014.xlsx")
 sheet = book.sheet_by_name("Zip Code-Rating Area Lookup")
+bookObama = load_workbook("Obamacare Health Insurance 1-15_updated.xlsx")
 
 def get_zip_code_info(zip):
     for row_num in xrange(sheet.nrows):
@@ -72,3 +73,32 @@ def safs(stateInitials, age):
     ws=wb.get_sheet_by_name(stateInitials)
 #    ws.cell('F2').value= str(age)
 #    wb.save('Marketplace_premium_databook_2014 (2).xlsx')
+
+def getSutterHealthPlan(area, tier, age):
+    sheetObama = bookObama.get_sheet_by_name("Shutter Health Plan")
+    base = 0
+    if area > 3 and area != 10:
+        return 'area not covered'
+    elif area == 1:
+        base = 11
+    elif area == 2:
+        base = 56
+    elif area == 3:
+        base = 101
+    elif area == 10:
+        base = 146
+
+    if age > 20:
+        base = base + age - 20
+
+    base2 = str(base)
+
+    if str(tier) == 'platinum':
+        return sheetObama.cell('D' + base2).value
+    elif str(tier) == 'gold':
+        return sheetObama.cell('E' + base2).value
+    elif str(tier) == 'silver':
+        return sheetObama.cell('F' + base2).value
+    elif str(tier) == 'bronze':
+        return sheetObama.cell('G' + base2).value
+
