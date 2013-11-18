@@ -1,5 +1,49 @@
 __author__ = 'ericxiao'
-ALL_STATES = {
+from insuranceapp.models import GeographicArea, HealthcarePlan, Provider
+from insuranceapp.AthemoParserXML import *
+
+def importZipCodes():
+    zip_codes = get_all_zipcodes()
+    for zip_code in zip_codes:
+        if type(zip_code) == int:
+            try:
+                zip_info = get_zip_code_info(zip_code)
+                state = zip_info[0].value
+                rating_area = int(zip_info[4].value.split(' ')[-1])
+                county = zip_info[2].value
+                area = GeographicArea(rating_area=rating_area, 
+                                      county=county,
+                                      state=state,
+                                      zip_code=zip_code)
+                area.save()
+            except:
+                continue
+
+def importPlans():
+    medals = ['bronze', 'silver', 'gold', 'platinum']
+    sutter_provider, created = Provider.objects.get_or_create(name='Sutter Health Plan', 
+                                                              url='http://www.sutterhealth.org/')
+    for medal in medals:
+        for age in range(20, 65):
+            #For Sutter Health Plans
+            for r_area in [1, 2, 3, 10]:
+                #try:
+                str_premium = getSutterHealthPlan(medal, age, r_area)
+                premium = float(str_premium)
+                areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
+                plan = HealthcarePlan(medal=medal.capitalize(),
+                                      age=age,
+                                      price=premium,
+                                      provider=sutter_provider)
+                plan.save()
+                for area in areas:
+                    plan.areas.add(area)
+                #except:
+                #    continue
+
+
+def all_states():
+    ALL_STATES = {
     'AK': 'Alaska',
     'AL': 'Alabama',
     'AR': 'Arkansas',
@@ -52,4 +96,5 @@ ALL_STATES = {
     'WI': 'Wisconsin',
     'WV': 'West Virginia',
     'WY': 'Wyoming'
-}
+    }
+    return ALL_STATES
