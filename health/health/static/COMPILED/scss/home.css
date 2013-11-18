@@ -1,0 +1,104 @@
+body {
+  background-color: #f9f9f9; }
+
+/*info-col CSS*/
+.info-col {
+  padding-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #d8d8d8;
+  background-color: white; }
+  .info-col .info-title {
+    font-size: 24px;
+    padding-top: 15px;
+    color: #2a56a3; }
+  .info-col .sub-heading {
+    color: #7a7a7a;
+    font-size: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #d8d8d8; }
+  .info-col .input-row {
+    margin-bottom: 15px; }
+    .info-col .input-row .input-label {
+      margin-top: 5px;
+      /*text-transform: uppercase;*/
+      font-weight: bold;
+      font-size: 15px; }
+    .info-col .input-row .chosen-select {
+      width: 100%; }
+    .info-col .input-row .person-row {
+      padding-bottom: 10px; }
+      .info-col .input-row .person-row .delete_person {
+        margin-top: 5px;
+        cursor: pointer; }
+      .info-col .input-row .person-row .person-label {
+        font-weight: 600;
+        margin-top: 5px; }
+      .info-col .input-row .person-row .age-label {
+        margin-top: 5px; }
+      .info-col .input-row .person-row:last-of-type {
+        padding-bottom: 5px; }
+    .info-col .input-row .btn-group-vertical, .info-col .input-row .btn-group {
+      width: 100%; }
+      .info-col .input-row .btn-group-vertical.btn-medal .btn, .info-col .input-row .btn-group.btn-medal .btn {
+        margin-top: -1px;
+        width: 50%; }
+
+/*data-col CSS*/
+.plan-col {
+  padding-bottom: 20px;
+  border: 1px solid #d8d8d8;
+  background-color: white;
+  border-right: 0; }
+  .plan-col .plan-name {
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    padding-top: 10px;
+    /*color: #2a56a3;*/ }
+  .plan-col:last-of-type {
+    border-right: 1px solid #d8d8d8; }
+  .plan-col .medal {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px; }
+    .plan-col .medal.gold {
+      background-color: #e0be00;
+      color: white; }
+    .plan-col .medal.silver {
+      background-color: #a7a7a7;
+      color: white; }
+  .plan-col .you-saved {
+    font-size: 22px;
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: -10px; }
+  .plan-col .money-saved {
+    text-align: center;
+    font-size: 42px;
+    font-weight: 300;
+    color: #2fcfaa;
+    border-bottom: 1px dotted #d8d8d8; }
+    .plan-col .money-saved.slash-year {
+      font-size: 22px; }
+    .plan-col .money-saved .plan-details {
+      padding-top: 10px; }
+      .plan-col .money-saved .plan-details .wheel-header {
+        text-align: center;
+        font-weight: 600;
+        font-size: 18px; }
+      .plan-col .money-saved .plan-details .estimated-cost {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 300; }
+
+/* home/medical-popover.html styling */
+.popover {
+  max-width: 700px; }
+  .popover .medical-container .medical-tip {
+    width: 400px;
+    margin-bottom: 10px; }
+  .popover .medical-container .frequency {
+    font-weight: 600; }
+  .popover .medical-container .visit-num {
+    font-weight: bold; }
