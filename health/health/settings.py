@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'static_precompiler',
+    'django_evolution',
 )
 
 # A sample logging configuration. The only tangible logging
