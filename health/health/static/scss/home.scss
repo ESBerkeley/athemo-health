@@ -36,6 +36,10 @@ body {
       }
       .person-row {
         padding-bottom: 10px;
+        .delete_person {
+            margin-top: 5px;
+            cursor: pointer;
+        }
         .person-label {
             font-weight: 600;
             margin-top: 5px;

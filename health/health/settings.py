@@ -54,11 +54,14 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = ''
 
+STATIC_PRECOMPILER_ROOT = SITE_ROOT + "/static/"
+STATIC_PRECOMPILER_OUTPUT_DIR = "COMPILED"
+
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = SITE_ROOT + '/static_files/'
+STATIC_ROOT = SITE_ROOT + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -66,7 +69,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    SITE_ROOT + "/static/",
+    #SITE_ROOT + "/static/",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -132,6 +135,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'static_precompiler',
+    'django_evolution',
 )
 
 # A sample logging configuration. The only tangible logging

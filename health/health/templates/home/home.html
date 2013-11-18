@@ -14,7 +14,7 @@
         $("#medical-popover").popover({
             trigger: "hover focus",
             title: "Medical Visit Estimates",
-            placement: "top",
+            placement: "bottom",
             html: true,
             content: $("#medical-embed").html()
         });
@@ -22,7 +22,7 @@
         $("#prescription-popover").popover({
             trigger: "hover focus",
             title: "Prescription Use Estimates",
-            placement: "top",
+            placement: "bottom",
             html: true,
             content: $("#prescription-embed").html()
         });
@@ -57,7 +57,7 @@
             <div class="input-row">
                 <div class="input-label household">Household Information</div>
                 <div id="person_rows">
-                    <div id="person_0" class="row person-row">
+                    <div id="person_1" class="row person-row">
                         <div class="col-md-4 person-label">Person 1</div>
                         <div class="col-md-2 age-label">Age</div>
                         <div class="col-md-5">
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <a id="add_person" href="#">+ Add Person</a>
+                <a id="add_person" href="javascript:void(0)">+ Add Person</a>
             </div>
 
             <div class="input-row">
