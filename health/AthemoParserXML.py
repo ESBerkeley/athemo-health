@@ -74,7 +74,7 @@ def safs(stateInitials, age):
 #    ws.cell('F2').value= str(age)
 #    wb.save('Marketplace_premium_databook_2014 (2).xlsx')
 
-def getSutterHealthPlan(area, tier, age):
+def getSutterHealthPlan(tier, age, area):
     sheetObama = bookObama.get_sheet_by_name("Shutter Health Plan")
     base = 0
     if area > 3 and area != 10:
@@ -87,12 +87,9 @@ def getSutterHealthPlan(area, tier, age):
         base = 101
     elif area == 10:
         base = 146
-
     if age > 20:
         base = base + age - 20
-
     base2 = str(base)
-
     if str(tier) == 'platinum':
         return sheetObama.cell('D' + base2).value
     elif str(tier) == 'gold':
@@ -101,4 +98,36 @@ def getSutterHealthPlan(area, tier, age):
         return sheetObama.cell('F' + base2).value
     elif str(tier) == 'bronze':
         return sheetObama.cell('G' + base2).value
+
+def getVenturaHealthPlan(tier, age):
+    sheetObama = bookObama.get_sheet_by_name("Ventura County Health Care Plan")
+    base = age + 7
+    base2 = str(base)
+    if str(tier) == 'platinum':
+        return sheetObama.cell('B' + base2).value
+    elif str(tier) == 'gold':
+        return sheetObama.cell('C' + base2).value
+    elif str(tier) == 'silver':
+        return sheetObama.cell('D' + base2).value
+    elif str(tier) == 'bronze':
+        return sheetObama.cell('E' + base2).value
+
+#this method is breaking on call to cell attribute, no idea why.
+def getValletHealthPlan(tier, age):
+    sheetObama = bookObama.get_sheet_by_name("Vallet Health Plan")
+    base = 21
+    if age > 20:
+        base = age + base - 20
+    base2 = str(base)
+    if str(tier) == 'platinum':
+        return sheetObama.cell('CT' + base2).value
+    elif str(tier) == 'gold':
+        return sheetObama.cell('CU' + base2).value
+    elif str(tier) == 'silver':
+        return sheetObama.cell('CV' + base2).value
+    elif str(tier) == 'bronze':
+        return sheetObama.cell('CR' + base2).value
+    elif str(tier) == 'catastrophic':
+        return sheetObama.cell('CS' + base2).value
+
 
