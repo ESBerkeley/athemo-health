@@ -8,3 +8,5 @@ local_settings.py
 #auto gened files?
 health/css/
 health/js
+health/health/static_files/
+sq3.db

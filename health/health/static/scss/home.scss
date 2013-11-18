@@ -9,61 +9,54 @@ body {
     border-radius: 8px;
     border: 1px solid #d8d8d8;
     background-color: white;
+
+    .info-title {
+      font-size: 24px;
+      padding-top: 15px;
+      color: #2a56a3;
+    }
+
+    .sub-heading {
+      color: #7a7a7a;
+      font-size: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px dotted #d8d8d8;
+    }
+
+    .input-row {
+      margin-bottom: 15px;
+      .input-label {
+          margin-top: 5px;
+          /*text-transform: uppercase;*/
+          font-weight: bold;
+          font-size: 15px;
+      }
+      .chosen-select {
+          width: 100%;
+      }
+      .person-row {
+        padding-bottom: 10px;
+        .person-label {
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .age-label {
+            margin-top: 5px;
+        }
+        &:last-of-type {
+            padding-bottom: 5px;
+        }
+      }
+      .btn-group-vertical, .btn-group {
+          width: 100%;
+          &.btn-medal .btn{
+              margin-top: -1px;
+              width: 50%;
+          }
+      }
+  }
 }
 
-.info-title {
-    font-size: 24px;
-    padding-top: 15px;
-    color: #2a56a3;
-}
-
-.sub-heading {
-    color: #7a7a7a;
-    font-size: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px dotted #d8d8d8;
-}
-
-.chosen-select {
-    width: 100%;
-}
-
-.input-label {
-    margin-top: 5px;
-    /*text-transform: uppercase;*/
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.input-row {
-    margin-bottom: 15px;
-}
-
-.person-row {
-    padding-bottom: 10px;
-}
-
-.input-row .person-row:last-of-type {
-    padding-bottom: 5px;
-}
-
-.person-label {
-    font-weight: 600;
-    margin-top: 5px;
-}
-
-.age-label {
-    margin-top: 5px;
-}
-
-.input-row .btn-group-vertical, .input-row .btn-group {
-    width: 100%;
-}
-
-.input-row .btn-group.btn-medal .btn{
-    margin-top: -1px;
-    width: 50%;
-}
 
 /*data-col CSS*/
 .plan-col {
@@ -71,86 +64,75 @@ body {
     border: 1px solid #d8d8d8;
     background-color: white;
     border-right: 0;
-}
-
-.plan-col:last-of-type {
-    border-right: 1px solid #d8d8d8;
-}
-
-.plan-name {
-    font-size: 16px;
-    text-align: center;
-    font-weight: 600;
-    padding-top: 10px;
-    /*color: #2a56a3;*/
-}
-
-.medal {
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-.medal.gold {
-    background-color: #e0be00;
-    color: white;
-}
-
-.medal.silver {
-    background-color: #a7a7a7;
-    color: white;
-}
-
-.you-saved {
-    font-size: 22px;
-    text-align: center;
-    font-weight: 300;
-    margin-bottom: -10px;
-}
-
-.money-saved {
-    text-align: center;
-    font-size: 42px;
-    font-weight: 300;
-    color: #2fcfaa;
-    border-bottom: 1px dotted #d8d8d8;;
-}
-
-.money-saved .slash-year {
-    font-size: 22px;
-}
-
-.plan-details {
-    padding-top: 10px;
-}
-
-.wheel-header {
-    text-align: center;
-    font-weight: 600;
-    font-size: 18px;
-}
-
-.estimated-cost {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 300;
+    .plan-name {
+        font-size: 16px;
+        text-align: center;
+        font-weight: 600;
+        padding-top: 10px;
+        /*color: #2a56a3;*/
+    }
+    &:last-of-type {
+        border-right: 1px solid #d8d8d8;
+    }
+    .medal {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      &.gold {
+          background-color: #e0be00;
+          color: white;
+      }
+      &.silver {
+          background-color: #a7a7a7;
+          color: white;
+      }
+    }
+    .you-saved {
+      font-size: 22px;
+      text-align: center;
+      font-weight: 300;
+      margin-bottom: -10px;
+    }
+    .money-saved {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 300;
+      color: #2fcfaa;
+      border-bottom: 1px dotted #d8d8d8;
+      &.slash-year {
+          font-size: 22px;
+      }
+      .plan-details {
+        padding-top: 10px;
+        .wheel-header {
+          text-align: center;
+          font-weight: 600;
+          font-size: 18px;
+        }
+        .estimated-cost {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 300;
+        }
+      }
+    }
 }
 
 /* home/medical-popover.html styling */
 
 .popover {
-    max-width: 700px;
-}
-.medical-tip {
-    width: 400px;
-    margin-bottom: 10px;
-}
-
-.medical-container .frequency{
-    font-weight: 600;
-}
-
-.medical-container .visit-num {
-    font-weight: bold;
+  max-width: 700px;
+  .medical-container {
+    .medical-tip {
+      width: 400px;
+      margin-bottom: 10px;
+    }
+    .frequency{
+      font-weight: 600;
+    }
+    .visit-num {
+      font-weight: bold;
+    }
+  }
 }
