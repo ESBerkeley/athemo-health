@@ -234,7 +234,35 @@ def getMolinaHealthPlan(tier, age, area):
     elif str(tier) == 'catastrophic':
         return sheetObama.cell('E' + base2).value
 
-
+#takes in rating areas 1-19
+def getBlueHealthPlan(tier, age, area):
+    sheetObama = bookObama.get_sheet_by_name("Blue Shield of California1")
+    base = 0
+    if area < 1 and area > 19:
+        return 'area not covered'
+    elif area == 15:
+        base = 8
+    elif area == 16:
+        base = 53
+    elif area == 17:
+        base = 98
+    elif area == 19:
+        base = 143
+    
+    if age > 20:
+        base = base + age - 20
+    base2 = str(base)
+    
+    if str(tier) == 'platinum':
+        return sheetObama.cell('A' + base2).value
+    elif str(tier) == 'gold':
+        return sheetObama.cell('B' + base2).value
+    elif str(tier) == 'silver':
+        return sheetObama.cell('C' + base2).value
+    elif str(tier) == 'bronze':
+        return sheetObama.cell('D' + base2).value
+    elif str(tier) == 'catastrophic':
+        return sheetObama.cell('E' + base2).value
 
 
 
