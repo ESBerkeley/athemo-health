@@ -100,21 +100,21 @@ body {
       font-weight: 300;
       color: #2fcfaa;
       border-bottom: 1px dotted #d8d8d8;
-      &.slash-year {
+      .slash-year {
           font-size: 22px;
       }
-      .plan-details {
-        padding-top: 10px;
-        .wheel-header {
+    }
+    .plan-details {
+      padding-top: 10px;
+      .wheel-header {
+        text-align: center;
+        font-weight: 600;
+        font-size: 18px;
+      }
+      .estimated-cost {
           text-align: center;
-          font-weight: 600;
-          font-size: 18px;
-        }
-        .estimated-cost {
-            text-align: center;
-            font-size: 32px;
-            font-weight: 300;
-        }
+          font-size: 32px;
+          font-weight: 300;
       }
     }
 }

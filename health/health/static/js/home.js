@@ -38,10 +38,17 @@ $(document).ready(function(){
 
 })
 
+/**
+ * Helper function for generate_donuts
+ * @param d
+ */
+function get_value(d) {
+    return d.value;
+}
 
 function generate_donuts() {
     var dataset = {
-      apples: [53245, 28479, 19697, 24037, 40245]
+      apples: [{value: 53245, name: "hippo"},{value: 53245, name: "hippo"}, {value: 53245, name: "hippo"}]
     };
 
     var width = 250,
@@ -51,11 +58,16 @@ function generate_donuts() {
     var color = d3.scale.category20();
 
     var pie = d3.layout.pie()
-        .sort(null);
+        .sort(null)
+        .value(get_value);
 
     var arc = d3.svg.arc()
-        .innerRadius(radius - 50)
+        .innerRadius(radius - 55)
         .outerRadius(radius - 30);
+
+    var highlightArc = d3.svg.arc()
+        .innerRadius(radius - 60)
+        .outerRadius(radius - 25);
 
     var svg = d3.select(".estimated-cost-donut").append("svg")
         .attr("width", width)
@@ -77,8 +89,18 @@ function generate_donuts() {
         .text(function(d){ return "-$2500" });
 
     //donut styling
-    gnodes.append("path")
+    var path = gnodes.append("path")
         .attr("fill", function(d, i) { return color(i); })
-        .attr("d", arc);
+        .style("cursor", "pointer")
+        .attr("d", arc)
+
+    path.on("mouseover", function(){
+        d3.select(this).attr("d", highlightArc)
+//        alert(d3.select(this))
+        console.log(d3.select(this).data()[0].value);
+    })
+    path.on("mouseout", function(){
+        d3.select(this).attr("d", arc)
+    })
 
 }
