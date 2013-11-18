@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'static_precompiler',
     'django_evolution',
+    'insuranceapp',
 )
 
 # A sample logging configuration. The only tangible logging

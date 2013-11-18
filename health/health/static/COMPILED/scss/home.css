@@ -79,18 +79,18 @@ body {
     font-weight: 300;
     color: #2fcfaa;
     border-bottom: 1px dotted #d8d8d8; }
-    .plan-col .money-saved.slash-year {
+    .plan-col .money-saved .slash-year {
       font-size: 22px; }
-    .plan-col .money-saved .plan-details {
-      padding-top: 10px; }
-      .plan-col .money-saved .plan-details .wheel-header {
-        text-align: center;
-        font-weight: 600;
-        font-size: 18px; }
-      .plan-col .money-saved .plan-details .estimated-cost {
-        text-align: center;
-        font-size: 32px;
-        font-weight: 300; }
+  .plan-col .plan-details {
+    padding-top: 10px; }
+    .plan-col .plan-details .wheel-header {
+      text-align: center;
+      font-weight: 600;
+      font-size: 18px; }
+    .plan-col .plan-details .estimated-cost {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 300; }
 
 /* home/medical-popover.html styling */
 .popover {
