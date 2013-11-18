@@ -240,29 +240,59 @@ def getBlueHealthPlan(tier, age, area):
     base = 0
     if area < 1 and area > 19:
         return 'area not covered'
+    elif area == 1:
+        base = 21
+    elif area == 2:
+        base = 66
+    elif area == 3:
+        base = 111
+    elif area == 4:
+        base = 156
+    elif area == 5:
+        base = 201
+    elif area == 6:
+        base = 246
+    elif area == 7:
+        base = 291
+    elif area == 8:
+        base = 336
+    elif area == 9:
+        base = 381
+    elif area == 10:
+        base = 426
+    elif area == 11:
+        base = 471
+    elif area == 12:
+        base = 516
+    elif area == 13:
+        base = 561
+    elif area == 14:
+        base = 606
     elif area == 15:
-        base = 8
+        base = 651
     elif area == 16:
-        base = 53
+        base = 696
     elif area == 17:
-        base = 98
+        base = 741
+    elif area == 18:
+        base = 786
     elif area == 19:
-        base = 143
-    
+        base = 831
+
     if age > 20:
         base = base + age - 20
     base2 = str(base)
     
     if str(tier) == 'platinum':
-        return sheetObama.cell('A' + base2).value
-    elif str(tier) == 'gold':
-        return sheetObama.cell('B' + base2).value
-    elif str(tier) == 'silver':
         return sheetObama.cell('C' + base2).value
-    elif str(tier) == 'bronze':
+    elif str(tier) == 'gold':
         return sheetObama.cell('D' + base2).value
-    elif str(tier) == 'catastrophic':
+    elif str(tier) == 'silver':
         return sheetObama.cell('E' + base2).value
+    elif str(tier) == 'bronze':
+        return sheetObama.cell('F' + base2).value
+    elif str(tier) == 'catastrophic':
+        return sheetObama.cell('G' + base2).value
 
 
 
