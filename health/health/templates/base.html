@@ -4,10 +4,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- note: not using local bootstrap css file to save server requests -->
-    <link href="{{ STATIC_URL }}css/navbar.css" rel="stylesheet">
+    {% load scss %}
+
+    <link href="{{ STATIC_URL}}{% scss 'scss/navbar.scss' %}" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/chosen.min.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/styles.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/footer.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}{% scss 'scss/styles.css' %}" rel="stylesheet">
+    <link href="{{ STATIC_URL }}{% scss 'scss/footer.css' %}" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     {% block head %}

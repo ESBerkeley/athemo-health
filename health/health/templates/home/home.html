@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <link href="{{ STATIC_URL }}css/home.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}{% scss 'scss/home.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block javascript %}
