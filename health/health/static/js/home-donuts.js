@@ -38,8 +38,8 @@ function makeSvgDonut(className, donutType, data) {
         .outerRadius(radius - 30);
 
     var highlightArc = d3.svg.arc()
-        .innerRadius(radius - 55)
-        .outerRadius(radius - 25);
+        .innerRadius(radius - 50)
+        .outerRadius(radius - 23);
 
     $(className).html("");
 
@@ -49,71 +49,57 @@ function makeSvgDonut(className, donutType, data) {
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    if (donutType == "zero") {
-        var gnodes = svg.selectAll("g.gnode")
-            .data(pie(data))
-            .enter().append("g")
-            .attr("class", "arc");
+    var gnodes = svg.selectAll("g.gnode")
+        .data(pie(data))
+        .enter().append("g")
+        .attr("class", "arc");
 
-        //middle text
+    //middle text
+    if (donutType == "cost") {
         gnodes.append("text")
-            .style("text-anchor", "middle")
-            .attr("dy", "10px")
-            .attr("class","estimated-number")
-            .text(function(d){ return "$0" })
-            .attr("fill", function(){ return "#777b7e" })
-
-        //donut styling
-        var path = gnodes.append("path")
-            .attr("fill", function(d, i) { return "#777b7e" })
-            .style("cursor", "pointer")
-            .attr("d", arc)
-
-        //mouseover logic
-        path.on("mouseover", function(){
-            d3.select(this).attr("d", highlightArc)
-        })
-        path.on("mouseout", function(){
-            d3.select(this).attr("d", arc)
-        })
-
-    } else {
-        var gnodes = svg.selectAll("g.gnode")
-            .data(pie(data))
-            .enter().append("g")
-            .attr("class", "arc");
-
-        //middle text
+        .style("text-anchor", "middle")
+        .attr("dy", "10px")
+        .attr("class","estimated-number")
+        .text(function(d){ return "-$2500" })
+        .attr("fill", function(){ return "#b00" }) /* color of middle text */
+    } else if (donutType == "save") {
         gnodes.append("text")
-            .style("text-anchor", "middle")
-            .attr("dy", "10px")
-            .attr("class","estimated-number")
-            .text(function(d){ return "-$2500" });
-
-        if (donutType == "cost") {
-            gnodes.attr("fill", function(){ return "#b00" }) /* color of middle text */
-        } else if (donutType == "save") {
-            gnodes.attr("fill", function(){ return "#2fcfaa" })
-        } else if (donutType == "zero") {
-            gnodes.attr("fill", function(){ return "#777b7e" })
-        }
-
-        //donut styling
-        var path = gnodes.append("path")
-            .attr("fill", function(d, i) { return color(i); })
-            .style("cursor", "pointer")
-            .attr("d", arc)
-
-        //mouseover logic
-        path.on("mouseover", function(){
-            d3.select(this).attr("d", highlightArc)
-            //var name = d3.select(this).data()[0].data.name
-            //$("#"+name).css("font-weight", "bold")
-        })
-        path.on("mouseout", function(){
-            d3.select(this).attr("d", arc)
-        })
+        .style("text-anchor", "middle")
+        .attr("dy", "10px")
+        .attr("class","estimated-number")
+        .text(function(d){ return "+$3200" })
+        .attr("fill", function(){ return "#2fcfaa" })
+    } else if (donutType == "zero") {
+        gnodes.append("text")
+        .style("text-anchor", "middle")
+        .attr("dy", "10px")
+        .attr("class","estimated-number")
+        .text(function(d){ return "$0" })
+        .attr("fill", function(){ return "#777b7e" })
     }
+
+    //donut styling
+    var path = gnodes.append("path")
+        .style("cursor", "pointer")
+        .attr("d", arc)
+    if (donutType == "cost") {
+        path.attr("fill", function(d, i) { return redColor(i); });
+    } else if (donutType == "save") {
+        path.attr("fill", function(d, i) { return greenColor(i); });
+    } else if (donutType == "zero") {
+        path.attr("fill", function(d, i) { return "#777b7e" });
+    }
+
+
+    //mouseover logic
+    path.on("mouseover", function(){
+        d3.select(this).attr("d", highlightArc)
+        //var name = d3.select(this).data()[0].data.name
+        //$("#"+name).css("font-weight", "bold")
+    })
+    path.on("mouseout", function(){
+        d3.select(this).attr("d", arc)
+    })
 }
 
 /**
@@ -136,11 +122,14 @@ function fillPlan(data, plan_num) {
     $(plan_col+".money-saved.nonzero").html(data.money_saved + "<span class='slash-year'>/year</span>");
 
     var dataset = {
-      apples: [{value: 53245, name: "cost-annual-premium"},{value: 50000, name: "cost-something-premium"}]
+      apples: [{value: 2000, name: "cost-annual-premium"},{value: 800, name: "cost-something-premium"}]
+    };
+    var dataset2 = {
+      apples: [{value: 2000, name: "cost-annual-premium"},{value: 1700, name: "cost-something-premium"}]
     };
 
     makeSvgDonut(plan_col + ".estimated-cost-donut", "cost", dataset.apples);
-    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset.apples);
+    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
     $(".plan-modal-"+plan_num + ".modal-title").text(data.plan_name);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + data.plan_name);
@@ -171,4 +160,24 @@ function fillZeroPlan(plan_num) {
  */
 function get_value(d) {
     return d.value;
+}
+
+/**
+ * helper function given an index 0~2 returns a shade of red
+ * @param i
+ */
+function redColor(i) {
+    if (i == 0) return '#ff0000'
+    if (i == 1) return '#aa0000'
+    if (i == 2) return '#880000'
+}
+
+/**
+ * helper function given an index 0~2 returns a shade of green
+ * @param i
+ */
+function greenColor(i) {
+    if (i == 0) return '#6ddec4'
+    if (i == 1) return '#2aba99'
+    if (i == 2) return '#219077'
 }

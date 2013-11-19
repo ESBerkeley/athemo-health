@@ -66,8 +66,10 @@ function captureKeyPress() {
         if ( event.which == 13 ) {
             event.preventDefault();
         }
-        window.clearTimeout(requestTimer);
-        requestTimer = window.setTimeout(sendRequest, 1000);
+        if ( !( event.which > 31 && (event.which < 48 || event.which > 57)) ) {
+            window.clearTimeout(requestTimer);
+            requestTimer = window.setTimeout(sendRequest, 1000);
+        }
     });
 }
 
@@ -92,7 +94,7 @@ function sendRequest() {
     var data = {
         plan_name: "Anthem Blue Cross",
         medal: "silver",
-        money_saved: "$1000"
+        money_saved: "$800"
     }
 
     fillPlan(data, 1);
@@ -122,6 +124,8 @@ function buttonMedalLogic() {
  */
 function isNumberKey(evt) {
      var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode == 44) //shift key
+        return true
      if (charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
 
