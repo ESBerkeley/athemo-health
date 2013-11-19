@@ -9,7 +9,7 @@ from models import HealthcarePlan, GeographicArea
 def home(request):
     #title = request.GET['title']
     #msg = request.GET['msg']
-    return render_to_response('home/home.html',context_instance=RequestContext(request))
+    return render_to_response('home/home.html', context_instance=RequestContext(request))
 
 def household_info(request):
     return render_to_response('household_info.html',context_instance=RequestContext(request))
@@ -41,3 +41,7 @@ def ajax_get_plans(request):
                                      plan_list,
                                      extras=('prescription_cost', 'doctor_cost'))
         return HttpResponse(data,'application/javascript')
+
+
+def plans(request):
+    return render_to_response('plan-cols.html', context_instance=RequestContext(request))

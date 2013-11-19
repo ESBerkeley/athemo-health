@@ -1,84 +1,30 @@
 $(document).ready(function(){
-    $(".chosen-select").chosen({
-        no_results_text: "Sorry, we don't support that state yet."
+    // all inputs in info col must be numbers
+    $(".info-col").on("keypress", "input", function(event){
+        return isNumberKey(event);
     });
 
 //    var highestCol = Math.max($('.info-col').height(),$('.data-col').height());
 //    $('.standard-col').height(highestCol);
 
-    generate_donuts();
-    adjust_person_rows();
+    // fill the 3 cols with empty data
+    fillZeroPlan(1);
+    fillZeroPlan(2);
+    fillZeroPlan(3);
+
+    // js logic for the info col
+    adjustPersonRows();
+    captureKeyPress();
+    captureFocusOut();
+    buttonMedalLogic();
 
 })
 
+
 /**
- * Helper function for generate_donuts
- * @param d
+ * main function to handle logic of adding person rows
  */
-function get_value(d) {
-    return d.value;
-}
-
-function generate_donuts() {
-    var dataset = {
-      apples: [{value: 53245, name: "hippo"},{value: 53245, name: "hippo"}, {value: 53245, name: "hippo"}]
-    };
-
-    var width = 250,
-        height = 220,
-        radius = Math.min(width, height) / 1.7;
-
-    var color = d3.scale.category20();
-
-    var pie = d3.layout.pie()
-        .sort(null)
-        .value(get_value);
-
-    var arc = d3.svg.arc()
-        .innerRadius(radius - 55)
-        .outerRadius(radius - 30);
-
-    var highlightArc = d3.svg.arc()
-        .innerRadius(radius - 60)
-        .outerRadius(radius - 25);
-
-    var svg = d3.select(".estimated-cost-donut").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-    var gnodes = svg.selectAll("g.gnode")
-        .data(pie(dataset.apples))
-        .enter().append("g")
-        .attr("class", "arc");
-
-    //middle text
-    gnodes.append("text")
-        .style("text-anchor", "middle")
-        .attr("dy", "10px")
-        .attr("class","estimated-cost")
-        .attr("fill", function(){ return "#b00"}) /* color of middle text */
-        .text(function(d){ return "-$2500" });
-
-    //donut styling
-    var path = gnodes.append("path")
-        .attr("fill", function(d, i) { return color(i); })
-        .style("cursor", "pointer")
-        .attr("d", arc)
-
-    path.on("mouseover", function(){
-        d3.select(this).attr("d", highlightArc)
-//        alert(d3.select(this))
-        console.log(d3.select(this).data()[0].value);
-    })
-    path.on("mouseout", function(){
-        d3.select(this).attr("d", arc)
-    })
-
-}
-
-function adjust_person_rows() {
+function adjustPersonRows() {
 
 	var peopleCount = 1;
     
@@ -91,7 +37,7 @@ function adjust_person_rows() {
                 <div class='col-md-2 age-label'>Age</div> \
                 <div class='col-md-5'> \
                     <div> \
-                        <input type='text' class='form-control input-sm'/> \
+                        <input id='input_person_" + peopleCount + "' type='text' class='form-control input-sm' name='age'/> \
                     </div> \
                 </div> \
                 <div class='delete_person' personId=" + peopleCount + " > \
@@ -99,6 +45,7 @@ function adjust_person_rows() {
                 </div> \
             </div>"
 		);
+        $("#input_person_" + peopleCount).focus();
     })
 
     $("#person_rows").on("click", ".delete_person", function() {
@@ -108,3 +55,75 @@ function adjust_person_rows() {
     	$("#person_" + peopleCount + " .delete_person").css("display", "inherit");
     })
 }
+
+var requestTimer;
+
+/**
+ * main fn to sendRequest() after 1s of key input
+ */
+function captureKeyPress() {
+    $(".info-col").on("keypress", "input", function(event){
+        if ( event.which == 13 ) {
+            event.preventDefault();
+        }
+        window.clearTimeout(requestTimer);
+        requestTimer = window.setTimeout(sendRequest, 1000);
+    });
+}
+
+
+/**
+ * main fn to sendRequest() on focus out
+ */
+function captureFocusOut() {
+    $(".info-col").on("focusout", "input", function(event){
+        window.clearTimeout(requestTimer);
+        sendRequest();
+    });
+}
+
+/**
+ * helper fn for sending the ajax request
+ */
+function sendRequest() {
+    // get form data
+    var formData = $("form#info-form").serialize();
+    console.log(formData)
+    var data = {
+        plan_name: "Anthem Blue Cross",
+        medal: "silver",
+        money_saved: "$1000"
+    }
+
+    fillPlan(data, 1);
+    fillPlan(data, 2);
+    fillPlan(data, 3);
+}
+
+
+
+/**
+ * main fn to run logic of medal buttons being clicked
+ */
+function buttonMedalLogic() {
+    $(".medal-select").click(function(){
+        $(".medal-select").removeClass("active");
+        $(this).addClass("active");
+        var medal = $(this).attr("id");
+        $("#select-medal").val(medal);
+        sendRequest();
+    })
+}
+
+/**
+ * helper fn that gets called within the main block
+ * @param evt
+ * @returns {boolean}
+ */
+function isNumberKey(evt) {
+     var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+     return true;
+  }
