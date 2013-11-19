@@ -16,7 +16,13 @@ def household_info(request):
 
 
 def ajax_get_plans(request):
-    if request.is_ajax() and request.method == 'GET':
+
+    #if request.is_ajax() and request.method == 'GET':
+    if request.method == 'GET':
+        zip_code = 94704
+        income = 30000
+        doctor_use = 1
+        prescription_use = 5
         #zip_code=5&income=&age=&medical_visits=&prescription_use=&medal=all
         if 'zip_code' in request.GET:
             zip_code = int(request.GET['zip_code'])
@@ -28,9 +34,13 @@ def ajax_get_plans(request):
             prescription_use = float(request.GET['prescription_use'])
         ages = request.GET.getlist('age')
         ages = map(int, ages)
+        if not ages:
+            ages = [21]
 
         area = GeographicArea.objects.get(zip_code=zip_code)
-        plans = area.plan_set.filter(age=ages)
+
+        plans = area.plan_set.filter(age__in=ages)
+        print(plans)
         plan_list = [plan for plan in plans]
         for plan in plan_list:
             plan.prescription_cost = [{'name':'prescription_cost',
@@ -40,7 +50,7 @@ def ajax_get_plans(request):
         data = serializers.serialize('json',
                                      plan_list,
                                      extras=('prescription_cost', 'doctor_cost'))
-        return HttpResponse(data,'application/javascript')
+        return HttpResponse(data, 'application/javascript')
 
 
 def plans(request):

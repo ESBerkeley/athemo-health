@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'insuranceapp.views.home', name='home'),
     url(r'^household_info', 'insuranceapp.views.household_info', name='household_info'),
     url(r'^plans', 'insuranceapp.views.plans'),
+    url(r'^ajax_get_plans', 'insuranceapp.views.ajax_get_plans'),
     #url(r'^metal_tiers', 'insuranceapp.views.metal', name='metal'),
     # url(r'^health/', include('health.foo.urls')),
 
