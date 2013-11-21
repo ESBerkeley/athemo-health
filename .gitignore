@@ -9,4 +9,5 @@ local_settings.py
 health/css/
 health/js
 health/health/static_files/
+health/health/static/COMPILED/
 sq3.db
