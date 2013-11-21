@@ -16,6 +16,7 @@ class GeographicAreaAdmin(admin.ModelAdmin):
 
 class HealthcarePlanAdmin(admin.ModelAdmin):
     list_display = ('medal', 'price', 'age')
+    search_fields = ('medal', 'price', 'age')
 
 admin.site.register(HealthcarePlan, HealthcarePlanAdmin)
 admin.site.register(GeographicArea, GeographicAreaAdmin)
