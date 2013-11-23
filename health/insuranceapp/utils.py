@@ -19,27 +19,69 @@ def importZipCodes():
             except:
                 continue
 
-def importPlans():
+def importSutter():
     medals = ['bronze', 'silver', 'gold', 'platinum']
     sutter_provider, created = Provider.objects.get_or_create(name='Sutter Health Plan', 
                                                               url='http://www.sutterhealth.org/')
     for medal in medals:
-        for age in range(20, 65):
+        age = 21
+        #For Sutter Health Plans
+        for r_area in [1, 2, 3, 10]:
+            #try:
+            str_premium = getSutterHealthPlan(medal, age, r_area)
+            premium = float(str_premium)
+            areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
+            plan = HealthcarePlan(medal=medal.capitalize(),
+                                    age=age,
+                                    price=premium,
+                                    provider=sutter_provider)
+            plan.save()
+            for area in areas:
+                plan.areas.add(area)
+            #except:
+            #    continue
+
+def importVentura():
+    medals = ['bronze', 'silver', 'gold', 'platinum']
+    sutter_provider, created = Provider.objects.get_or_create(name='Ventura Health Plan',
+                                                              url='http://www.vchca.org/')
+    for medal in medals:
+        age = 21
+        #For Sutter Health Plans
+            #try:
+            str_premium = getVenturaHealthPlan(medal, age)
+            premium = float(str_premium)
+            areas = GeographicArea.objects.filter(state='CA')
+            plan = HealthcarePlan(medal=medal.capitalize(),
+                                  age=age,
+                                  price=premium,
+                                  provider=sutter_provider)
+            plan.save()
+#            for area in areas:
+#                plan.areas.add(area)
+#except:
+#    continue
+
+def importVallet():
+    medals = ['bronze', 'silver', 'gold', 'platinum']
+    sutter_provider, created = Provider.objects.get_or_create(name='Vallet Health Plan',
+                                                              url='http://www.valleyhealthplan.org/')
+    for medal in medals:
+        age = 21
             #For Sutter Health Plans
-            for r_area in [1, 2, 3, 10]:
-                #try:
-                str_premium = getSutterHealthPlan(medal, age, r_area)
-                premium = float(str_premium)
-                areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
-                plan = HealthcarePlan(medal=medal.capitalize(),
-                                      age=age,
-                                      price=premium,
-                                      provider=sutter_provider)
-                plan.save()
-                for area in areas:
-                    plan.areas.add(area)
-                #except:
-                #    continue
+            #try:
+            str_premium = getValletHealthPlan(medal, age)
+            premium = float(str_premium)
+            areas = GeographicArea.objects.filter(state='CA')
+            plan = HealthcarePlan(medal=medal.capitalize(),
+                                  age=age,
+                                  price=premium,
+                                  provider=sutter_provider)
+            plan.save()
+#            for area in areas:
+#                plan.areas.add(area)
+#except:
+#    continue
 
 
 def all_states():
