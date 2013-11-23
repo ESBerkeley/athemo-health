@@ -13,5 +13,3 @@ function runserver {
 }
 
 runserver health
-
-
