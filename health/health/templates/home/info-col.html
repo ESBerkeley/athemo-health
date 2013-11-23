@@ -1,81 +1,86 @@
 <div class="col-xs-6 col-sm-6 col-md-3 info-col">
+		<div class="more-arrow">
+				<i class="fa fa-sort-asc fa-2x"></i>
+		</div>
     <form id="info-form">
         <div class="info-title">Find Health Insurance</div>
         <p class="sub-heading">Enter basic information so we can help find you plans.</p>
 
         <div class="input-row">
             <div class="input-label">Zip Code</div>
-            <input type="text" class="form-control" name="zip_code" placeholder="94704" />
+            <input type="text" id="zipcode" class="form-control" name="zip_code" placeholder="94704" />
             <div class="no-zip-code"></div>
         </div>
-        <div class="input-row">
-            <div class="input-label">Annual Household Income</div>
-            <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
-                <input type="text" class="form-control" name="income" placeholder="50000">
-            </div>
-        </div>
+        <div class="more-info">
+						<div class="input-row">
+								<div class="input-label">Annual Household Income</div>
+								<div class="input-group">
+										<span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+										<input type="text" class="form-control" name="income" placeholder="50000">
+								</div>
+						</div>
 
-        <div class="input-row">
-            <div class="input-label household">Household Information</div>
-            <div id="person_rows">
-                <div id="person_1" class="row person-row">
-                    <div class="col-md-4 person-label">Person 1</div>
-                    <div class="col-md-2 age-label">Age</div>
-                    <div class="col-md-5">
-                        <div >
-                            <input type="text" name="age" class="form-control input-sm"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a id="add_person" class="false-link">+ Add Person</a>
-        </div>
+						<div class="input-row">
+								<div class="input-label household">Household Information</div>
+								<div id="person_rows">
+										<div id="person_1" class="row person-row">
+												<div class="col-md-4 person-label">Person 1</div>
+												<div class="col-md-2 age-label">Age</div>
+												<div class="col-md-5">
+														<div >
+																<input type="text" name="age" class="form-control input-sm"/>
+														</div>
+												</div>
+										</div>
+								</div>
+								<a id="add_person" class="false-link">+ Add Person</a>
+						</div>
 
-        <div class="input-row">
-            <div class="input-label">Household Medical Visits a Year</div>
-            <input type="text" class="form-control" name="medical_visits" placeholder="10" />
-            <div class="help-text">
-                <a id="medical-popover" class="false-link">
-                    Need some estimates?
-                </a>
-            </div>
-        </div>
+						<div class="input-row">
+								<div class="input-label">Household Medical Visits a Year</div>
+								<input type="text" class="form-control" name="medical_visits" placeholder="10" />
+								<div class="help-text">
+										<a id="medical-popover" class="false-link">
+												Need some estimates?
+										</a>
+								</div>
+						</div>
 
-        <div class="input-row">
-            <div class="input-label">Household Prescription Use</div>
-            <input type="text" class="form-control" name="prescription_use" placeholder="2" />
-            <div class="help-text">
-                <a id="prescription-popover" class="false-link">
-                    Need some estimates?
-                </a>
-            </div>
-        </div>
+						<div class="input-row">
+								<div class="input-label">Household Prescription Use</div>
+								<input type="text" class="form-control" name="prescription_use" placeholder="2" />
+								<div class="help-text">
+										<a id="prescription-popover" class="false-link">
+												Need some estimates?
+										</a>
+								</div>
+						</div>
 
-        <div class="input-row">
-            <div class="input-label">Plan type</div>
-            <div class="btn-group-vertical btn-group-sm">
-                <button id="all" type="button" class="btn btn-default medal-select active">All Plans</button>
-            </div>
-            <div class="btn-group btn-group-sm btn-medal">
-                <button id="bronze" type="button" class="btn btn-default medal-select">Bronze</button>
-                <button id="silver" type="button" class="btn btn-default medal-select">Silver</button>
-            </div>
-            <div class="btn-group btn-group-sm btn-medal">
-                <button id="gold" type="button" class="btn btn-default medal-select">Gold</button>
-                <button id="platinum" type="button" class="btn btn-default medal-select">Platinum</button>
-            </div>
-            <div id="catastrophic-group" class="btn-group-vertical btn-group-sm">
-                <button id="catastrophic" type="button" class="btn btn-default medal-select">Catastrophic</button>
-            </div>
-        </div>
-        <select id="select-medal" name="medal" class="hide">
-            <option value="all" selected="selected">All</option>
-            <option value="bronze">Bronze</option>
-            <option value="silver">Silver</option>
-            <option value="gold">Gold</option>
-            <option value="platinum">Platinum</option>
-            <option value="catastrophic">Catastrophic</option>
-        </select>
+						<div class="input-row">
+								<div class="input-label">Plan type</div>
+								<div class="btn-group-vertical btn-group-sm">
+										<button id="all" type="button" class="btn btn-default medal-select active">All Plans</button>
+								</div>
+								<div class="btn-group btn-group-sm btn-medal">
+										<button id="bronze" type="button" class="btn btn-default medal-select">Bronze</button>
+										<button id="silver" type="button" class="btn btn-default medal-select">Silver</button>
+								</div>
+								<div class="btn-group btn-group-sm btn-medal">
+										<button id="gold" type="button" class="btn btn-default medal-select">Gold</button>
+										<button id="platinum" type="button" class="btn btn-default medal-select">Platinum</button>
+								</div>
+								<div id="catastrophic-group" class="btn-group-vertical btn-group-sm">
+										<button id="catastrophic" type="button" class="btn btn-default medal-select">Catastrophic</button>
+								</div>
+						</div>
+						<select id="select-medal" name="medal" class="hide">
+								<option value="all" selected="selected">All</option>
+								<option value="bronze">Bronze</option>
+								<option value="silver">Silver</option>
+								<option value="gold">Gold</option>
+								<option value="platinum">Platinum</option>
+								<option value="catastrophic">Catastrophic</option>
+						</select>
+				</div>
     </form>
 </div>

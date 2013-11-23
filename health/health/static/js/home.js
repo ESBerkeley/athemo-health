@@ -1,4 +1,11 @@
 $(document).ready(function(){
+		$("#zipcode").on("change keyup paste", function() {
+				showMoreInfoForm();
+		});
+		
+		$(".more-arrow").on("click", function() {
+				showMoreInfoForm();
+		});
     // all inputs in info col must be numbers
     $(".info-col").on("keypress", "input", function(event){
         return isNumberKey(event);
@@ -130,4 +137,9 @@ function isNumberKey(evt) {
         return false;
 
      return true;
-  }
+}
+
+function showMoreInfoForm() {
+		$(".more-info").fadeIn(300);
+		$(".more-arrow").hide();
+}
