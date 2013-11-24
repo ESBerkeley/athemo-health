@@ -31,7 +31,7 @@ def importSutter():
             str_premium = getSutterHealthPlan(medal, age, r_area)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
-            plan = HealthcarePlan(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
                                     age=age,
                                     price=premium,
                                     provider=sutter_provider)
@@ -52,13 +52,13 @@ def importVentura():
             str_premium = getVenturaHealthPlan(medal, age)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(state='CA')
-            plan = HealthcarePlan(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
                                   age=age,
                                   price=premium,
                                   provider=sutter_provider)
             plan.save()
-#            for area in areas:
-#                plan.areas.add(area)
+            for area in areas:
+                plan.areas.add(area)
 #except:
 #    continue
 
@@ -73,13 +73,13 @@ def importVallet():
             str_premium = getValletHealthPlan(medal, age)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(state='CA')
-            plan = HealthcarePlan(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                   age=age,
                                   price=premium,
                                   provider=sutter_provider)
             plan.save()
-#            for area in areas:
-#                plan.areas.add(area)
+            for area in areas:
+                plan.areas.add(area)
 #except:
 #    continue
 
