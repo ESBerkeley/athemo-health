@@ -16,6 +16,8 @@ sudo pip install watchdog
 sudo pip install wadofstuff-django-serializers
 
 ./health/scss_watch
+
+sudo pip uninstall simplejson
 ---------
 sudo pip install django
 

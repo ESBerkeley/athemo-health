@@ -112,7 +112,7 @@ def ajax_get_plans(request):
             plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
                                             {'name':'doctor_cost', 'value': insurance_doctor_payment}]
         data = serializers.serialize('json',
-                                     [plan for plan in plans],
+                                     plans,
                                      extras=('total_out_of_pocket_cost', 'total_insurance_payment', 'savings'))
         return HttpResponse(data, 'application/javascript')
 
