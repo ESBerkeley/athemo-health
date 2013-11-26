@@ -1,6 +1,6 @@
 __author__ = 'ericxiao'
-from insuranceapp.models import GeographicArea, HealthcarePlan, Provider
-from insuranceapp.AthemoParserXML import *
+from models import GeographicArea, HealthcarePlan, Provider
+from AthemoParserXML import *
 
 def importZipCodes():
     zip_codes = get_all_zipcodes()
@@ -47,20 +47,16 @@ def importVentura():
                                                               url='http://www.vchca.org/')
     for medal in medals:
         age = 21
-        #For Sutter Health Plans
-            #try:
-            str_premium = getVenturaHealthPlan(medal, age)
-            premium = float(str_premium)
-            areas = GeographicArea.objects.filter(state='CA')
-            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
-                                  age=age,
-                                  price=premium,
-                                  provider=sutter_provider)
-            plan.save()
-            for area in areas:
-                plan.areas.add(area)
-#except:
-#    continue
+        str_premium = getVenturaHealthPlan(medal, age)
+        premium = float(str_premium)
+        areas = GeographicArea.objects.filter(state='CA')
+        plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
+                                age=age,
+                                price=premium,
+                                provider=sutter_provider)
+        plan.save()
+        for area in areas:
+            plan.areas.add(area)
 
 def importVallet():
     medals = ['bronze', 'silver', 'gold', 'platinum']
@@ -68,23 +64,16 @@ def importVallet():
                                                               url='http://www.valleyhealthplan.org/')
     for medal in medals:
         age = 21
-            #For Sutter Health Plans
-            #try:
-            str_premium = getValletHealthPlan(medal, age)
-            premium = float(str_premium)
-            areas = GeographicArea.objects.filter(state='CA')
-            plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
-                                  age=age,
-                                  price=premium,
-                                  provider=sutter_provider)
-            plan.save()
-            for area in areas:
-                plan.areas.add(area)
-#except:
-#    continue
-
-
-
+        str_premium = getValletHealthPlan(medal, age)
+        premium = float(str_premium)
+        areas = GeographicArea.objects.filter(state='CA')
+        plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
+                                age=age,
+                                price=premium,
+                                provider=sutter_provider)
+        plan.save()
+        for area in areas:
+            plan.areas.add(area)
 
 def importContra():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
@@ -150,7 +139,7 @@ def importChinese():
 
 def importMolina():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
-    sutter_provider, created = Provider.objects.get_or_create(name='Molina Health Plan', url='www.molinahealthcare.com/‎')
+    sutter_provider, created = Provider.objects.get_or_create(name='Molina Health Plan', url='www.molinahealthcare.com')
     for medal in medals:
         age = 21
         #For Sutter Health Plans
