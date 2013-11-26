@@ -19,6 +19,16 @@ def importZipCodes():
             except:
                 continue
 
+def importAll():
+    importBlue()
+    importChinese()
+    importContra()
+    importMolina()
+    importNetHealth()
+    importSharp()
+    importSutter()
+    importVallet()
+
 def importSutter():
     medals = ['bronze', 'silver', 'gold', 'platinum']
     sutter_provider, created = Provider.objects.get_or_create(name='Sutter Health Plan', 
