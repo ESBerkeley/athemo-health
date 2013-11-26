@@ -31,7 +31,7 @@ def importSutter():
             str_premium = getSutterHealthPlan(medal, age, r_area)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
-            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                     age=age,
                                     price=premium,
                                     provider=sutter_provider)
@@ -50,7 +50,7 @@ def importVentura():
         str_premium = getVenturaHealthPlan(medal, age)
         premium = float(str_premium)
         areas = GeographicArea.objects.filter(state='CA')
-        plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
+        plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                 age=age,
                                 price=premium,
                                 provider=sutter_provider)
@@ -127,7 +127,7 @@ def importChinese():
             str_premium = getChineseHealthPlan(medal, age, r_area)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
-            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                     age=age,
                                     price=premium,
                                     provider=sutter_provider)
@@ -148,7 +148,7 @@ def importMolina():
             str_premium = getMolinaHealthPlan(medal, age, r_area)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
-            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                     age=age,
                                     price=premium,
                                     provider=sutter_provider)
@@ -167,7 +167,7 @@ def importBlue():
             str_premium = getBlueHealthPlan(medal, age, r_area)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
-            plan, created = HealthcarePlan.get_or_create(medal=medal.capitalize(),
+            plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                     age=age,
                                     price=premium,
                                     provider=sutter_provider)
