@@ -13,6 +13,8 @@ AVG_PRESCRIPTION_COST = 44.14*.78 + 166.01*.22
 LOW_MATERNITY_COST = 5500
 HIGH_MATERNITY_COST = 18000
 
+AVG_DIABETES_COST = 2000
+
 def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
     '''
     Your premium + your deductible + any coinsurance
@@ -58,8 +60,8 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
         insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
         #insurance_payment = insurance_prescription_payment + insurance_doctor_payment
 
-        low_maternity_cost = plan_details['coinsurance'] * LOW_MATERNITY_COST
-        high_maternity_cost = plan_details['coinsurance'] * HIGH_MATERNITY_COST
+        low_maternity_cost = plan_details['coinsurance_rate'] * LOW_MATERNITY_COST
+        high_maternity_cost = plan_details['coinsurance_rate'] * HIGH_MATERNITY_COST
         plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': total_monthly_premium*12},
                                         {'name':'prescription_cost', 'value': out_of_pocket_prescription_costs},
                                         {'name':'doctor_cost', 'value': out_of_pocket_doctor_costs}]
