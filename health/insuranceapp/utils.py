@@ -62,9 +62,9 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
 
         low_maternity_cost = plan_details['coinsurance_rate'] * LOW_MATERNITY_COST
         high_maternity_cost = plan_details['coinsurance_rate'] * HIGH_MATERNITY_COST
-        plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': total_monthly_premium*12},
-                                        {'name':'prescription_cost', 'value': out_of_pocket_prescription_costs},
-                                        {'name':'doctor_cost', 'value': out_of_pocket_doctor_costs}]
+        plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': int(total_monthly_premium*12)},
+                                        {'name':'prescription_cost', 'value': int(out_of_pocket_prescription_costs)},
+                                        {'name':'doctor_cost', 'value': int(out_of_pocket_doctor_costs)}]
         plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
         plan.savings = int(savings)
         plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': low_maternity_cost},

@@ -61,7 +61,7 @@ function makeSvgDonut(className, donutType, data, total) {
         .style("text-anchor", "middle")
         .attr("dy", "10px")
         .attr("class","estimated-number")
-        .text(function(d){ return "-$" + value })
+        .text(function(d){ return "-$" + total })
         .attr("fill", function(){ return "#b00" }) /* color of middle text */
     } else if (donutType == "save") {
         gnodes.append("text")
@@ -113,9 +113,10 @@ function fillPlan(data, plan_num) {
     console.log(data)
     var savings = data.extras.savings;
     var medal = data.fields.medal.toLowerCase();
-    var plan_name = data.provider.fields.name;
+    console.log("AHH")
+    var plan_name = data.fields.provider.fields.name;
     var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
-    var out_of_pocket_value = data.extras.out_of_pocket_value;
+    var out_of_pocket_cost_number = data.extras.out_of_pocket_cost_number;
     var cost_data = {}
     for (index in out_of_pocket_cost_array ) {
         var cost = out_of_pocket_cost_array[index]
@@ -143,7 +144,7 @@ function fillPlan(data, plan_num) {
       apples: [{value: 2000, name: "cost-annual-premium"},{value: 1700, name: "cost-something-premium"}]
     };
 
-    makeSvgDonut(plan_col + ".estimated-cost-donut", "cost", out_of_pocket_cost_array, out_of_pocket_value);
+    makeSvgDonut(plan_col + ".estimated-cost-donut", "cost", out_of_pocket_cost_array, out_of_pocket_cost_number);
 //    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
