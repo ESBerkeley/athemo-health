@@ -25,8 +25,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#">About</a></li>
-                    <li><a href="{% url 'household_info' %}">Learn</a></li>
+                		<li id="home"><a href="#">Home</a></li>
+                    <li id="about"><a href="{% url 'about' %}">About</a></li>
+                    <li id="household-info"><a href="{% url 'household_info' %}">Learn</a></li>
                 </ul>
             </div>
         </div>
@@ -56,6 +57,7 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" type="text/javascript"></script>
 {#<script src="{{ STATIC_URL }}js/external/chosen.jquery.min.js" type="text/javascript"></script>#}
 <script src="{{ STATIC_URL }}js/external/d3.v3.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/init.js" type="text/javascript"></script>
 {% block javascript %}
 {% endblock %}
 </body>
