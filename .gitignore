@@ -11,4 +11,4 @@ health/js
 health/health/static_files/
 health/health/static/COMPILED/
 sq3.db
-static/scss/*.css
+health/health/static/scss/*.css

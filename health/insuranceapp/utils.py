@@ -66,18 +66,20 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
         high_maternity_cost = plan_details['coinsurance_rate'] * HIGH_MATERNITY_COST
         diabetes_cost = plan_details['coinsurance_rate'] * AVG_DIABETES_COST
 
-        plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': total_monthly_premium*12},
-                                        {'name':'prescription_cost', 'value': out_of_pocket_prescription_costs},
-                                        {'name':'doctor_cost', 'value': out_of_pocket_doctor_costs}]
+        plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': int(total_monthly_premium*12)},
+                                        {'name':'prescription_cost', 'value': int(out_of_pocket_prescription_costs)},
+                                        {'name':'doctor_cost', 'value': int(out_of_pocket_doctor_costs)}]
+
         plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
         plan.savings = int(savings)
-        plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': low_maternity_cost},
-                                       {'name': 'high_maternity_cost', 'value': high_maternity_cost},
-                                       {'name': 'hospitalization_cost', 'value': max_hospital_cost},
-                                       {'name': 'diabetes_cost', 'value' : diabetes_cost}]
+        plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': int(low_maternity_cost)},
+                                       {'name': 'high_maternity_cost', 'value': int(high_maternity_cost)},
+                                       {'name': 'hospitalization_cost', 'value': int(max_hospital_cost)},
+                                       {'name': 'diabetes_cost', 'value' : int(diabetes_cost)}]
 
-        plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
-                                        {'name':'doctor_cost', 'value': insurance_doctor_payment}]
+        #plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
+        #                                {'name':'doctor_cost', 'value': insurance_doctor_payment}]
+
     return plans
 
 def hospital_cost(age):
