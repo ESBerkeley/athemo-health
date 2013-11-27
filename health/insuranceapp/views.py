@@ -52,6 +52,7 @@ def ajax_get_plans(request):
         data = serializers.serialize('json',
                                      plans,
                                      relations=('provider',),
+                                     excludes=('areas',),
                                      extras=('total_out_of_pocket_cost', 'total_insurance_payment', 'savings',
                                      'out_of_pocket_cost_number'))
         return HttpResponse(data, mimetype='application/json')
