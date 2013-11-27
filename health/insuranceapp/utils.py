@@ -63,10 +63,12 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
         plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': total_monthly_premium*12},
                                         {'name':'prescription_cost', 'value': out_of_pocket_prescription_costs},
                                         {'name':'doctor_cost', 'value': out_of_pocket_doctor_costs}]
-        plan.savings = savings
+        plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
+        plan.savings = int(savings)
         plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': low_maternity_cost},
                                        {'name': 'high_maternity_cost', 'value': high_maternity_cost},
                                        {'name': 'hospitalization_cost', 'value': max_hospital_cost}]
+
         plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
                                         {'name':'doctor_cost', 'value': insurance_doctor_payment}]
     return plans
@@ -108,6 +110,7 @@ def calculate_bronze_cost(deductible, prescription_use, doctor_use, plan_details
         out_of_pocket_prescription_costs += abs(remaining_deductible)
     elif not is_doctor_cost and remaining_deductible < 0: #LAST THING PAID FOR IS DOCTOR_VISIT
         out_of_pocket_doctor_costs += abs(remaining_deductible)
+    return (out_of_pocket_doctor_costs, out_of_pocket_prescription_costs)
 
 # tuple = (DOLLAR AMOUNT, NEEDS TO REACH DEDUCTIBLE)
 BRONZE = {'primary_care_copay': 60,

@@ -23,26 +23,33 @@ def ajax_get_plans(request):
         doctor_use = 1
         prescription_use = 5
         #zip_code=5&income=&age=&medical_visits=&prescription_use=&medal=all
-        if 'zip_code' in request.GET:
+
+        income = 0
+        doctor_use = 0
+        prescription_use = 0
+
+        if 'zip_code' in request.GET and request.GET['zip_code']:
             zip_code = int(request.GET['zip_code'])
-        if 'income' in request.GET:
+        if 'income' in request.GET and request.GET['income']:
             income = float(request.GET['income'])
-        if 'medical_visits' in request.GET:
+        if 'medical_visits' in request.GET and request.GET['medical_visits']:
             doctor_use = float(request.GET['medical_visits'])
-        if 'prescription_use' in request.GET:
+        if 'prescription_use' in request.GET and request.GET['prescription_use']:
             prescription_use = float(request.GET['prescription_use'])
-        ages = request.GET.getlist('age')
-        ages = map(int, ages)
-        if not ages:
+
+        if request.GET.getlist('age') and request.GET['age']:
+            ages = request.GET.getlist('age')
+            ages = map(int, ages)
+        else:
             ages = [21]
 
         plans = get_plans_data(ages, zip_code, income, prescription_use, doctor_use)
-
         data = serializers.serialize('json',
                                      plans,
                                      relations=('provider',),
-                                     extras=('total_out_of_pocket_cost', 'total_insurance_payment', 'savings'))
-        return HttpResponse(data, 'application/javascript')
+                                     extras=('total_out_of_pocket_cost', 'total_insurance_payment', 'savings',
+                                     'out_of_pocket_cost_number'))
+        return HttpResponse(data, mimetype='application/json')
 
 
 def plans(request):

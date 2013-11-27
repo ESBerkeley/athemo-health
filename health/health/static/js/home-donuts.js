@@ -17,8 +17,9 @@ function generateZeroPlan() {
  * @param className - string of class name to append donut to, e.g ".estimated-cost-donut"
  * @param donutType - string of donut type for color, pick between "cost", "save", "zero"
  * @param data - JSON of data to be input
+ * @param total - sum of all the values in data
  */
-function makeSvgDonut(className, donutType, data) {
+function makeSvgDonut(className, donutType, data, total) {
     if (donutType == "zero") {
         data = [{"value": 1}];
     }
@@ -60,7 +61,7 @@ function makeSvgDonut(className, donutType, data) {
         .style("text-anchor", "middle")
         .attr("dy", "10px")
         .attr("class","estimated-number")
-        .text(function(d){ return "-$2500" })
+        .text(function(d){ return "-$" + value })
         .attr("fill", function(){ return "#b00" }) /* color of middle text */
     } else if (donutType == "save") {
         gnodes.append("text")
@@ -109,30 +110,43 @@ function makeSvgDonut(className, donutType, data) {
  * @param plan_num - plan number 1 ~ 3 that will have data injected.
  */
 function fillPlan(data, plan_num) {
+    console.log(data)
+    var savings = data.extras.savings;
+    var medal = data.fields.medal.toLowerCase();
+    var plan_name = data.provider.fields.name;
+    var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
+    var out_of_pocket_value = data.extras.out_of_pocket_value;
+    var cost_data = {}
+    for (index in out_of_pocket_cost_array ) {
+        var cost = out_of_pocket_cost_array[index]
+        cost_data[cost.name] = cost.value;
+    }
+
     var plan_col = ".plan-col-" + plan_num + " ";
     $(plan_col+".zero").hide();
     $(plan_col+".nonzero").show();
     $(plan_col+".learn-more").show();
 
-    $(plan_col+".plan-name.nonzero").text(data.plan_name);
+    $(plan_col+".plan-name.nonzero").text(plan_name);
     $(plan_col+".medal.nonzero").attr("class", "medal nonzero")
-        .text(data.medal)
-        .addClass(data.medal)
+        .text(medal)
+        .addClass(medal)
+    $(plan_col+".money-saved.nonzero").html("$" + savings + "<span class='slash-year'>/year</span>");
 
-    $(plan_col+".money-saved.nonzero").html(data.money_saved + "<span class='slash-year'>/year</span>");
+    // assign the values for cost details
+    $(plan_col+".annual-premium .value").html("$" + cost_data['annual_premium']);
+    $(plan_col+".doctor-cost .value").html("$" + cost_data['doctor_cost']);
+    $(plan_col+".prescription-cost .value").html("$" + cost_data['prescription_cost']);
 
-    var dataset = {
-      apples: [{value: 2000, name: "cost-annual-premium"},{value: 800, name: "cost-something-premium"}]
-    };
+
     var dataset2 = {
       apples: [{value: 2000, name: "cost-annual-premium"},{value: 1700, name: "cost-something-premium"}]
     };
 
-    makeSvgDonut(plan_col + ".estimated-cost-donut", "cost", dataset.apples);
-    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
-    $(".plan-modal-"+plan_num + ".modal-title").text(data.plan_name);
+    makeSvgDonut(plan_col + ".estimated-cost-donut", "cost", out_of_pocket_cost_array, out_of_pocket_value);
+//    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
-    $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + data.plan_name);
+    $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
 
 }
 
