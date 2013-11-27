@@ -11,6 +11,11 @@ def home(request):
     #msg = request.GET['msg']
     return render_to_response('home/home.html', context_instance=RequestContext(request))
 
+
+def about(request):
+    return render_to_response('about.html',context_instance=RequestContext(request))
+
+
 def household_info(request):
     return render_to_response('household_info.html',context_instance=RequestContext(request))
 
