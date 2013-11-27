@@ -97,16 +97,18 @@ function captureFocusOut() {
 function sendRequest() {
     // get form data
     var formData = $("form#info-form").serialize();
-    console.log(formData)
-    var data = {
-        plan_name: "Anthem Blue Cross",
-        medal: "silver",
-        money_saved: "$800"
-    }
+    $.ajax({
+        url: "/ajax/get_plans",
+        data: formData
+    }).done(function(data){
+        for (var i = 0; i < 3; i++) {
+            if (i < data.length) fillPlan(data[i], i+1);
+            else fillZeroPlan(i+1);
+        }
+    })
+    .fail(function(){
 
-    fillPlan(data, 1);
-    fillPlan(data, 2);
-    fillPlan(data, 3);
+    })
 }
 
 

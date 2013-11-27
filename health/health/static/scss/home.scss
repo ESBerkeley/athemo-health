@@ -127,13 +127,20 @@ body {
       margin-bottom: 10px;
       font-weight: 600;
       font-size: 16px;
-      &.gold {
-          background-color: #e0be00;
-          color: white;
+      &.bronze {
+        background-color: $bronze;
+        color: white;
       }
       &.silver {
           background-color: #a7a7a7;
           color: white;
+      }
+      &.gold {
+          background-color: #e0be00;
+          color: white;
+      }
+      &.platinum {
+        background-color: $platinum;
       }
     }
     .you-saved {
@@ -165,6 +172,11 @@ body {
       .estimated-number {
         font-size: 30px;
         font-weight: 300;
+      }
+      .cost-detail {
+        padding-left: 20px;
+        padding-right: 20px;
+        clear: both;
       }
       .learn-more {
         margin-top: 15px;
