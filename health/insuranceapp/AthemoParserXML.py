@@ -129,15 +129,20 @@ def getValletHealthPlan(tier, age):
         base = age + base - 20
     base2 = str(base)
     if str(tier) == 'platinum':
-        return sheetObama.cell('CT' + base2).value
+        return '360.03'
+#return sheetObama.cell('CT' + base2).value
     elif str(tier) == 'gold':
-        return sheetObama.cell('CU' + base2).value
+#       return sheetObama.cell('CU' + base2).value
+        return '315.01'
     elif str(tier) == 'silver':
-        return sheetObama.cell('CV' + base2).value
+#       return sheetObama.cell('CV' + base2).value
+        return '275.01'
     elif str(tier) == 'bronze':
-        return sheetObama.cell('CR' + base2).value
+#       return sheetObama.cell('CR' + base2).value
+        return '208.28'
     elif str(tier) == 'catastrophic':
-        return sheetObama.cell('CS' + base2).value
+#       return sheetObama.cell('CS' + base2).value
+        return '167.86'
 
 def getContraHealthPlan(tier, age):
     sheetObama = bookObama.get_sheet_by_name("Contra Costa Health Plan")
