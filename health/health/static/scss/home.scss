@@ -176,7 +176,12 @@ body {
       .cost-detail {
         padding-left: 20px;
         padding-right: 20px;
-        clear: both;
+        float: left;
+        display: block;
+        width: 100%;
+        &:after {
+          clear: both;
+        }
       }
       .learn-more {
         margin-top: 15px;

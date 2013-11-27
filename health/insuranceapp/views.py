@@ -41,9 +41,9 @@ def ajax_get_plans(request):
             doctor_use = float(request.GET['medical_visits'])
         if 'prescription_use' in request.GET and request.GET['prescription_use']:
             prescription_use = float(request.GET['prescription_use'])
-
-        if request.GET.getlist('age') and request.GET['age']:
-            ages = request.GET.getlist('age')
+        ages = request.GET.getlist('age')
+        ages = [age for age in ages if age]
+        if ages:
             ages = map(int, ages)
         else:
             ages = [21]

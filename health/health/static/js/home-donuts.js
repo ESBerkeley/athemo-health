@@ -19,7 +19,7 @@ function generateZeroPlan() {
  * @param data - JSON of data to be input
  * @param total - sum of all the values in data
  */
-function makeSvgDonut(className, donutType, data, total) {
+function makeSvgDonut(parentClass, className, donutType, data, total) {
     if (donutType == "zero") {
         data = [{"value": 1}];
     }
@@ -61,7 +61,7 @@ function makeSvgDonut(className, donutType, data, total) {
         .style("text-anchor", "middle")
         .attr("dy", "10px")
         .attr("class","estimated-number")
-        .text(function(d){ return "-$" + total })
+        .text(function(d){ return "$" + total })
         .attr("fill", function(){ return "#b00" }) /* color of middle text */
     } else if (donutType == "save") {
         gnodes.append("text")
@@ -94,12 +94,15 @@ function makeSvgDonut(className, donutType, data, total) {
 
     //mouseover logic
     path.on("mouseover", function(){
-        d3.select(this).attr("d", highlightArc)
-        //var name = d3.select(this).data()[0].data.name
+        d3.select(this).attr("d", highlightArc);
+        var name = d3.select(this).data()[0].data.name;
+        $(parentClass + "." + name).css({ "background-color" : "#eeeeee", "font-weight" : "600"});
         //$("#"+name).css("font-weight", "bold")
     })
     path.on("mouseout", function(){
-        d3.select(this).attr("d", arc)
+        d3.select(this).attr("d", arc);
+        var name = d3.select(this).data()[0].data.name;
+        $(parentClass + "." + name).css({ "background" : "none", "font-weight" : "normal"});
     })
 }
 
@@ -110,10 +113,8 @@ function makeSvgDonut(className, donutType, data, total) {
  * @param plan_num - plan number 1 ~ 3 that will have data injected.
  */
 function fillPlan(data, plan_num) {
-    console.log(data)
     var savings = data.extras.savings;
     var medal = data.fields.medal.toLowerCase();
-    console.log("AHH")
     var plan_name = data.fields.provider.fields.name;
     var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
     var out_of_pocket_cost_number = data.extras.out_of_pocket_cost_number;
@@ -124,9 +125,11 @@ function fillPlan(data, plan_num) {
     }
 
     var plan_col = ".plan-col-" + plan_num + " ";
+
     $(plan_col+".zero").hide();
     $(plan_col+".nonzero").show();
     $(plan_col+".learn-more").show();
+    $(plan_col+".cost-detail").show();
 
     $(plan_col+".plan-name.nonzero").text(plan_name);
     $(plan_col+".medal.nonzero").attr("class", "medal nonzero")
@@ -135,16 +138,16 @@ function fillPlan(data, plan_num) {
     $(plan_col+".money-saved.nonzero").html("$" + savings + "<span class='slash-year'>/year</span>");
 
     // assign the values for cost details
-    $(plan_col+".annual-premium .value").html("$" + cost_data['annual_premium']);
-    $(plan_col+".doctor-cost .value").html("$" + cost_data['doctor_cost']);
-    $(plan_col+".prescription-cost .value").html("$" + cost_data['prescription_cost']);
+    $(plan_col+".annual_premium .value").html("$" + cost_data['annual_premium']);
+    $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
+    $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
 
 
     var dataset2 = {
       apples: [{value: 2000, name: "cost-annual-premium"},{value: 1700, name: "cost-something-premium"}]
     };
 
-    makeSvgDonut(plan_col + ".estimated-cost-donut", "cost", out_of_pocket_cost_array, out_of_pocket_cost_number);
+    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", out_of_pocket_cost_array, out_of_pocket_cost_number);
 //    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
@@ -160,13 +163,10 @@ function fillZeroPlan(plan_num) {
     $(plan_col+".nonzero").hide();
     $(plan_col+".zero").show();
     $(plan_col+".learn-more").hide();
+    $(plan_col+".cost-detail").hide();
 
-    var dataset = {
-      apples: [{value: 53245, name: "cost-annual-premium"},{value: 50000, name: "cost-something-premium"}]
-    };
-
-    makeSvgDonut(plan_col + ".estimated-cost-donut", "zero", dataset.apples);
-    makeSvgDonut(plan_col + ".estimated-save-donut", "zero", dataset.apples);
+    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {});
+    makeSvgDonut("", plan_col + ".estimated-save-donut", "zero", {});
 }
 
 /**

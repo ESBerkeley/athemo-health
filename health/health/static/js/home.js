@@ -60,6 +60,8 @@ function adjustPersonRows() {
     	var personId = $(this).attr("personId");
     	$("#person_" + personId).remove();
     	$("#person_" + peopleCount + " .delete_person").css("display", "inherit");
+        window.clearTimeout(requestTimer);
+        sendRequest();
     })
 }
 
