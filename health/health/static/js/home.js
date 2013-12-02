@@ -71,7 +71,7 @@ var requestTimer;
  * main fn to sendRequest() after 1s of key input
  */
 function captureKeyPress() {
-    $(".info-col").on("keypress", "input", function(event){
+    $(".info-col").on("change keyup paste", "input", function(event){
         if ( event.which == 13 ) {
             event.preventDefault();
         }

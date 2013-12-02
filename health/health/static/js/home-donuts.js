@@ -63,14 +63,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
         .attr("class","estimated-number")
         .text(function(d){ return "$" + total })
         .attr("fill", function(){ return "#b00" }) /* color of middle text */
-    } else if (donutType == "save") {
-        gnodes.append("text")
-        .style("text-anchor", "middle")
-        .attr("dy", "10px")
-        .attr("class","estimated-number")
-        .text(function(d){ return "+$3200" })
-        .attr("fill", function(){ return "#2fcfaa" })
-    } else if (donutType == "zero") {
+    }  else if (donutType == "zero") {
         gnodes.append("text")
         .style("text-anchor", "middle")
         .attr("dy", "10px")
@@ -85,9 +78,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
         .attr("d", arc)
     if (donutType == "cost") {
         path.attr("fill", function(d, i) { return redColor(i); });
-    } else if (donutType == "save") {
-        path.attr("fill", function(d, i) { return greenColor(i); });
-    } else if (donutType == "zero") {
+    }  else if (donutType == "zero") {
         path.attr("fill", function(d, i) { return "#777b7e" });
     }
 
@@ -96,13 +87,13 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
     path.on("mouseover", function(){
         d3.select(this).attr("d", highlightArc);
         var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background-color" : "#eeeeee", "font-weight" : "600"});
+        $(parentClass + "." + name).css({ "background-color" : "#d6e6f4"});
         //$("#"+name).css("font-weight", "bold")
     })
     path.on("mouseout", function(){
         d3.select(this).attr("d", arc);
         var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background" : "none", "font-weight" : "normal"});
+        $(parentClass + "." + name).css({ "background" : "none"});
     })
 }
 
@@ -114,10 +105,17 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
  */
 function fillPlan(data, plan_num) {
     var savings = data.extras.savings;
+    var monthly_premium = data.fields.price;
     var medal = data.fields.medal.toLowerCase();
     var plan_name = data.fields.provider.fields.name;
     var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
     var out_of_pocket_cost_number = data.extras.out_of_pocket_cost_number;
+    var deductible = data.extras.deductible;
+    var coinsurance_rate = data.extras.coinsurance_rate;
+    var out_of_pocket_max = data.extras.out_of_pocket_max;
+    var example_procedure_cost = eval("(" + data.extras.example_procedure_cost + ")");
+    console.log(example_procedure_cost)
+
     var cost_data = {}
     for (index in out_of_pocket_cost_array ) {
         var cost = out_of_pocket_cost_array[index]
@@ -126,28 +124,31 @@ function fillPlan(data, plan_num) {
 
     var plan_col = ".plan-col-" + plan_num + " ";
 
-    $(plan_col+".zero").hide();
-    $(plan_col+".nonzero").show();
     $(plan_col+".learn-more").show();
     $(plan_col+".cost-detail").show();
 
-    $(plan_col+".plan-name.nonzero").text(plan_name);
-    $(plan_col+".medal.nonzero").attr("class", "medal nonzero")
+    $(plan_col+".plan-name").text(plan_name).removeClass("zero");
+    $(plan_col+".medal")
         .text(medal)
-        .addClass(medal)
-    $(plan_col+".money-saved.nonzero").html("$" + savings + "<span class='slash-year'>/year</span>");
+        .attr("class", "medal "+medal)
+    $(plan_col+".monthly-premium").html("$" + monthly_premium ).removeClass("zero");
 
     // assign the values for cost details
     $(plan_col+".annual_premium .value").html("$" + cost_data['annual_premium']);
     $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
     $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
 
+    // plan details data
+    $(plan_col+".plan-details .deductible .value").text("$" + deductible);
+    $(plan_col+".plan-details .out-of-pocket-max .value").text("$" + out_of_pocket_max);
+    $(plan_col+".plan-details .co-insurance-rate .value").text(coinsurance_rate*100 + "%");
 
-    var dataset2 = {
-      apples: [{value: 2000, name: "cost-annual-premium"},{value: 1700, name: "cost-something-premium"}]
-    };
+    var new_cost = {name: "extra", value: example_procedure_cost.hospitalization_cost};
+    var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and add new cost
+    new_out_of_pocket.push(new_cost);
 
-    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", out_of_pocket_cost_array, out_of_pocket_cost_number);
+    console.log(new_out_of_pocket)
+    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket, out_of_pocket_cost_number);
 //    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
@@ -160,13 +161,19 @@ function fillPlan(data, plan_num) {
  */
 function fillZeroPlan(plan_num) {
     var plan_col = ".plan-col-" + plan_num + " ";
-    $(plan_col+".nonzero").hide();
-    $(plan_col+".zero").show();
     $(plan_col+".learn-more").hide();
     $(plan_col+".cost-detail").hide();
 
-    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {});
-    makeSvgDonut("", plan_col + ".estimated-save-donut", "zero", {});
+    $(plan_col+".plan-name").text("No plan available").addClass("zero");
+    $(plan_col+".medal").attr("class", "medal nonzero")
+        .text("---")
+        .attr("class", "medal zero")
+    $(plan_col+".monthly-premium").html("$0").addClass("zero");
+    $(plan_col+".plan-details .deductible .value").text("$0");
+    $(plan_col+".plan-details .out-of-pocket-max .value").text("$0");
+    $(plan_col+".plan-details .co-insurance-rate .value").text("0%");
+
+    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {}, 0);
 }
 
 /**
@@ -185,14 +192,5 @@ function redColor(i) {
     if (i == 0) return '#ff0000'
     if (i == 1) return '#aa0000'
     if (i == 2) return '#880000'
-}
-
-/**
- * helper function given an index 0~2 returns a shade of green
- * @param i
- */
-function greenColor(i) {
-    if (i == 0) return '#6ddec4'
-    if (i == 1) return '#2aba99'
-    if (i == 2) return '#219077'
+    if (i == 3) return '#ff9a9a'
 }
