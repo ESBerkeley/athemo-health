@@ -75,10 +75,11 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
         plan.out_of_pocket_max = int(max_out_of_pocket)
         #plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
         #plan.savings = int(savings)
-        plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': int(low_maternity_cost)},
-                                       {'name': 'high_maternity_cost', 'value': int(high_maternity_cost)},
-                                       {'name': 'hospitalization_cost', 'value': int(max_hospital_cost)},
-                                       {'name': 'diabetes_cost', 'value' : int(diabetes_cost)}]
+        plan.example_procedure_cost = {'low_maternity_cost': int(low_maternity_cost),
+                                       'high_maternity_cost': int(high_maternity_cost),
+                                       'hospitalization_cost': int(max_hospital_cost),
+                                       'diabetes_cost': int(diabetes_cost)}
+        
         plan.deductible = deductible
         plan.coinsurance_rate = coinsurance_rate
 
