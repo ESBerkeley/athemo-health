@@ -55,9 +55,12 @@ def ajax_get_plans(request):
             for age in ages:
                 prescription_use += prescription_use_by_age(age)
 
-        area = GeographicArea.objects.select_related().get(zip_code=zip_code)
-        plans = area.plan_set.filter(age=21)
-
+        try:
+            area = GeographicArea.objects.select_related().get(zip_code=zip_code)
+            plans = area.plan_set.filter(age=21)
+        except:
+            data = serializers.serialize('json', [])
+            return HttpResponse(data, content_type='application/json')
         if medal != 'all':
             result_plans = plans.filter(medal=medal.capitalize()).order_by('price')[:10]
         else:

@@ -79,7 +79,7 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
                                        'high_maternity_cost': int(high_maternity_cost),
                                        'hospitalization_cost': int(max_hospital_cost),
                                        'diabetes_cost': int(diabetes_cost)}
-        
+
         plan.deductible = deductible
         plan.coinsurance_rate = coinsurance_rate
 
@@ -87,6 +87,10 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
         #                                {'name':'doctor_cost', 'value': insurance_doctor_payment}]
     
     return sorted(result_plans, key=lambda x: x.out_of_pocket_cost_number)
+
+def get_subsidy(ages, zip_code, income):
+    #from bs4 import BeautifulSoup
+    return ''
 
 def hospital_cost(age):
     if age < 18:
