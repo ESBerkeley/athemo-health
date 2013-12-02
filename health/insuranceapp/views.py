@@ -4,7 +4,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.core import serializers
-from utils import get_plans_data
+from models import GeographicArea
+from utils import get_plans_data, doctor_use_by_age, prescription_use_by_age
 
 def home(request):
     #title = request.GET['title']
@@ -25,22 +26,11 @@ def ajax_get_plans(request):
     if request.method == 'GET':
         zip_code = 95388
         income = 30000
-        doctor_use = 1
-        prescription_use = 5
         #zip_code=5&income=&age=&medical_visits=&prescription_use=&medal=all
-
-        income = 0
         doctor_use = 0
         prescription_use = 0
+        medal = 'all'
 
-        if 'zip_code' in request.GET and request.GET['zip_code']:
-            zip_code = int(request.GET['zip_code'])
-        if 'income' in request.GET and request.GET['income']:
-            income = float(request.GET['income'])
-        if 'medical_visits' in request.GET and request.GET['medical_visits']:
-            doctor_use = float(request.GET['medical_visits'])
-        if 'prescription_use' in request.GET and request.GET['prescription_use']:
-            prescription_use = float(request.GET['prescription_use'])
         ages = request.GET.getlist('age')
         ages = [age for age in ages if age]
         if ages:
@@ -48,14 +38,55 @@ def ajax_get_plans(request):
         else:
             ages = [21]
 
-        plans = get_plans_data(ages, zip_code, income, prescription_use, doctor_use)
+        if 'zip_code' in request.GET and request.GET['zip_code']:
+            zip_code = int(request.GET['zip_code'])
+        if 'income' in request.GET and request.GET['income']:
+            income = float(request.GET['income'])
+        if 'medal' in request.GET and request.GET['medal']:
+            medal = request.GET['medal']
+        if 'medical_visits' in request.GET and request.GET['medical_visits']:
+            doctor_use = float(request.GET['medical_visits'])
+        else:
+            for age in ages:
+                doctor_use += doctor_use_by_age(age)
+        if 'prescription_use' in request.GET and request.GET['prescription_use']:
+            prescription_use = float(request.GET['prescription_use'])
+        else:
+            for age in ages:
+                prescription_use += prescription_use_by_age(age)
+
+        area = GeographicArea.objects.select_related().get(zip_code=zip_code)
+        plans = area.plan_set.filter(age=21)
+
+        if medal != 'all':
+            result_plans = plans.filter(medal=medal.capitalize()).order_by('price')[:10]
+        else:
+            bronze_plans = plans.filter(medal='Bronze').order_by('price')[:3]
+            silver_plans = plans.filter(medal='Silver').order_by('price')[:3]
+            gold_plans = plans.filter(medal='Gold').order_by('price')[:3]
+            platinum_plans = plans.filter(medal='Platinum').order_by('price')[:3]
+
+            from itertools import chain
+            result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
+
+        #result_plans.prefetch_related('provider')
+        if not result_plans:
+            data = serializers.serialize('json', [])
+            return HttpResponse(data, content_type='application/json')
+        plans = get_plans_data(result_plans, ages, income, prescription_use, doctor_use)
         data = serializers.serialize('json',
                                      plans,
                                      relations=('provider',),
                                      excludes=('areas',),
-                                     extras=('total_out_of_pocket_cost', 'example_procedure_cost', 'savings',
-                                     'out_of_pocket_cost_number'))
-        return HttpResponse(data, mimetype='application/json')
+                                     extras=('total_out_of_pocket_cost',
+                                             'example_procedure_cost',
+                                             'out_of_pocket_max',
+                                             'out_of_pocket_cost_number',
+                                             'deductible',
+                                             'coinsurance_rate'
+                                     )
+        )
+        return HttpResponse(data, content_type='application/json')
 
 
 def plans(request):

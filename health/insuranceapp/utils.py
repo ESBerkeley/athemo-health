@@ -17,29 +17,18 @@ HIGH_MATERNITY_COST = 18000
 #AVG COST 7900, minus doctor visits?
 AVG_DIABETES_COST = 6000
 
-def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
+def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
     '''
     Your premium + your deductible + any coinsurance
     you must pay (up to your out-of-pocket maximum) +
     any copayments = the most you will pay for healthcare each year (for covered services).
     '''
 
-    area = GeographicArea.objects.select_related().get(zip_code=zip_code)
-    plans = area.plan_set.filter(age=21)
-
-    bronze_plans = plans.filter(medal='Bronze').order_by('price')[:3]
-    silver_plans = plans.filter(medal='Silver').order_by('price')[:3]
-    gold_plans = plans.filter(medal='Gold').order_by('price')[:3]
-    platinum_plans = plans.filter(medal='Platinum').order_by('price')[:3]
-
-    from itertools import chain
-    result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
-
-    total_prescription_cost = prescription_use*AVG_PRESCRIPTION_COST
-    total_doctor_cost = doctor_use*AVG_DOCTOR_COST
+    #total_prescription_cost = prescription_use*AVG_PRESCRIPTION_COST
+    #total_doctor_cost = doctor_use*AVG_DOCTOR_COST
     max_hospital_cost = 0
 
-    for plan in plans:
+    for plan in result_plans:
         total_monthly_premium = 0
         for age in ages:
             max_hospital_cost = max(hospital_cost(age), max_hospital_cost)
@@ -63,34 +52,40 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
             out_of_pocket_doctor_costs = doctor_use * plan_details['avg_doctor_copay']
             out_of_pocket_prescription_costs = prescription_use * plan_details['avg_prescription_copay']
 
-        low_maternity_cost = plan_details['coinsurance_rate'] * LOW_MATERNITY_COST
-        high_maternity_cost = plan_details['coinsurance_rate'] * HIGH_MATERNITY_COST
-        diabetes_cost = plan_details['coinsurance_rate'] * AVG_DIABETES_COST
+        coinsurance_rate = plan_details['coinsurance_rate']
+        low_maternity_cost = coinsurance_rate * LOW_MATERNITY_COST
+        high_maternity_cost = coinsurance_rate * HIGH_MATERNITY_COST
+        diabetes_cost = coinsurance_rate * AVG_DIABETES_COST
         max_procedure_cost = max(low_maternity_cost, high_maternity_cost, diabetes_cost, max_hospital_cost)
 
-        total_uninsured_cost = total_prescription_cost + total_doctor_cost
-        out_of_pocket_cost = total_monthly_premium * 12 + out_of_pocket_doctor_costs + out_of_pocket_prescription_costs
-        savings = total_uninsured_cost - out_of_pocket_cost
-        insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
-        insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
+        #total_uninsured_cost = total_prescription_cost + total_doctor_cost
+        #savings = total_uninsured_cost - out_of_pocket_cost
+        #insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
+        #insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
         #insurance_payment = insurance_prescription_payment + insurance_doctor_payment
+        plan.out_of_pocket_cost_number = int(total_monthly_premium * 12 + \
+                             out_of_pocket_doctor_costs + \
+                             out_of_pocket_prescription_costs + \
+                             max_hospital_cost)
 
         plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': int(total_monthly_premium*12)},
                                         {'name':'prescription_cost', 'value': int(out_of_pocket_prescription_costs)},
                                         {'name':'doctor_cost', 'value': int(out_of_pocket_doctor_costs)}]
 
-        plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
-        plan.savings = int(savings)
+        plan.out_of_pocket_max = int(max_out_of_pocket)
+        #plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
+        #plan.savings = int(savings)
         plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': int(low_maternity_cost)},
                                        {'name': 'high_maternity_cost', 'value': int(high_maternity_cost)},
                                        {'name': 'hospitalization_cost', 'value': int(max_hospital_cost)},
                                        {'name': 'diabetes_cost', 'value' : int(diabetes_cost)}]
+        plan.deductible = deductible
+        plan.coinsurance_rate = coinsurance_rate
 
         #plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
         #                                {'name':'doctor_cost', 'value': insurance_doctor_payment}]
-
     
-    return sorted(plans, key=lambda x: x.savings + max_procedure_cost, reverse=True)
+    return sorted(result_plans, key=lambda x: x.out_of_pocket_cost_number)
 
 def hospital_cost(age):
     if age < 18:
@@ -103,6 +98,26 @@ def hospital_cost(age):
         return 12300
     elif age >= 85:
         return 9600
+
+def doctor_use_by_age(age):
+    if age < 18:
+        return 3
+    elif age < 44:
+        return 4
+    elif age < 64:
+        return 6
+    elif age >= 64:
+        return 8
+
+def prescription_use_by_age(age):
+    if age < 18:
+        return 5
+    elif age < 44:
+        return 9
+    elif age < 64:
+        return 21
+    elif age >= 64:
+        return 33
 
 def calculate_bronze_cost(deductible, prescription_use, doctor_use, plan_details):
     remaining_deductible = deductible
