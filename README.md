@@ -18,6 +18,8 @@ sudo pip install wadofstuff-django-serializers
 ./health/scss_watch
 
 sudo pip uninstall simplejson
+
+pip install beautifulsoup4
 ---------
 sudo pip install django
 
