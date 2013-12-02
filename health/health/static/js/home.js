@@ -88,6 +88,9 @@ function captureKeyPress() {
  */
 function captureFocusOut() {
     $(".info-col").on("focusout", "input", function(event){
+        if (event.target.id === "annual-income") {
+            event.target.value = formatDollar(event.target.value);
+        }
         window.clearTimeout(requestTimer);
         sendRequest();
     });
@@ -99,6 +102,8 @@ function captureFocusOut() {
 function sendRequest() {
     // get form data
     var formData = $("form#info-form").serialize();
+    // TODO come up with a more elegant solution to parse number
+    formData = formData.split(encodeURIComponent(",")).join("");    // removes commas from annual household income input field
     $.ajax({
         url: "/ajax/get_plans",
         data: formData
@@ -135,8 +140,8 @@ function buttonMedalLogic() {
  */
 function isNumberKey(evt) {
      var charCode = (evt.which) ? evt.which : event.keyCode
-     if (charCode == 44) //shift key
-        return true
+     if (charCode == 44 && evt.target.id === "annual-income") // allow comma only for annual income input (for dollar formatting)
+        return true;
      if (charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
 
@@ -146,4 +151,22 @@ function isNumberKey(evt) {
 function showMoreInfoForm() {
 		$(".more-info").fadeIn(300);
 		$(".more-arrow").hide();
+}
+
+/*
+    function that parses dollar formatting for annual household income input field
+    returns parsed number or NaN
+    *not used for now
+*/
+function parseDollar(number) {
+    number = parseInt(number.split(",").join(""));
+    return number;
+}
+/*
+    function that formats number for household income field
+    e.g. 12345 -> 12,345
+*/
+function formatDollar(number) {
+    number = parseDollar(number);
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
