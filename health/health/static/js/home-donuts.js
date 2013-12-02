@@ -63,14 +63,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
         .attr("class","estimated-number")
         .text(function(d){ return "$" + total })
         .attr("fill", function(){ return "#b00" }) /* color of middle text */
-    } else if (donutType == "save") {
-        gnodes.append("text")
-        .style("text-anchor", "middle")
-        .attr("dy", "10px")
-        .attr("class","estimated-number")
-        .text(function(d){ return "+$3200" })
-        .attr("fill", function(){ return "#2fcfaa" })
-    } else if (donutType == "zero") {
+    }  else if (donutType == "zero") {
         gnodes.append("text")
         .style("text-anchor", "middle")
         .attr("dy", "10px")
@@ -85,9 +78,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
         .attr("d", arc)
     if (donutType == "cost") {
         path.attr("fill", function(d, i) { return redColor(i); });
-    } else if (donutType == "save") {
-        path.attr("fill", function(d, i) { return greenColor(i); });
-    } else if (donutType == "zero") {
+    }  else if (donutType == "zero") {
         path.attr("fill", function(d, i) { return "#777b7e" });
     }
 
@@ -96,13 +87,13 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
     path.on("mouseover", function(){
         d3.select(this).attr("d", highlightArc);
         var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background-color" : "#eeeeee", "font-weight" : "600"});
+        $(parentClass + "." + name).css({ "background-color" : "#d6e6f4"});
         //$("#"+name).css("font-weight", "bold")
     })
     path.on("mouseout", function(){
         d3.select(this).attr("d", arc);
         var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background" : "none", "font-weight" : "normal"});
+        $(parentClass + "." + name).css({ "background" : "none"});
     })
 }
 
@@ -114,6 +105,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
  */
 function fillPlan(data, plan_num) {
     var savings = data.extras.savings;
+    var monthly_premium = data.fields.price;
     var medal = data.fields.medal.toLowerCase();
     var plan_name = data.fields.provider.fields.name;
     var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
@@ -135,7 +127,7 @@ function fillPlan(data, plan_num) {
     $(plan_col+".medal.nonzero").attr("class", "medal nonzero")
         .text(medal)
         .addClass(medal)
-    $(plan_col+".money-saved.nonzero").html("$" + savings + "<span class='slash-year'>/year</span>");
+    $(plan_col+".monthly-premium.nonzero").html("$" + monthly_premium );
 
     // assign the values for cost details
     $(plan_col+".annual_premium .value").html("$" + cost_data['annual_premium']);

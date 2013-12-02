@@ -105,89 +105,98 @@ body {
 
 /*data-col CSS*/
 .plan-col {
-    padding-bottom: 20px;
-    border: 1px solid #d8d8d8;
-    background-color: white;
-    border-right: 0;
-    .zero {
-      color: #777b7e !important;
-    }
-    .plan-name {
-        font-size: 16px;
-        text-align: center;
-        font-weight: 600;
-        padding-top: 10px;
-        /*color: #2a56a3;*/
-    }
-    &:last-of-type {
-        border-right: 1px solid #d8d8d8;
-    }
-    .medal {
-      text-align: center;
-      margin-bottom: 10px;
-      font-weight: 600;
+  padding-bottom: 20px;
+  border: 1px solid #ebebeb;
+  background-color: white;
+  //border-right: 0;
+  .zero {
+    color: #777b7e !important;
+  }
+
+  .section-header {
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: #e7e7e7;
+  }
+
+  .plan-name {
       font-size: 16px;
-      &.bronze {
-        background-color: $bronze;
-        color: white;
-      }
-      &.silver {
-          background-color: #a7a7a7;
-          color: white;
-      }
-      &.gold {
-          background-color: #e0be00;
-          color: white;
-      }
-      &.platinum {
-        background-color: $platinum;
-      }
-    }
-    .you-saved {
-      font-size: 22px;
       text-align: center;
-      font-weight: 300;
-      margin-bottom: -15px;
-    }
-    .money-saved {
-      text-align: center;
-      font-size: 52px;
-      font-weight: 300;
-      color: #2fcfaa;
-      border-bottom: 1px dotted #d8d8d8;
-      .slash-year {
-          font-size: 22px;
-      }
-    }
-    .plan-details {
+      font-weight: 600;
       padding-top: 10px;
-      .wheel-header {
-        text-align: center;
+      /*color: #2a56a3;*/
+  }
+  .medal {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    &.bronze {
+      background-color: $bronze;
+      color: white;
+    }
+    &.silver {
+        background-color: #a7a7a7;
+        color: white;
+    }
+    &.gold {
+        background-color: #e0be00;
+        color: white;
+    }
+    &.platinum {
+      background-color: $platinum;
+    }
+  }
+  .monthly-premium-title {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: -12px;
+  }
+  .monthly-premium {
+    text-align: center;
+    font-size: 46px;
+    font-weight: 300;
+    //color: #2fcfaa;
+    border-bottom: 1px dotted #d8d8d8;
+  }
+  .plan-costs {
+    padding-top: 10px;
+    .estimated-number {
+      font-size: 30px;
+      font-weight: 300;
+    }
+    .cost-detail {
+      padding: 5px 0;
+      float: left;
+      display: block;
+      width: 100%;
+      .value {
         font-weight: 600;
-        font-size: 18px;
-        &.save {
-          margin-top: 20px;
-        }
-      }
-      .estimated-number {
-        font-size: 30px;
-        font-weight: 300;
-      }
-      .cost-detail {
-        padding-left: 20px;
-        padding-right: 20px;
-        float: left;
-        display: block;
-        width: 100%;
-        &:after {
-          clear: both;
-        }
-      }
-      .learn-more {
-        margin-top: 15px;
-        width: 100%;
       }
     }
+  }
+
+  .plan-details {
+    margin-top: 10px;
+    .detail {
+      padding-top: 10px;
+      overflow:hidden;
+      .title {
+        float: left;
+      }
+      .value {
+        float: right;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .learn-more {
+    margin-top: 15px;
+    width: 100%;
+  }
 }
 
 /* home/medical-popover.html styling */
