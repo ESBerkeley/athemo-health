@@ -53,8 +53,11 @@ def ajax_get_plans(request):
                                      plans,
                                      relations=('provider',),
                                      excludes=('areas',),
-                                     extras=('total_out_of_pocket_cost', 'example_procedure_cost', 'savings',
-                                     'out_of_pocket_cost_number'))
+                                     extras=('total_out_of_pocket_cost',
+                                             'example_procedure_cost',
+                                             'out_of_pocket_max',
+                                             'out_of_pocket_cost_number')
+        )
         return HttpResponse(data, mimetype='application/json')
 
 

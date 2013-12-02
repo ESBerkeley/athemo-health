@@ -35,11 +35,11 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
     from itertools import chain
     result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
 
-    total_prescription_cost = prescription_use*AVG_PRESCRIPTION_COST
-    total_doctor_cost = doctor_use*AVG_DOCTOR_COST
+    #total_prescription_cost = prescription_use*AVG_PRESCRIPTION_COST
+    #total_doctor_cost = doctor_use*AVG_DOCTOR_COST
     max_hospital_cost = 0
 
-    for plan in plans:
+    for plan in result_plans:
         total_monthly_premium = 0
         for age in ages:
             max_hospital_cost = max(hospital_cost(age), max_hospital_cost)
@@ -68,19 +68,23 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
         diabetes_cost = plan_details['coinsurance_rate'] * AVG_DIABETES_COST
         max_procedure_cost = max(low_maternity_cost, high_maternity_cost, diabetes_cost, max_hospital_cost)
 
-        total_uninsured_cost = total_prescription_cost + total_doctor_cost
-        out_of_pocket_cost = total_monthly_premium * 12 + out_of_pocket_doctor_costs + out_of_pocket_prescription_costs
-        savings = total_uninsured_cost - out_of_pocket_cost
-        insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
-        insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
+        #total_uninsured_cost = total_prescription_cost + total_doctor_cost
+        #savings = total_uninsured_cost - out_of_pocket_cost
+        #insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
+        #insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
         #insurance_payment = insurance_prescription_payment + insurance_doctor_payment
+        plan.out_of_pocket_cost_number = total_monthly_premium * 12 + \
+                             out_of_pocket_doctor_costs + \
+                             out_of_pocket_prescription_costs + \
+                             max_hospital_cost
 
         plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': int(total_monthly_premium*12)},
                                         {'name':'prescription_cost', 'value': int(out_of_pocket_prescription_costs)},
                                         {'name':'doctor_cost', 'value': int(out_of_pocket_doctor_costs)}]
 
-        plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
-        plan.savings = int(savings)
+        plan.out_of_pocket_max = int(max_out_of_pocket)
+        #plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
+        #plan.savings = int(savings)
         plan.example_procedure_cost = [{'name': 'low_maternity_cost', 'value': int(low_maternity_cost)},
                                        {'name': 'high_maternity_cost', 'value': int(high_maternity_cost)},
                                        {'name': 'hospitalization_cost', 'value': int(max_hospital_cost)},
@@ -88,9 +92,8 @@ def get_plans_data(ages, zip_code, income, prescription_use, doctor_use):
 
         #plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
         #                                {'name':'doctor_cost', 'value': insurance_doctor_payment}]
-
     
-    return sorted(plans, key=lambda x: x.savings + max_procedure_cost, reverse=True)
+    return sorted(result_plans, key=lambda x: x.out_of_pocket_cost_number, reverse=True)
 
 def hospital_cost(age):
     if age < 18:
