@@ -29,7 +29,7 @@ def ajax_get_plans(request):
         #zip_code=5&income=&age=&medical_visits=&prescription_use=&medal=all
         doctor_use = 0
         prescription_use = 0
-        medal = ''
+        medal = 'all'
 
         ages = request.GET.getlist('age')
         ages = [age for age in ages if age]
@@ -69,8 +69,10 @@ def ajax_get_plans(request):
             from itertools import chain
             result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
 
-        result_plans.prefetch_related('provider')
-
+        #result_plans.prefetch_related('provider')
+        if not result_plans:
+            data = serializers.serialize('json', [])
+            return HttpResponse(data, content_type='application/json')
         plans = get_plans_data(result_plans, ages, income, prescription_use, doctor_use)
         data = serializers.serialize('json',
                                      plans,
@@ -84,7 +86,7 @@ def ajax_get_plans(request):
                                              'coinsurance_rate'
                                      )
         )
-        return HttpResponse(data, mimetype='application/json')
+        return HttpResponse(data, content_type='application/json')
 
 
 def plans(request):
