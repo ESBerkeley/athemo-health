@@ -11,8 +11,7 @@ AVG_DOCTOR_COST = .58*150 + .35*270 + .05*130 + .02*500
 AVG_PRESCRIPTION_COST = 44.14*.78 + 166.01*.22
 
 # LOW-HIGH COSTS 5500-18000 for prenatal tests + live-birth
-LOW_MATERNITY_COST = 5500
-HIGH_MATERNITY_COST = 18000
+MATERNITY_COST = 10000
 
 #AVG COST 7900, minus doctor visits?
 AVG_DIABETES_COST = 6000
@@ -24,8 +23,8 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
     any copayments = the most you will pay for healthcare each year (for covered services).
     '''
 
-    #total_prescription_cost = prescription_use*AVG_PRESCRIPTION_COST
-    #total_doctor_cost = doctor_use*AVG_DOCTOR_COST
+    total_prescription_cost = prescription_use*AVG_PRESCRIPTION_COST
+    total_doctor_cost = doctor_use*AVG_DOCTOR_COST
     max_hospital_cost = 0
 
     for plan in result_plans:
@@ -53,16 +52,19 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
             out_of_pocket_prescription_costs = prescription_use * plan_details['avg_prescription_copay']
 
         coinsurance_rate = plan_details['coinsurance_rate']
-        low_maternity_cost = coinsurance_rate * LOW_MATERNITY_COST
-        high_maternity_cost = coinsurance_rate * HIGH_MATERNITY_COST
+        maternity_cost = coinsurance_rate * MATERNITY_COST
         diabetes_cost = coinsurance_rate * AVG_DIABETES_COST
         oop_hospital_cost = coinsurance_rate * max_hospital_cost
-        max_procedure_cost = max(low_maternity_cost, high_maternity_cost, diabetes_cost, oop_hospital_cost)
+        maternity_savings = MATERNITY_COST - maternity_cost
+        diabetes_savings = AVG_DIABETES_COST - diabetes_cost
+        hospital_savings = max_hospital_cost - oop_hospital_cost
+
+        max_procedure_cost = max(maternity_cost, diabetes_cost, oop_hospital_cost)
 
         #total_uninsured_cost = total_prescription_cost + total_doctor_cost
         #savings = total_uninsured_cost - out_of_pocket_cost
-        #insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
-        #insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
+        insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
+        insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
         #insurance_payment = insurance_prescription_payment + insurance_doctor_payment
         plan.out_of_pocket_cost_number = int(total_monthly_premium * 12 + \
                              out_of_pocket_doctor_costs + \
@@ -76,10 +78,14 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
         plan.out_of_pocket_max = int(max_out_of_pocket)
         #plan.out_of_pocket_cost_number = int(out_of_pocket_cost)
         #plan.savings = int(savings)
-        plan.example_procedure_cost = {'low_maternity_cost': int(low_maternity_cost),
-                                       'high_maternity_cost': int(high_maternity_cost),
+        plan.insurance_savings = {'prescription_savings': int(insurance_prescription_payment),
+                                  'doctor_savings': int(insurance_doctor_payment)}
+        plan.example_procedure_cost = {'maternity_cost': int(maternity_cost),
                                        'hospitalization_cost': int(oop_hospital_cost),
                                        'diabetes_cost': int(diabetes_cost)}
+        plan.example_procedure_savings = {'maternity_savings': int(maternity_savings),
+                                           'hospitalization_savings': int(hospital_savings),
+                                           'diabetes_savings': int(diabetes_savings)}
 
         plan.deductible = deductible
         plan.coinsurance_rate = coinsurance_rate
