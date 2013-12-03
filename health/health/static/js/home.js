@@ -89,7 +89,12 @@ function captureKeyPress() {
 function captureFocusOut() {
     $(".info-col").on("focusout", "input", function(event){
         if (event.target.id === "annual-income") {
-            event.target.value = formatDollar(event.target.value);
+            var value = formatDollar(event.target.value);
+            if (value === false) {
+                event.target.value = "";
+            } else {
+                event.target.value = value;
+            }
         }
         window.clearTimeout(requestTimer);
         sendRequest();
@@ -168,5 +173,9 @@ function parseDollar(number) {
 */
 function formatDollar(number) {
     number = parseDollar(number);
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (isNaN(number)) {
+        return false;
+    } else {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 }
