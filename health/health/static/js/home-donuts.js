@@ -141,7 +141,7 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
     $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
     $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_cost[extra_procedure]);
-    $(plan_col+".procedure-breakdown .total").html("Total Cost: $ERIC HELP");
+    $(plan_col+".procedure-breakdown .total").html("Total Cost: $5000");
     $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $" + example_procedure_cost[extra_procedure]);
 
     // plan details data
