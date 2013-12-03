@@ -24,7 +24,9 @@ $(document).ready(function(){
     captureKeyPress();
     captureFocusOut();
     buttonMedalLogic();
-
+    if (true) {//checkIpad()) {
+        createMobileButton();
+    }
 })
 
 
@@ -136,6 +138,33 @@ function buttonMedalLogic() {
         $("#select-medal").val(medal);
         sendRequest();
     })
+}
+
+// creates "see more" button to view more insurance plans
+function createMobileButton() {
+
+    $(".wrapper").append(
+            "<div id='seeMoreButtonWrapper'><div id='seeMoreButton'>adsfasdf</div></div>"
+    );
+
+    $(".wrapper").on("click", "#seeMoreButtonWrapper", function() {
+        if (!$(".plan-parent").hasClass("plan-col-show")) {
+            setTimeout(function () {
+                $(".plan-parent").addClass("plan-col-show");
+            }, 500);
+            $(".info-col").addClass("info-col-hidden");
+        } else {
+            setTimeout(function () {
+                $(".info-col").removeClass("info-col-hidden")
+            }, 500);
+            $(".plan-parent").removeClass("plan-col-show");
+        }
+    })
+}
+
+// helper function to check if user is using iPad
+function checkIpad() {
+    return navigator.userAgent.match(/iPad/i) != null;
 }
 
 /**
