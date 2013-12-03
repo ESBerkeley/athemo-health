@@ -214,6 +214,65 @@ body {
       }
     }
 
+    .example-procedure {
+      margin: 5px -15px 0 -15px;
+      padding: 5px 15px;
+      text-align: center;
+      background-color: #ecf1fa;
+      //fancySelect css override
+      .title {
+        //text-align: left;
+        margin-bottom: -8px;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      .select-wrap{
+        margin-top: 10px;
+        display: inline-block;
+        text-align: left;
+        overflow: visible;
+        .trigger {
+          background-color: white;
+        }
+        .options {
+          padding-left: 0;
+          background-color: white;
+          border-top: 0;
+          &.open {
+            top: 40px;
+          }
+          li {
+            color: #4B5468;
+            &.selected {
+              background-color: #c3d3f0;
+            }
+            &.hover {
+              color: white;
+              background-color: #2a56a3;
+              -webkit-transition: 0.1s ease-in;
+              -moz-transition: 0.1s ease-in;
+              -ms-transition: 0.1s ease-in;
+              -o-transition: 0.1s ease-in;
+              transition: 0.1s ease-in;
+            }
+          }
+        }
+      } //end select-wrap
+      .procedure-breakdown {
+        margin-top: 5px;
+        overflow: auto;
+        font-size: 12px;
+        font-weight: 600;
+        .total {
+          float: left;
+        }
+        .you-pay {
+          float: right;
+        }
+      }
+    }
+
     .plan-details {
       margin-top: 10px;
       .detail {

@@ -128,6 +128,7 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".cost-detail").show();
     $(plan_col+".cost-detail.extra").hide();
     $(plan_col+".cost-detail.extra."+extra_procedure).show();
+    $(plan_col+".example-procedure").show();
 
     $(plan_col+".plan-name").text(plan_name).removeClass("zero");
     $(plan_col+".medal")
@@ -140,6 +141,8 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
     $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
     $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_cost[extra_procedure]);
+    $(plan_col+".procedure-breakdown .total").html("Total Cost: $ERIC HELP");
+    $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $" + example_procedure_cost[extra_procedure]);
 
     // plan details data
     $(plan_col+".plan-details .deductible .value").text("$" + deductible);
@@ -150,7 +153,6 @@ function fillPlan(data, plan_num, extra_procedure) {
     var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and add new cost
     new_out_of_pocket.push(new_cost);
 
-    console.log(new_out_of_pocket)
     makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket, out_of_pocket_cost_number);
 //    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
@@ -166,6 +168,7 @@ function fillZeroPlan(plan_num) {
     var plan_col = ".plan-col-" + plan_num + " ";
     $(plan_col+".learn-more").hide();
     $(plan_col+".cost-detail").hide();
+    $(plan_col+".example-procedure").hide();
 
     $(plan_col+".plan-name").text("No plan available").addClass("zero");
     $(plan_col+".medal").attr("class", "medal nonzero")

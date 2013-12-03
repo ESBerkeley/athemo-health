@@ -3,9 +3,11 @@
 {% block head %}
     {% load scss %}
     <link href="{{ STATIC_URL }}{% scss 'scss/home.scss' %}" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/external/fancySelect.css" rel="stylesheet">
 {% endblock %}
 
 {% block javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/external/fancySelect.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/home-donuts.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
     <script id="medical-embed">{% include "home/medical-popover.html" %}</script>
