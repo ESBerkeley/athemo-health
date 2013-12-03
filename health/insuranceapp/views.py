@@ -86,7 +86,9 @@ def ajax_get_plans(request):
                                              'out_of_pocket_max',
                                              'out_of_pocket_cost_number',
                                              'deductible',
-                                             'coinsurance_rate'
+                                             'coinsurance_rate',
+                                             'insurance_savings',
+                                             'example_procedure_savings'
                                      )
         )
         return HttpResponse(data, content_type='application/json')
