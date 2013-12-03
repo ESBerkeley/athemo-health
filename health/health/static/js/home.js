@@ -109,7 +109,7 @@ function sendRequest() {
         data: formData
     }).done(function(data){
         for (var i = 0; i < 3; i++) {
-            if (i < data.length) fillPlan(data[i], i+1);
+            if (i < data.length) fillPlan(data[i], i+1, "hospitalization_cost");
             else fillZeroPlan(i+1);
         }
     })
