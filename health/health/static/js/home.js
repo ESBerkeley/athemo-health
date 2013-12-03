@@ -1,11 +1,14 @@
 $(document).ready(function(){
-		$("#zipcode").on("change keyup paste", function() {
-				showMoreInfoForm();
-		});
-		
-		$(".more-arrow").on("click", function() {
-				showMoreInfoForm();
-		});
+    //fancy select initialize
+    $('.procedure').fancySelect();
+
+    $("#zipcode").on("change keyup paste", function() {
+            showMoreInfoForm();
+    });
+
+    $(".more-arrow").on("click", function() {
+            showMoreInfoForm();
+    });
     // all inputs in info col must be numbers
     $(".info-col").on("keypress", "input", function(event){
         return isNumberKey(event);
@@ -24,9 +27,13 @@ $(document).ready(function(){
     captureKeyPress();
     captureFocusOut();
     buttonMedalLogic();
-
+    if (checkIpad()) {
+        createMobileButton();
+    }
+    procedureChange();
 })
 
+var PLAN_DATA = {"1": {}, "2": {}, "3": {} } //hash that maps plan number (e.g. 1,2,3 to the JSON of plan data)
 
 /**
  * main function to handle logic of adding person rows
@@ -114,8 +121,14 @@ function sendRequest() {
         data: formData
     }).done(function(data){
         for (var i = 0; i < 3; i++) {
-            if (i < data.length) fillPlan(data[i], i+1, "hospitalization_cost");
-            else fillZeroPlan(i+1);
+            if (i < data.length) {
+                fillPlan(data[i], i+1, "hospitalization_cost");
+                PLAN_DATA[i+1] = data[i];
+            }
+            else {
+                fillZeroPlan(i+1);
+                PLAN_DATA[i+1] = {};
+            }
         }
     })
     .fail(function(){
@@ -136,6 +149,33 @@ function buttonMedalLogic() {
         $("#select-medal").val(medal);
         sendRequest();
     })
+}
+
+// creates "see more" button to view more insurance plans
+function createMobileButton() {
+
+    $(".wrapper").append(
+            "<div id='seeMoreButtonWrapper'><div id='seeMoreButton'>adsfasdf</div></div>"
+    );
+
+    $(".wrapper").on("click", "#seeMoreButtonWrapper", function() {
+        if (!$(".plan-parent").hasClass("plan-col-show")) {
+            setTimeout(function () {
+                $(".plan-parent").addClass("plan-col-show");
+            }, 500);
+            $(".info-col").addClass("info-col-hidden");
+        } else {
+            setTimeout(function () {
+                $(".info-col").removeClass("info-col-hidden")
+            }, 500);
+            $(".plan-parent").removeClass("plan-col-show");
+        }
+    })
+}
+
+// helper function to check if user is using iPad
+function checkIpad() {
+    return navigator.userAgent.match(/iPad/i) != null;
 }
 
 /**
@@ -178,4 +218,16 @@ function formatDollar(number) {
     } else {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+/**
+ * applies jquery logic that on select change, change the content of column
+ */
+function procedureChange() {
+    $("select.procedure").change(function(){
+        var procedure_type = $(this).val();
+        var col_num = $(this).parents(".plan-col").attr("plan-col");
+        fillPlan(PLAN_DATA[col_num], col_num, procedure_type);
+    })
 }
