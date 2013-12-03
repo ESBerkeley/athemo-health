@@ -102,8 +102,9 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
  * It then calls a function to populate the data within the d3 wheel for this specific row
  * @param data - JSON data to be input into a row
  * @param plan_num - plan number 1 ~ 3 that will have data injected.
+ * @param extra_procedure - the STRING of the extra procedure name ('low_maternity_cost', 'diabetes_cost', 'hospitalization_cost', 'high_maternity_cost')
  */
-function fillPlan(data, plan_num) {
+function fillPlan(data, plan_num, extra_procedure) {
     var savings = data.extras.savings;
     var monthly_premium = data.fields.price;
     var medal = data.fields.medal.toLowerCase();
@@ -114,7 +115,6 @@ function fillPlan(data, plan_num) {
     var coinsurance_rate = data.extras.coinsurance_rate;
     var out_of_pocket_max = data.extras.out_of_pocket_max;
     var example_procedure_cost = eval("(" + data.extras.example_procedure_cost + ")");
-    console.log(example_procedure_cost)
 
     var cost_data = {}
     for (index in out_of_pocket_cost_array ) {
@@ -126,6 +126,8 @@ function fillPlan(data, plan_num) {
 
     $(plan_col+".learn-more").show();
     $(plan_col+".cost-detail").show();
+    $(plan_col+".cost-detail.extra").hide();
+    $(plan_col+".cost-detail.extra."+extra_procedure).show();
 
     $(plan_col+".plan-name").text(plan_name).removeClass("zero");
     $(plan_col+".medal")
@@ -137,13 +139,14 @@ function fillPlan(data, plan_num) {
     $(plan_col+".annual_premium .value").html("$" + cost_data['annual_premium']);
     $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
     $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
+    $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_cost[extra_procedure]);
 
     // plan details data
     $(plan_col+".plan-details .deductible .value").text("$" + deductible);
     $(plan_col+".plan-details .out-of-pocket-max .value").text("$" + out_of_pocket_max);
     $(plan_col+".plan-details .co-insurance-rate .value").text(coinsurance_rate*100 + "%");
 
-    var new_cost = {name: "extra", value: example_procedure_cost.hospitalization_cost};
+    var new_cost = {name: extra_procedure, value: example_procedure_cost[extra_procedure]};
     var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and add new cost
     new_out_of_pocket.push(new_cost);
 
