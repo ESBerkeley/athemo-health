@@ -27,7 +27,7 @@ $(document).ready(function(){
     captureKeyPress();
     captureFocusOut();
     buttonMedalLogic();
-    if (true) {//checkIpad()) {
+    if (checkIpad()) {
         createMobileButton();
     }
     procedureChange();

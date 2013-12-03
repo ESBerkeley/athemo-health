@@ -139,10 +139,10 @@ body {
     padding-bottom: 20px;
     border: 1px solid #ebebeb;
     background-color: white;
-    //border-right: 0;
 
     @media (max-width:$tablet) {
       display: inline-block;
+      width: 282px;
     } 
 
     .zero {
@@ -365,6 +365,7 @@ body {
 }
 
 #seeMoreButtonWrapper {
+  cursor: pointer;
   position: fixed;
   left: 100%;
   top: 40%;
