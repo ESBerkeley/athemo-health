@@ -27,12 +27,20 @@ body {
       white-space: nowrap;
       -webkit-transition: width $transitionTime, padding $transitionTime, border $transitionTime;
       -moz-transition: width $transitionTime, padding $transitionTime, border $transitionTime;
+
+      .sub-heading {
+        white-space: normal;
+      }
     }
 
     &.info-col-hidden {
       border: 0;
       padding: 0;
       width: 0;
+
+      .sub-heading {
+        white-space: nowrap;
+      }
     }
 
     .info-title {
@@ -124,15 +132,13 @@ body {
 
   @media (max-width:$tablet) {
       white-space: nowrap;
-      width: 298px;
-      overflow-x: scroll;
       overflow-y: hidden;
       -webkit-transition: width $transitionTime;
       -moz-transition: width $transitionTime;
   }
 
-  &.plan-col-show {
-    width: 586px;
+  &.plan-parent-show {
+    width: 100%;
   }
 
   .plan-col {
@@ -142,8 +148,13 @@ body {
 
     @media (max-width:$tablet) {
       display: inline-block;
-      width: 282px;
-    } 
+      min-width: 365px;
+      width: 100%;
+    }
+
+    &.plan-col-show {
+      width: 50%;
+    }
 
     .zero {
       color: #777b7e !important;
@@ -293,8 +304,9 @@ body {
       width: 100%;
     }
   }
+}
 
-  /* home/medical-popover.html styling */
+/* home/medical-popover.html styling */
   .popover {
     max-width: 700px;
     .medical-container {
@@ -311,51 +323,50 @@ body {
     }
   }
 
-  /* modal styling */
-  .plan-modal {
-    .modal-dialog {
-      .modal-body {
-        .monthly-payment {
-          text-align: center;
-          font-size: 22px;
-          font-weight: 300;
+/* modal styling */
+.plan-modal {
+  .modal-dialog {
+    .modal-body {
+      .monthly-payment {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 300;
+        margin-top: -10px;
+        padding-bottom: 20px;
+        //border-bottom: 1px dotted #d8d8d8;
+        .cost {
+          font-size: 52px;
+          color: #2fcfaa;
           margin-top: -10px;
-          padding-bottom: 20px;
-          //border-bottom: 1px dotted #d8d8d8;
-          .cost {
-            font-size: 52px;
-            color: #2fcfaa;
-            margin-top: -10px;
-            padding-bottom: 10px;
+          padding-bottom: 10px;
+        }
+      }
+
+      .standard-benefits {
+        margin-top: 20px;
+        .title {
+          font-size: 16px;
+          margin-bottom: 15px;
+          text-align: center;
+          .medal {
+            &.bronze {
+              color: $bronze;
+            }
           }
         }
-
-        .standard-benefits {
-          margin-top: 20px;
-          .title {
-            font-size: 16px;
-            margin-bottom: 15px;
-            text-align: center;
-            .medal {
-              &.bronze {
-                color: $bronze;
-              }
-            }
+        table {
+          font-size: 14px;
+          .table-label {
+            font-weight: 600;
+            color: #5c6b7e;
           }
-          table {
-            font-size: 14px;
-            .table-label {
-              font-weight: 600;
+          .data {
+            .sub-text {
               color: #5c6b7e;
-            }
-            .data {
-              .sub-text {
-                color: #5c6b7e;
-                display: inline-block;
-                padding-left: 5px;
-                font-style: italic;
-                font-size: 12px;
-              }
+              display: inline-block;
+              padding-left: 5px;
+              font-style: italic;
+              font-size: 12px;
             }
           }
         }
@@ -371,10 +382,30 @@ body {
   top: 40%;
 
   #seeMoreButton {
-    background-color: grey;
     position: relative;
-    left: -80px;
-    width: 80px;
+    left: -50px;
+    -webkit-transition: left $transitionTime;
+    -moz-transition: left $transitionTime;
+
+    &.button-hidden {
+      left: 0px;
+    }
   }
-  
+}
+
+#seeLessButtonWrapper {
+  cursor: pointer;
+  position: fixed;
+  top: 40%;
+
+  #seeLessButton {
+    position: relative;
+    left: 0px;
+    -webkit-transition: left $transitionTime;
+    -moz-transition: left $transitionTime;
+
+    &.button-hidden {
+      left: -50px;
+    }
+  }
 }

@@ -27,9 +27,9 @@ $(document).ready(function(){
     captureKeyPress();
     captureFocusOut();
     buttonMedalLogic();
-    if (checkIpad()) {
+    //if (checkIpad()) {
         createMobileButton();
-    }
+    //}
     procedureChange();
 })
 
@@ -155,21 +155,28 @@ function buttonMedalLogic() {
 function createMobileButton() {
 
     $(".wrapper").append(
-            "<div id='seeMoreButtonWrapper'><div id='seeMoreButton'>adsfasdf</div></div>"
+        "<div id='seeMoreButtonWrapper' class='btn-lg'><div id='seeMoreButton' class='glyphicon glyphicon-chevron-right'></div></div> \
+        <div id='seeLessButtonWrapper' class='btn-lg'><div id='seeLessButton' class='button-hidden glyphicon glyphicon-chevron-left'></div></div>"
     );
 
     $(".wrapper").on("click", "#seeMoreButtonWrapper", function() {
-        if (!$(".plan-parent").hasClass("plan-col-show")) {
-            setTimeout(function () {
-                $(".plan-parent").addClass("plan-col-show");
-            }, 500);
-            $(".info-col").addClass("info-col-hidden");
-        } else {
-            setTimeout(function () {
-                $(".info-col").removeClass("info-col-hidden")
-            }, 500);
-            $(".plan-parent").removeClass("plan-col-show");
-        }
+        setTimeout(function () {
+            $(".plan-parent").addClass("plan-parent-show");
+            $(".plan-col").addClass("plan-col-show");
+        }, 500);
+        $(".info-col").addClass("info-col-hidden");
+        $("#seeMoreButton").addClass("button-hidden");
+        $("#seeLessButton").removeClass("button-hidden");
+    })
+
+    $(".wrapper").on("click", "#seeLessButtonWrapper", function() {
+        setTimeout(function () {
+            $(".info-col").removeClass("info-col-hidden")
+            $(".plan-col").removeClass("plan-col-show");
+        }, 500);
+        $(".plan-parent").removeClass("plan-parent-show");
+        $("#seeMoreButton").removeClass("button-hidden");
+        $("#seeLessButton").addClass("button-hidden");
     })
 }
 
