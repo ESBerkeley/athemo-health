@@ -3,11 +3,11 @@ $(document).ready(function(){
     $('.procedure').fancySelect();
 
     $("#zipcode").on("change keyup paste", function() {
-            showMoreInfoForm();
+        if ( $(this).val().length >= 5 ) showMoreInfoForm();
     });
 
     $(".more-arrow").on("click", function() {
-            showMoreInfoForm();
+        showMoreInfoForm();
     });
     // all inputs in info col must be numbers
     $(".info-col").on("keypress", "input", function(event){
@@ -77,14 +77,9 @@ var requestTimer;
  * main fn to sendRequest() after 1s of key input
  */
 function captureKeyPress() {
-    $(".info-col").on("change keyup paste", "input", function(event){
-        if ( event.which == 13 ) {
-            event.preventDefault();
-        }
-        if ( !( event.which > 31 && (event.which < 48 || event.which > 57)) ) {
-            window.clearTimeout(requestTimer);
-            requestTimer = window.setTimeout(sendRequest, 1000);
-        }
+    $(".info-col input").on("input", function(){
+        window.clearTimeout(requestTimer);
+        requestTimer = window.setTimeout(sendRequest, 1000);
     });
 }
 
@@ -196,7 +191,6 @@ function isNumberKey(evt) {
         return true;
      if (charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
-
      return true;
 }
 
