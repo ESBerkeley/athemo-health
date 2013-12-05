@@ -17,11 +17,15 @@ function generateZeroPlan() {
  * @param className - string of class name to append donut to, e.g ".estimated-cost-donut"
  * @param donutType - string of donut type for color, pick between "cost", "save", "zero"
  * @param data - JSON of data to be input
- * @param total - sum of all the values in data
  */
-function makeSvgDonut(parentClass, className, donutType, data, total) {
+function makeSvgDonut(parentClass, className, donutType, data) {
     if (donutType == "zero") {
         data = [{"value": 1}];
+    }
+
+    var total = 0;
+    for (i in data) {
+        total += data[i]["value"]
     }
 
     var width = 250,
@@ -62,7 +66,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
         .attr("dy", "10px")
         .attr("class","estimated-number")
         .text(function(d){ return "$" + total })
-        .attr("fill", function(){ return "#b00" }) /* color of middle text */
+        .attr("fill", function(){ return "rgb(51, 51, 51)" }) /* color of middle text */
     }  else if (donutType == "zero") {
         gnodes.append("text")
         .style("text-anchor", "middle")
@@ -103,10 +107,11 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
  * @param data - JSON data to be input into a row
  * @param plan_num - plan number 1 ~ 3 that will have data injected.
  * @param extra_procedure - the STRING of the extra procedure name ('low_maternity_cost', 'diabetes_cost', 'hospitalization_cost', 'high_maternity_cost')
+ * @param animate_change - BOOLEAN of whether or not to animate changes
  */
-function fillPlan(data, plan_num, extra_procedure) {
+function fillPlan(data, plan_num, extra_procedure, animate_change) {
     var savings = data.extras.savings;
-    var monthly_premium = data.fields.price;
+    var monthly_premium = data.extras.total_monthly_premium;
     var medal = data.fields.medal.toLowerCase();
     var plan_name = data.fields.provider.fields.name;
     var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
@@ -114,7 +119,9 @@ function fillPlan(data, plan_num, extra_procedure) {
     var deductible = data.extras.deductible;
     var coinsurance_rate = data.extras.coinsurance_rate;
     var out_of_pocket_max = data.extras.out_of_pocket_max;
-    var example_procedure_cost = eval("(" + data.extras.example_procedure_cost + ")");
+    var example_procedure_costs = eval("(" + data.extras.example_procedure_cost + ")");
+    var example_procedure_savings = eval("(" + data.extras.example_procedure_savings + ")");
+    var extra_procedure_saving_name = extra_procedure.split("_")[0] + "_savings";
 
     var cost_data = {}
     for (index in out_of_pocket_cost_array ) {
@@ -127,7 +134,8 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".learn-more").show();
     $(plan_col+".cost-detail").show();
     $(plan_col+".cost-detail.extra").hide();
-    $(plan_col+".cost-detail.extra."+extra_procedure).show();
+    if (animate_change) $(plan_col+".cost-detail.extra."+extra_procedure).fadeIn();
+    else $(plan_col+".cost-detail.extra."+extra_procedure).show();
     $(plan_col+".example-procedure").show();
 
     $(plan_col+".plan-name").text(plan_name).removeClass("zero");
@@ -140,20 +148,27 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".annual_premium .value").html("$" + cost_data['annual_premium']);
     $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
     $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
-    $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_cost[extra_procedure]);
-    $(plan_col+".procedure-breakdown .total").html("Total Cost: $5000");
-    $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $" + example_procedure_cost[extra_procedure]);
 
     // plan details data
     $(plan_col+".plan-details .deductible .value").text("$" + deductible);
     $(plan_col+".plan-details .out-of-pocket-max .value").text("$" + out_of_pocket_max);
     $(plan_col+".plan-details .co-insurance-rate .value").text(coinsurance_rate*100 + "%");
 
-    var new_cost = {name: extra_procedure, value: example_procedure_cost[extra_procedure]};
-    var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and add new cost
-    new_out_of_pocket.push(new_cost);
+    var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and attempt add new cost
+    if (extra_procedure == "none") {
+        $(plan_col+".procedure-breakdown .total").html("Uninsured Cost: $0");
+        $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $0");
+    } else {
+        $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_costs[extra_procedure]);
+        $(plan_col+".procedure-breakdown .total").html("Uninsured Cost: $" + (example_procedure_costs[extra_procedure] +
+            example_procedure_savings[extra_procedure_saving_name]));
+        $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $" + example_procedure_costs[extra_procedure]);
 
-    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket, out_of_pocket_cost_number);
+        var new_cost = {name: extra_procedure, value: example_procedure_costs[extra_procedure]};
+        new_out_of_pocket.push(new_cost);
+    }
+
+    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket);
 //    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
@@ -179,7 +194,7 @@ function fillZeroPlan(plan_num) {
     $(plan_col+".plan-details .out-of-pocket-max .value").text("$0");
     $(plan_col+".plan-details .co-insurance-rate .value").text("0%");
 
-    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {}, 0);
+    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {});
 }
 
 /**
@@ -195,8 +210,8 @@ function get_value(d) {
  * @param i
  */
 function redColor(i) {
-    if (i == 0) return '#ff0000'
-    if (i == 1) return '#aa0000'
-    if (i == 2) return '#880000'
-    if (i == 3) return '#ff9a9a'
+    if (i == 0) return '#2a93a3'
+    if (i == 1) return '#3900bf'
+    if (i == 2) return '#00bf99'
+    if (i == 3) return '#2a56a3'
 }

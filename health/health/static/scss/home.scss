@@ -219,6 +219,9 @@ body {
         float: left;
         display: block;
         width: 100%;
+        &.none {
+          visibility: hidden;
+        }
         .value {
           font-weight: 600;
         }

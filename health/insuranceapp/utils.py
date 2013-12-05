@@ -66,6 +66,7 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
         insurance_prescription_payment = total_prescription_cost - out_of_pocket_prescription_costs
         insurance_doctor_payment = total_doctor_cost - out_of_pocket_doctor_costs
         #insurance_payment = insurance_prescription_payment + insurance_doctor_payment
+        plan.total_monthly_premium = format(total_monthly_premium, '.2f') #2 decimal places
         plan.out_of_pocket_cost_number = int(total_monthly_premium * 12 + \
                              out_of_pocket_doctor_costs + \
                              out_of_pocket_prescription_costs + \
