@@ -120,14 +120,22 @@ function sendRequest() {
         url: "/ajax/get_plans",
         data: formData
     }).done(function(data){
-        for (var i = 0; i < 3; i++) {
-            if (i < data.length) {
-                fillPlan(data[i], i+1, "hospitalization_cost");
-                PLAN_DATA[i+1] = data[i];
-            }
-            else {
-                fillZeroPlan(i+1);
-                PLAN_DATA[i+1] = {};
+
+        if ($.isEmptyObject(data)) {
+            $(".no-zip-code").addClass("show");
+            $(".plan-parent").addClass("no-data");
+        } else {
+            $(".no-zip-code").removeClass("show");
+            $(".plan-parent").removeClass("no-data");
+            for (var i = 0; i < 3; i++) {
+                if (i < data.length) {
+                    fillPlan(data[i], i+1, "hospitalization_cost");
+                    PLAN_DATA[i+1] = data[i];
+                }
+                else {
+                    fillZeroPlan(i+1);
+                    PLAN_DATA[i+1] = {};
+                }
             }
         }
     })

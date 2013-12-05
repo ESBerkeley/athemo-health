@@ -22,7 +22,9 @@ body {
     border: 1px solid #d8d8d8;
     background-color: white;
 
-    @media (max-width:$tablet) {
+    @media only screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px) {
       overflow: hidden;
       white-space: nowrap;
       -webkit-transition: width $transitionTime, padding $transitionTime, border $transitionTime;
@@ -58,12 +60,34 @@ body {
 
     .input-row {
       margin-bottom: 15px;
+
       .input-label {
           margin-top: 5px;
           /*text-transform: uppercase;*/
           font-weight: bold;
           font-size: 15px;
       }
+
+      .no-zip-code {
+        margin-top: 5px;
+        font-size: 15px;
+        color: red;
+        height: 0px;
+        overflow: hidden;
+        -webkit-transition: height $transitionTime;
+        -moz-transition: height $transitionTime;
+
+        &.show {
+          height: 40px;
+
+          @media only screen 
+          and (min-device-width : 768px) 
+          and (max-device-width : 1024px) {
+            height: 20px;
+          }
+        }
+      }
+
       .chosen-select {
           width: 100%;
       }
@@ -130,11 +154,23 @@ body {
 
 .plan-parent {
 
-  @media (max-width:$tablet) {
-      white-space: nowrap;
-      overflow-y: hidden;
-      -webkit-transition: width $transitionTime;
-      -moz-transition: width $transitionTime;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-transition: opacity $transitionTime;
+  -moz-transition: opacity $transitionTime;
+
+  @media only screen 
+  and (min-device-width : 768px) 
+  and (max-device-width : 1024px) {
+       // seems redundant but needed because we dont want width to have transition time for non-mobile in case user is resizing window
+      -webkit-transition: width $transitionTime, opacity $transitionTime;
+      -moz-transition: width $transitionTime, opacity $transitionTime;
+
+  }
+
+  &.no-data {
+    opacity: 0.4;
   }
 
   &.plan-parent-show {
@@ -145,11 +181,10 @@ body {
     padding-bottom: 20px;
     border: 1px solid #ebebeb;
     background-color: white;
+    display: inline-block;
 
-    @media (max-width:$tablet) {
-      display: inline-block;
+    @media only screen and (max-width: 768px) { // needed to match bootstrap resolution breakpoint for xs styles
       min-width: 365px;
-      width: 100%;
     }
 
     &.plan-col-show {
