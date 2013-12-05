@@ -27,9 +27,9 @@ $(document).ready(function(){
     captureKeyPress();
     captureFocusOut();
     buttonMedalLogic();
-    //if (checkIpad()) {
+    if (checkIpad()) {
         createMobileButton();
-    //}
+    }
     procedureChange();
 })
 
