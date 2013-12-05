@@ -1,3 +1,16 @@
+var width = 250,
+    height = 190,
+    radius = Math.min(width, height) / 1.7;
+
+var ARC = d3.svg.arc()
+    .innerRadius(radius - 50)
+    .outerRadius(radius - 30);
+
+var HIGHLIGHT_ARC = d3.svg.arc()
+    .innerRadius(radius - 50)
+    .outerRadius(radius - 23);
+
+
 /**
  * main fn to run d3 to generate donut charts
  */
@@ -14,11 +27,15 @@ function generateZeroPlan() {
 
 /**
  * Helper fn that makes a d3 donut
+ * @param parentClass - string of parent class name e.g. '.plan-col-1'
  * @param className - string of class name to append donut to, e.g ".estimated-cost-donut"
  * @param donutType - string of donut type for color, pick between "cost", "save", "zero"
  * @param data - JSON of data to be input
+ * @param highlight_default_name - STRING of class name to be highlighted on default e.g. annual_premium, maternity_cost
  */
-function makeSvgDonut(parentClass, className, donutType, data) {
+function makeSvgDonut(parentClass, className, donutType, data, highlight_default_name) {
+    var svgMap = {} // a map of element name(e.g. annual_premium, doctor_cost) to the SVG path element
+
     if (donutType == "zero") {
         data = [{"value": 1}];
     }
@@ -28,23 +45,11 @@ function makeSvgDonut(parentClass, className, donutType, data) {
         total += data[i]["value"]
     }
 
-    var width = 250,
-    height = 190,
-    radius = Math.min(width, height) / 1.7;
-
     var color = d3.scale.category20();
 
     var pie = d3.layout.pie()
         .sort(null)
         .value(get_value);
-
-    var arc = d3.svg.arc()
-        .innerRadius(radius - 50)
-        .outerRadius(radius - 30);
-
-    var highlightArc = d3.svg.arc()
-        .innerRadius(radius - 50)
-        .outerRadius(radius - 23);
 
     $(className).html("");
 
@@ -79,26 +84,55 @@ function makeSvgDonut(parentClass, className, donutType, data) {
     //donut styling
     var path = gnodes.append("path")
         .style("cursor", "pointer")
-        .attr("d", arc)
+        .attr("d", ARC)
     if (donutType == "cost") {
         path.attr("fill", function(d, i) { return redColor(i); });
     }  else if (donutType == "zero") {
         path.attr("fill", function(d, i) { return "#777b7e" });
     }
 
+    // maps element name to svg object
+    path.each(function(data, stuff){
+        svgMap[d3.select(this).data()[0].data.name] = this;
+    })
 
     //mouseover logic
     path.on("mouseover", function(){
-        d3.select(this).attr("d", highlightArc);
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
         var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background-color" : "#d6e6f4"});
-        //$("#"+name).css("font-weight", "bold")
+        highlightCost(parentClass+"."+name, this);
     })
     path.on("mouseout", function(){
-        d3.select(this).attr("d", arc);
-        var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background" : "none"});
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
     })
+
+    // logic of when hovering over text, highlight donut as well
+    $(parentClass+".cost-detail").unbind().hover(function(){
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
+        var name = $(this).attr("name");
+        highlightCost(parentClass+'.'+name, svgMap[name]);
+    }, function(){
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
+    });
+
+    if (highlight_default_name) {
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
+        //highlight segment by default
+        if (highlight_default_name == "none") highlight_default_name = "annual_premium";
+        highlightCost(parentClass+'.'+highlight_default_name, svgMap[highlight_default_name]);
+    }
+}
+
+//highlight specific element
+function highlightCost(className, svgElement) {
+    d3.select(svgElement).attr("d", HIGHLIGHT_ARC);
+    $(className).css({ "background-color" : "#d6e6f4", cursor: "pointer"});
+}
+
+//unhighlight all
+function unHighlightAll(className, svgMap) {
+    for(key in svgMap) d3.select(svgMap[key]).attr("d", ARC);
+    $(className).css({ "background" : "none"});
 }
 
 /**
@@ -168,8 +202,7 @@ function fillPlan(data, plan_num, extra_procedure, animate_change) {
         new_out_of_pocket.push(new_cost);
     }
 
-    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket);
-//    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
+    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket, extra_procedure);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
 
@@ -194,7 +227,7 @@ function fillZeroPlan(plan_num) {
     $(plan_col+".plan-details .out-of-pocket-max .value").text("$0");
     $(plan_col+".plan-details .co-insurance-rate .value").text("0%");
 
-    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {});
+    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {}, false);
 }
 
 /**
@@ -211,7 +244,7 @@ function get_value(d) {
  */
 function redColor(i) {
     if (i == 0) return '#2a93a3'
-    if (i == 1) return '#3900bf'
+    if (i == 1) return '#2a56a3'
     if (i == 2) return '#00bf99'
-    if (i == 3) return '#2a56a3'
+    if (i == 3) return '#800000'
 }
