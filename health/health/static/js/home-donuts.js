@@ -116,6 +116,7 @@ function makeSvgDonut(parentClass, className, donutType, data, highlight_default
     });
 
     if (highlight_default_name) {
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
         //highlight segment by default
         if (highlight_default_name == "none") highlight_default_name = "annual_premium";
         highlightCost(parentClass+'.'+highlight_default_name, svgMap[highlight_default_name]);
@@ -243,7 +244,7 @@ function get_value(d) {
  */
 function redColor(i) {
     if (i == 0) return '#2a93a3'
-    if (i == 1) return '#9900bf'
+    if (i == 1) return '#2a56a3'
     if (i == 2) return '#00bf99'
-    if (i == 3) return '#2a56a3'
+    if (i == 3) return '#800000'
 }
