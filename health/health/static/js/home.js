@@ -46,17 +46,13 @@ function adjustPersonRows() {
     	$(".delete_person").css("display", "none");
     	peopleCount++;
     	$("#person_rows").append(
-			"<div id='person_" + peopleCount + "' class='row person-row'> \
-                <div class='col-md-4 person-label'>Person " + peopleCount + "</div> \
-                <div class='col-md-2 age-label'>Age</div> \
-                <div class='col-md-5'> \
-                    <div> \
-                        <input id='input_person_" + peopleCount + "' type='text' class='form-control input-sm' name='age'/> \
-                    </div> \
-                </div> \
-                <div class='delete_person' personId=" + peopleCount + " > \
-                    <div class='glyphicon glyphicon-remove'></div> \
-                </div> \
+			"<div id='person_" + peopleCount + "' class='person-row'> \
+                <span class='person-label'>Person " + peopleCount + " Age \
+                    <span class='delete_person' personId=" + peopleCount + " > \
+                    		<span class='glyphicon glyphicon-remove'></span> \
+                		</span> \
+                </span> \
+                <input id='input_person_" + peopleCount + "' type='text' class='form-control' name='age'/> \
             </div>"
 		);
         $("#input_person_" + peopleCount).focus();
