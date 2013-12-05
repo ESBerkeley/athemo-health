@@ -118,7 +118,8 @@ function sendRequest() {
     }).done(function(data){
         for (var i = 0; i < 3; i++) {
             if (i < data.length) {
-                fillPlan(data[i], i+1, "hospitalization_cost");
+                var procedure_type = $(".plan-col-" + (i+1) + " select.procedure").val();
+                fillPlan(data[i], i+1, procedure_type, false);
                 PLAN_DATA[i+1] = data[i];
             }
             else {
@@ -231,6 +232,6 @@ function procedureChange() {
     $("select.procedure").change(function(){
         var procedure_type = $(this).val();
         var col_num = $(this).parents(".plan-col").attr("plan-col");
-        fillPlan(PLAN_DATA[col_num], col_num, procedure_type);
+        fillPlan(PLAN_DATA[col_num], col_num, procedure_type, true);
     })
 }

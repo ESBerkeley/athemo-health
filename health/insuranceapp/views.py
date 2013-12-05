@@ -88,7 +88,8 @@ def ajax_get_plans(request):
                                              'deductible',
                                              'coinsurance_rate',
                                              'insurance_savings',
-                                             'example_procedure_savings'
+                                             'example_procedure_savings',
+                                             'total_monthly_premium'
                                      )
         )
         return HttpResponse(data, content_type='application/json')
