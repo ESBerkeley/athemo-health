@@ -3,11 +3,11 @@ $(document).ready(function(){
     $('.procedure').fancySelect();
 
     $("#zipcode").on("change keyup paste", function() {
-            showMoreInfoForm();
+        if ( $(this).val().length >= 5 ) showMoreInfoForm();
     });
 
     $(".more-arrow").on("click", function() {
-            showMoreInfoForm();
+        showMoreInfoForm();
     });
     // all inputs in info col must be numbers
     $(".info-col").on("keypress", "input", function(event){
@@ -46,17 +46,16 @@ function adjustPersonRows() {
     	$(".delete_person").css("display", "none");
     	peopleCount++;
     	$("#person_rows").append(
-			"<div id='person_" + peopleCount + "' class='row person-row'> \
-                <div class='col-md-4 person-label'>Person " + peopleCount + "</div> \
-                <div class='col-md-2 age-label'>Age</div> \
-                <div class='col-md-5'> \
-                    <div> \
-                        <input id='input_person_" + peopleCount + "' type='text' class='form-control input-sm' name='age'/> \
-                    </div> \
-                </div> \
-                <div class='delete_person' personId=" + peopleCount + " > \
-                    <div class='glyphicon glyphicon-remove'></div> \
-                </div> \
+			"<div id='person_" + peopleCount + "' class='person-row'> \
+                <div class='person-label'>Person " + peopleCount + "'s Age</div> \
+                <div class='row'> \
+										<div class='col-md-11'> \
+												<input id='input_person_" + peopleCount + "' type='text' class='form-control' name='age'/> \
+										</div> \
+										<div class='delete_person col-md-1' personId=" + peopleCount + " > \
+                    		<span class='glyphicon glyphicon-remove'></span> \
+                		</div> \
+								</div> \
             </div>"
 		);
         $("#input_person_" + peopleCount).focus();
@@ -78,14 +77,9 @@ var requestTimer;
  * main fn to sendRequest() after 1s of key input
  */
 function captureKeyPress() {
-    $(".info-col").on("change keyup paste", "input", function(event){
-        if ( event.which == 13 ) {
-            event.preventDefault();
-        }
-        if ( !( event.which > 31 && (event.which < 48 || event.which > 57)) ) {
-            window.clearTimeout(requestTimer);
-            requestTimer = window.setTimeout(sendRequest, 1000);
-        }
+    $(".info-col input").on("input", function(){
+        window.clearTimeout(requestTimer);
+        requestTimer = window.setTimeout(sendRequest, 1000);
     });
 }
 
@@ -129,10 +123,10 @@ function sendRequest() {
             $(".plan-parent").removeClass("no-data");
             for (var i = 0; i < 3; i++) {
                 if (i < data.length) {
-                    fillPlan(data[i], i+1, "hospitalization_cost");
+                    var procedure_type = $(".plan-col-" + (i+1) + " select.procedure").val();
+                    fillPlan(data[i], i+1, procedure_type, false);
                     PLAN_DATA[i+1] = data[i];
-                }
-                else {
+                } else {
                     fillZeroPlan(i+1);
                     PLAN_DATA[i+1] = {};
                 }
@@ -204,7 +198,6 @@ function isNumberKey(evt) {
         return true;
      if (charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
-
      return true;
 }
 
@@ -243,6 +236,6 @@ function procedureChange() {
     $("select.procedure").change(function(){
         var procedure_type = $(this).val();
         var col_num = $(this).parents(".plan-col").attr("plan-col");
-        fillPlan(PLAN_DATA[col_num], col_num, procedure_type);
+        fillPlan(PLAN_DATA[col_num], col_num, procedure_type, true);
     })
 }

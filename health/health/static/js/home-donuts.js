@@ -1,3 +1,16 @@
+var width = 250,
+    height = 190,
+    radius = Math.min(width, height) / 1.7;
+
+var ARC = d3.svg.arc()
+    .innerRadius(radius - 50)
+    .outerRadius(radius - 30);
+
+var HIGHLIGHT_ARC = d3.svg.arc()
+    .innerRadius(radius - 50)
+    .outerRadius(radius - 23);
+
+
 /**
  * main fn to run d3 to generate donut charts
  */
@@ -14,33 +27,29 @@ function generateZeroPlan() {
 
 /**
  * Helper fn that makes a d3 donut
+ * @param parentClass - string of parent class name e.g. '.plan-col-1'
  * @param className - string of class name to append donut to, e.g ".estimated-cost-donut"
  * @param donutType - string of donut type for color, pick between "cost", "save", "zero"
  * @param data - JSON of data to be input
- * @param total - sum of all the values in data
+ * @param highlight_default_name - STRING of class name to be highlighted on default e.g. annual_premium, maternity_cost
  */
-function makeSvgDonut(parentClass, className, donutType, data, total) {
+function makeSvgDonut(parentClass, className, donutType, data, highlight_default_name) {
+    var svgMap = {} // a map of element name(e.g. annual_premium, doctor_cost) to the SVG path element
+
     if (donutType == "zero") {
         data = [{"value": 1}];
     }
 
-    var width = 250,
-    height = 190,
-    radius = Math.min(width, height) / 1.7;
+    var total = 0;
+    for (i in data) {
+        total += data[i]["value"]
+    }
 
     var color = d3.scale.category20();
 
     var pie = d3.layout.pie()
         .sort(null)
         .value(get_value);
-
-    var arc = d3.svg.arc()
-        .innerRadius(radius - 50)
-        .outerRadius(radius - 30);
-
-    var highlightArc = d3.svg.arc()
-        .innerRadius(radius - 50)
-        .outerRadius(radius - 23);
 
     $(className).html("");
 
@@ -62,7 +71,7 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
         .attr("dy", "10px")
         .attr("class","estimated-number")
         .text(function(d){ return "$" + total })
-        .attr("fill", function(){ return "#b00" }) /* color of middle text */
+        .attr("fill", function(){ return "rgb(51, 51, 51)" }) /* color of middle text */
     }  else if (donutType == "zero") {
         gnodes.append("text")
         .style("text-anchor", "middle")
@@ -75,26 +84,55 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
     //donut styling
     var path = gnodes.append("path")
         .style("cursor", "pointer")
-        .attr("d", arc)
+        .attr("d", ARC)
     if (donutType == "cost") {
         path.attr("fill", function(d, i) { return redColor(i); });
     }  else if (donutType == "zero") {
         path.attr("fill", function(d, i) { return "#777b7e" });
     }
 
+    // maps element name to svg object
+    path.each(function(data, stuff){
+        svgMap[d3.select(this).data()[0].data.name] = this;
+    })
 
     //mouseover logic
     path.on("mouseover", function(){
-        d3.select(this).attr("d", highlightArc);
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
         var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background-color" : "#d6e6f4"});
-        //$("#"+name).css("font-weight", "bold")
+        highlightCost(parentClass+"."+name, this);
     })
     path.on("mouseout", function(){
-        d3.select(this).attr("d", arc);
-        var name = d3.select(this).data()[0].data.name;
-        $(parentClass + "." + name).css({ "background" : "none"});
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
     })
+
+    // logic of when hovering over text, highlight donut as well
+    $(parentClass+".cost-detail").unbind().hover(function(){
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
+        var name = $(this).attr("name");
+        highlightCost(parentClass+'.'+name, svgMap[name]);
+    }, function(){
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
+    });
+
+    if (highlight_default_name) {
+        unHighlightAll(parentClass+'.cost-detail', svgMap);
+        //highlight segment by default
+        if (highlight_default_name == "none") highlight_default_name = "annual_premium";
+        highlightCost(parentClass+'.'+highlight_default_name, svgMap[highlight_default_name]);
+    }
+}
+
+//highlight specific element
+function highlightCost(className, svgElement) {
+    d3.select(svgElement).attr("d", HIGHLIGHT_ARC);
+    $(className).css({ "background-color" : "#d6e6f4", cursor: "pointer"});
+}
+
+//unhighlight all
+function unHighlightAll(className, svgMap) {
+    for(key in svgMap) d3.select(svgMap[key]).attr("d", ARC);
+    $(className).css({ "background" : "none"});
 }
 
 /**
@@ -103,10 +141,11 @@ function makeSvgDonut(parentClass, className, donutType, data, total) {
  * @param data - JSON data to be input into a row
  * @param plan_num - plan number 1 ~ 3 that will have data injected.
  * @param extra_procedure - the STRING of the extra procedure name ('low_maternity_cost', 'diabetes_cost', 'hospitalization_cost', 'high_maternity_cost')
+ * @param animate_change - BOOLEAN of whether or not to animate changes
  */
-function fillPlan(data, plan_num, extra_procedure) {
+function fillPlan(data, plan_num, extra_procedure, animate_change) {
     var savings = data.extras.savings;
-    var monthly_premium = data.fields.price;
+    var monthly_premium = data.extras.total_monthly_premium;
     var medal = data.fields.medal.toLowerCase();
     var plan_name = data.fields.provider.fields.name;
     var out_of_pocket_cost_array = eval(data.extras.total_out_of_pocket_cost);
@@ -114,7 +153,9 @@ function fillPlan(data, plan_num, extra_procedure) {
     var deductible = data.extras.deductible;
     var coinsurance_rate = data.extras.coinsurance_rate;
     var out_of_pocket_max = data.extras.out_of_pocket_max;
-    var example_procedure_cost = eval("(" + data.extras.example_procedure_cost + ")");
+    var example_procedure_costs = eval("(" + data.extras.example_procedure_cost + ")");
+    var example_procedure_savings = eval("(" + data.extras.example_procedure_savings + ")");
+    var extra_procedure_saving_name = extra_procedure.split("_")[0] + "_savings";
 
     var cost_data = {}
     for (index in out_of_pocket_cost_array ) {
@@ -127,7 +168,8 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".learn-more").show();
     $(plan_col+".cost-detail").show();
     $(plan_col+".cost-detail.extra").hide();
-    $(plan_col+".cost-detail.extra."+extra_procedure).show();
+    if (animate_change) $(plan_col+".cost-detail.extra."+extra_procedure).fadeIn();
+    else $(plan_col+".cost-detail.extra."+extra_procedure).show();
     $(plan_col+".example-procedure").show();
 
     $(plan_col+".plan-name").text(plan_name).removeClass("zero");
@@ -140,21 +182,27 @@ function fillPlan(data, plan_num, extra_procedure) {
     $(plan_col+".annual_premium .value").html("$" + cost_data['annual_premium']);
     $(plan_col+".doctor_cost .value").html("$" + cost_data['doctor_cost']);
     $(plan_col+".prescription_cost .value").html("$" + cost_data['prescription_cost']);
-    $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_cost[extra_procedure]);
-    $(plan_col+".procedure-breakdown .total").html("Total Cost: $5000");
-    $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $" + example_procedure_cost[extra_procedure]);
 
     // plan details data
     $(plan_col+".plan-details .deductible .value").text("$" + deductible);
     $(plan_col+".plan-details .out-of-pocket-max .value").text("$" + out_of_pocket_max);
     $(plan_col+".plan-details .co-insurance-rate .value").text(coinsurance_rate*100 + "%");
 
-    var new_cost = {name: extra_procedure, value: example_procedure_cost[extra_procedure]};
-    var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and add new cost
-    new_out_of_pocket.push(new_cost);
+    var new_out_of_pocket = out_of_pocket_cost_array.slice(0); //copy array and attempt add new cost
+    if (extra_procedure == "none") {
+        $(plan_col+".procedure-breakdown .total").html("Uninsured Cost: $0");
+        $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $0");
+    } else {
+        $(plan_col+"." + extra_procedure + " .value").html("$" + example_procedure_costs[extra_procedure]);
+        $(plan_col+".procedure-breakdown .total").html("Uninsured Cost: $" + (example_procedure_costs[extra_procedure] +
+            example_procedure_savings[extra_procedure_saving_name]));
+        $(plan_col+".procedure-breakdown .you-pay").html("You Pay: $" + example_procedure_costs[extra_procedure]);
 
-    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket, out_of_pocket_cost_number);
-//    makeSvgDonut(plan_col + ".estimated-save-donut", "save", dataset2.apples);
+        var new_cost = {name: extra_procedure, value: example_procedure_costs[extra_procedure]};
+        new_out_of_pocket.push(new_cost);
+    }
+
+    makeSvgDonut(plan_col, plan_col + ".estimated-cost-donut", "cost", new_out_of_pocket, extra_procedure);
 //    $(".plan-modal-"+plan_num + " .cost").text(data.plan_name);
     $(".plan-modal-"+plan_num + ".modal-title").text("Go to " + plan_name);
 
@@ -179,7 +227,7 @@ function fillZeroPlan(plan_num) {
     $(plan_col+".plan-details .out-of-pocket-max .value").text("$0");
     $(plan_col+".plan-details .co-insurance-rate .value").text("0%");
 
-    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {}, 0);
+    makeSvgDonut("", plan_col + ".estimated-cost-donut", "zero", {}, false);
 }
 
 /**
@@ -195,8 +243,8 @@ function get_value(d) {
  * @param i
  */
 function redColor(i) {
-    if (i == 0) return '#ff0000'
-    if (i == 1) return '#aa0000'
-    if (i == 2) return '#880000'
-    if (i == 3) return '#ff9a9a'
+    if (i == 0) return '#2a93a3'
+    if (i == 1) return '#2a56a3'
+    if (i == 2) return '#00bf99'
+    if (i == 3) return '#800000'
 }
