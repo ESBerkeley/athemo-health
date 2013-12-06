@@ -22,14 +22,14 @@ def importZipCodes():
 
 def importAll():
     importKaiser()
-#     importBlue()
-#     importChinese()
-#     importContra()
-#     importMolina()
-#     importHealthNet()
-#     importSharp()
-#     importSutter()
-#     importValley()
+    importBlue()
+    importChinese()
+    importContra()
+    importMolina()
+    importHealthNet()
+    importSharp()
+    importSutter()
+    importValley()
 
 def importKaiser():
     medals = ['catastrophic','bronze', 'silver', 'gold', 'platinum']
