@@ -49,10 +49,10 @@ function adjustPersonRows() {
 			"<div id='person_" + peopleCount + "' class='person-row'> \
                 <div class='person-label'>Person " + peopleCount + "'s Age</div> \
                 <div class='row'> \
-										<div class='col-md-11'> \
+										<div class='col-xs-11 col-md-11'> \
 												<input id='input_person_" + peopleCount + "' type='text' class='form-control' name='age'/> \
 										</div> \
-										<div class='delete_person col-md-1' personId=" + peopleCount + " > \
+										<div class='delete_person col-xs-1 col-md-1' personId=" + peopleCount + " > \
                     		<span class='glyphicon glyphicon-remove'></span> \
                 		</div> \
 								</div> \
@@ -91,7 +91,7 @@ function captureFocusOut() {
     $(".info-col").on("focusout", "input", function(event){
         if (event.target.id === "annual-income") {
             var value = formatDollar(event.target.value);
-            if (value === false) {
+            if (!value) {
                 event.target.value = "";
             } else {
                 event.target.value = value;
@@ -106,6 +106,11 @@ function captureFocusOut() {
  * helper fn for sending the ajax request
  */
 function sendRequest() {
+
+    if ($("#zipcode").val() === "" || $("#zipcode").val().length != 5) {   // don't send request if ZIP code field is empty or not 5 digit
+       return;
+    }
+
     // get form data
     var formData = $("form#info-form").serialize();
     // TODO come up with a more elegant solution to parse number
@@ -164,7 +169,6 @@ function createMobileButton() {
     $(".wrapper").on("click", "#seeMoreButtonWrapper", function() {
         setTimeout(function () {
             $(".plan-parent").addClass("plan-parent-show");
-            $(".plan-col").addClass("plan-col-show");
         }, 500);
         $(".info-col").addClass("info-col-hidden");
         $("#seeMoreButton").addClass("button-hidden");
@@ -176,7 +180,6 @@ function createMobileButton() {
             $(".info-col").removeClass("info-col-hidden")
             $(".plan-col").removeClass("plan-col-show");
         }, 500);
-        $(".plan-parent").removeClass("plan-parent-show");
         $("#seeMoreButton").removeClass("button-hidden");
         $("#seeLessButton").addClass("button-hidden");
     })
