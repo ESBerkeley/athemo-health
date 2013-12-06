@@ -16,7 +16,7 @@ MATERNITY_COST = 10000
 #AVG COST 7900, minus doctor visits?
 AVG_DIABETES_COST = 6000
 
-def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
+def get_plans_data(result_plans, ages, prescription_use, doctor_use, monthly_subsidy):
     '''
     Your premium + your deductible + any coinsurance
     you must pay (up to your out-of-pocket maximum) +
@@ -34,6 +34,8 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
             age = max(20,age)
             age = min(64,age)
             total_monthly_premium += float(plan.price)*AGE_RATIOS[age]
+        total_monthly_premium -= monthly_subsidy
+        total_monthly_premium = max(total_monthly_premium, (PERSON_TO_POVERTY_LINE[len(ages)]*.02)/12)
         plan_details = MEDAL_DETAILS[plan.medal]
         if len(ages) > 1:
             deductible = plan_details['family_deductible']
@@ -96,12 +98,8 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
 
     return sorted(result_plans, key=lambda x: x.out_of_pocket_cost_number)
 
-def get_subsidy(ages, zip_code, income):
-    from bs4 import BeautifulSoup
-    import requests
-
-
-    adult_ages = [age for age in ages if age >= 21]
+def get_subsidy(ages, income, second_lowest_plan_cost):
+    '''adult_ages = [age for age in ages if age >= 21]
     num_adults = len(adult_ages)
     num_children = len(ages) - num_adults
     url = 'kff.org/interactive/subsidy-calculator/' + \
@@ -111,15 +109,32 @@ def get_subsidy(ages, zip_code, income):
           '&alternate-plan-family=individual&adult-count='+str(num_adults)
     for age in adult_ages:
         url += '&adults%5B0%5D%5Bage%5D='+str(age)+'&adults%5B0%5D%5Btobacco%5D=0'
-    url += '&child-count='+str(num_children)+'&child-tobacco=0'
-    r  = requests.get("http://" +url)
+    url += '&child-count='+str(num_children)+'&child-tobacco=0'''''
+    premium_percent = poverty_level(len(ages), income)
+    income = max(PERSON_TO_POVERTY_LINE[len(ages)], income)
+    max_payment = premium_percent * income
+    if max_payment < second_lowest_plan_cost:
+        print(second_lowest_plan_cost - max_payment)
+        return second_lowest_plan_cost - max_payment
+    else:
+        return 0
 
-    data = r.text
-
-    soup = BeautifulSoup(data)
-
-    for link in soup.find_all('a'):
-        print(link.get('href'))
+def poverty_level(num_people, income):
+    poverty_line = PERSON_TO_POVERTY_LINE[num_people]
+    if income < poverty_line * 1.33:
+        return 0.02
+    elif income < poverty_line * 1.50:
+        return 0.03 + (income/poverty_line - 1.33)/17
+    elif income < poverty_line * 2:
+        return 0.04 + (income/poverty_line - 1.5)/21.74
+    elif income < poverty_line * 2.5:
+        return 0.063 + (income/poverty_line - 2)/28.57
+    elif income < poverty_line * 3:
+        return 0.0805 + (income/poverty_line - 2.5)/34.483
+    elif income < poverty_line * 4:
+        return 0.095
+    else:
+        return 1
 
 def hospital_cost(age):
     if age < 18:
@@ -233,6 +248,14 @@ PLATINUM = {'primary_care_copay': 20,
           'max_out_of_pocket': 4000,
           'max_out_of_pocket_family': 8000,
           'coinsurance_rate': .10}
+PERSON_TO_POVERTY_LINE = {1: 11490,
+                         2: 15510,
+                         3: 19530,
+                         4: 23550,
+                         5: 27570,
+                         6: 31590,
+                         7: 35610,
+                         8: 39630}
 
 MEDAL_DETAILS = {'Bronze': BRONZE, 'Silver': SILVER, 'Gold': GOLD, 'Platinum': PLATINUM, 'Catastrophic': BRONZE}
 

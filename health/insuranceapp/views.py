@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.core import serializers
 from models import GeographicArea
-from utils import get_plans_data, doctor_use_by_age, prescription_use_by_age
+from utils import get_plans_data, doctor_use_by_age, prescription_use_by_age, get_subsidy
 
 def home(request):
     #title = request.GET['title']
@@ -72,11 +72,15 @@ def ajax_get_plans(request):
             from itertools import chain
             result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
 
+        second_lowest_silver_plan = plans.filter(medal='Silver').order_by('price')[:2][1]
+        second_lowest_silver_price = float(second_lowest_silver_plan.price) * 12
+        yearly_subsidy = get_subsidy(ages, income, second_lowest_silver_price)
+        monthly_subsidy = yearly_subsidy/12
         #result_plans.prefetch_related('provider')
         if not result_plans:
             data = serializers.serialize('json', [])
             return HttpResponse(data, content_type='application/json')
-        plans = get_plans_data(result_plans, ages, income, prescription_use, doctor_use)
+        plans = get_plans_data(result_plans, ages, prescription_use, doctor_use, monthly_subsidy)
         data = serializers.serialize('json',
                                      plans,
                                      relations=('provider',),
