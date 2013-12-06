@@ -307,9 +307,6 @@ def getBlueShieldPlan(tier, age, area):
         return sheetObama.cell('F' + base2).value
     elif str(tier) == 'catastrophic':
         return sheetObama.cell('G' + base2).value
-
-def getKaiserHealthPlan(tier, area):
-    sheetObama = bookObama.get_sheet_by_name("Kaiser Foundation Health Plan")
     
 
 def getKaiserHealthPlan(tier, area):
