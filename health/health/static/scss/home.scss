@@ -381,17 +381,34 @@ body {
         }
       }
 
+      .medal {
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 16px;
+        &.bronze {
+          background-color: $bronze;
+          color: white;
+        }
+        &.silver {
+            background-color: #a7a7a7;
+            color: white;
+        }
+        &.gold {
+            background-color: #e0be00;
+            color: white;
+        }
+        &.platinum {
+          background-color: $platinum;
+        }
+      }
+
       .standard-benefits {
         margin-top: 20px;
         .title {
           font-size: 16px;
           margin-bottom: 15px;
           text-align: center;
-          .medal {
-            &.bronze {
-              color: $bronze;
-            }
-          }
         }
         table {
           font-size: 14px;
