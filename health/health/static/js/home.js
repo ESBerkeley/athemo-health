@@ -91,7 +91,7 @@ function captureFocusOut() {
     $(".info-col").on("focusout", "input", function(event){
         if (event.target.id === "annual-income") {
             var value = formatDollar(event.target.value);
-            if (value === false) {
+            if (!value) {
                 event.target.value = "";
             } else {
                 event.target.value = value;
@@ -106,6 +106,11 @@ function captureFocusOut() {
  * helper fn for sending the ajax request
  */
 function sendRequest() {
+
+    if ($("#zipcode").val() === "" || $("#zipcode").val().length != 5) {   // don't send request if ZIP code field is empty or not 5 digit
+       return;
+    }
+
     // get form data
     var formData = $("form#info-form").serialize();
     // TODO come up with a more elegant solution to parse number
