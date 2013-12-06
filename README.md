@@ -20,6 +20,8 @@ sudo pip install wadofstuff-django-serializers
 sudo pip uninstall simplejson
 
 pip install beautifulsoup4
+
+pip install lxml
 ---------
 sudo pip install django
 

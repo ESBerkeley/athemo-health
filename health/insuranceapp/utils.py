@@ -55,6 +55,7 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
         maternity_cost = coinsurance_rate * MATERNITY_COST
         diabetes_cost = coinsurance_rate * AVG_DIABETES_COST
         oop_hospital_cost = coinsurance_rate * max_hospital_cost
+
         maternity_savings = MATERNITY_COST - maternity_cost
         diabetes_savings = AVG_DIABETES_COST - diabetes_cost
         hospital_savings = max_hospital_cost - oop_hospital_cost
@@ -69,8 +70,7 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
         plan.total_monthly_premium = format(total_monthly_premium, '.2f') #2 decimal places
         plan.out_of_pocket_cost_number = int(total_monthly_premium * 12 + \
                              out_of_pocket_doctor_costs + \
-                             out_of_pocket_prescription_costs + \
-                             oop_hospital_cost)
+                             out_of_pocket_prescription_costs)
 
         plan.total_out_of_pocket_cost = [{'name':'annual_premium', 'value': int(total_monthly_premium*12)},
                                         {'name':'prescription_cost', 'value': int(out_of_pocket_prescription_costs)},
@@ -93,12 +93,33 @@ def get_plans_data(result_plans, ages, income, prescription_use, doctor_use):
 
         #plan.total_insurance_payment = [{'name':'prescription_cost', 'value': insurance_prescription_payment},
         #                                {'name':'doctor_cost', 'value': insurance_doctor_payment}]
-    
+
     return sorted(result_plans, key=lambda x: x.out_of_pocket_cost_number)
 
 def get_subsidy(ages, zip_code, income):
-    #from bs4 import BeautifulSoup
-    return ''
+    from bs4 import BeautifulSoup
+    import requests
+
+
+    adult_ages = [age for age in ages if age >= 21]
+    num_adults = len(adult_ages)
+    num_children = len(ages) - num_adults
+    url = 'kff.org/interactive/subsidy-calculator/' + \
+          '#state=CA&zip='+str(zip_code)+\
+          '&income-type=dollars&income='+str(income)+\
+          '&employer-coverage=0&people='+str(len(ages))+\
+          '&alternate-plan-family=individual&adult-count='+str(num_adults)
+    for age in adult_ages:
+        url += '&adults%5B0%5D%5Bage%5D='+str(age)+'&adults%5B0%5D%5Btobacco%5D=0'
+    url += '&child-count='+str(num_children)+'&child-tobacco=0'
+    r  = requests.get("http://" +url)
+
+    data = r.text
+
+    soup = BeautifulSoup(data)
+
+    for link in soup.find_all('a'):
+        print(link.get('href'))
 
 def hospital_cost(age):
     if age < 18:
