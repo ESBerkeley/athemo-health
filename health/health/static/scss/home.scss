@@ -187,11 +187,7 @@ body {
     display: inline-block;
 
     @media only screen and (max-width: 768px) { // needed to match bootstrap resolution breakpoint for xs styles
-      min-width: 365px;
-    }
-
-    &.plan-col-show {
-      width: 50%;
+      min-width: 340px;
     }
 
     .zero {

@@ -164,7 +164,6 @@ function createMobileButton() {
     $(".wrapper").on("click", "#seeMoreButtonWrapper", function() {
         setTimeout(function () {
             $(".plan-parent").addClass("plan-parent-show");
-            $(".plan-col").addClass("plan-col-show");
         }, 500);
         $(".info-col").addClass("info-col-hidden");
         $("#seeMoreButton").addClass("button-hidden");
@@ -176,7 +175,6 @@ function createMobileButton() {
             $(".info-col").removeClass("info-col-hidden")
             $(".plan-col").removeClass("plan-col-show");
         }, 500);
-        $(".plan-parent").removeClass("plan-parent-show");
         $("#seeMoreButton").removeClass("button-hidden");
         $("#seeLessButton").addClass("button-hidden");
     })
