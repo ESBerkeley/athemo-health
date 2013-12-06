@@ -77,10 +77,14 @@ def ajax_get_plans(request):
             from itertools import chain
             result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
 
-        second_lowest_silver_plan = plans.filter(medal='Silver').order_by('price')[:2][1]
-        second_lowest_silver_price = float(second_lowest_silver_plan.price) * 12
-        yearly_subsidy = get_subsidy(ages, income, second_lowest_silver_price)
-        monthly_subsidy = yearly_subsidy/12
+        second_lowest_silver_plans = plans.filter(medal='Silver').order_by('price')[:2]
+        if second_lowest_silver_plans.exists():
+            silver_plan = second_lowest_silver_plans[second_lowest_silver_plans.count()-1]
+            second_lowest_silver_price = float(silver_plan.price) * 12
+            yearly_subsidy = get_subsidy(ages, income, second_lowest_silver_price)
+            monthly_subsidy = yearly_subsidy/12
+        else:
+            monthly_subsidy = 0
         #result_plans.prefetch_related('provider')
         if not result_plans:
             data = serializers.serialize('json', [])
