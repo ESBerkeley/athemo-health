@@ -130,6 +130,7 @@ function sendRequest() {
                 if (i < data.length) {
                     var procedure_type = $(".plan-col-" + (i+1) + " select.procedure").val();
                     fillPlan(data[i], i+1, procedure_type, false);
+                    fillModal(data[i], i+1);
                     PLAN_DATA[i+1] = data[i];
                 } else {
                     fillZeroPlan(i+1);
@@ -141,6 +142,27 @@ function sendRequest() {
     .fail(function(){
 
     })
+}
+
+function fillModal(data, plan_num) {
+    var monthly_premium = data.extras.total_monthly_premium;
+    var plan_name = data.fields.provider.fields.name;
+    var plan_url = data.fields.provider.fields.url;
+    var deductible = data.extras.deductible;
+    var coinsurance_rate = data.extras.coinsurance_rate;
+    var out_of_pocket_max = data.extras.out_of_pocket_max;
+    var medal = data.fields.medal.toLowerCase();
+    $("#plan-modal-" + plan_num + " .cost").html(monthly_premium);
+    $("#plan-modal-" + plan_num + " .modal-title").html(plan_name);
+    $("#plan-modal-" + plan_num + " .btn").html("Go To " + plan_name);
+    $("#plan-modal-" + plan_num + " .btn").attr("href", plan_url);
+    $("#modal-medal-" + plan_num).removeClass();
+    $("#modal-medal-" + plan_num).addClass("medal");
+    $("#modal-medal-" + plan_num).addClass(medal);
+    $("#modal-medal-" + plan_num).html(medal);
+    $("#modal-deductible-" + plan_num).html("$ " + deductible);
+    $("#modal-out-of-pocket-max-" + plan_num).html("$ " + out_of_pocket_max);
+    $("#modal-co-insurance-" + plan_num).html(coinsurance_rate * 100 + "%");
 }
 
 
