@@ -10,8 +10,8 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/external/fancySelect.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/home-donuts.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
-    <script id="medical-embed">{% include "home/medical-popover.html" %}</script>
-    <script id="prescription-embed">{% include "home/prescription-popover.html" %}</script>
+    <script id="medical-embed" type="text/html">{% include "home/medical-popover.html" %}</script>
+    <script id="prescription-embed" type="text/html">{% include "home/prescription-popover.html" %}</script>
     <script type="text/javascript">
     $(document).ready(function(){
         $("#medical-popover").popover({
