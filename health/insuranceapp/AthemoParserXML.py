@@ -123,7 +123,7 @@ def getVenturaHealthPlan(tier, age):
 
 #this method is breaking on call to cell attribute, no idea why.
 def getValleyHealthPlan(tier, age):
-    sheetObama = bookObama.get_sheet_by_name("Valley Health Plan")
+    sheetObama = bookObama.get_sheet_by_name("Vallet Health Plan")
     base = 21
     if age > 20:
         base = age + base - 20
@@ -250,7 +250,7 @@ def getMolinaHealthPlan(tier, age, area):
 
 #takes in rating areas 1-19
 def getBlueShieldPlan(tier, age, area):
-    sheetObama = bookObama.get_sheet_by_name("Blue Shield of California")
+    sheetObama = bookObama.get_sheet_by_name("Blue Shield of California1")
     base = 0
     if area < 1 and area > 19:
         return 'area not covered'
