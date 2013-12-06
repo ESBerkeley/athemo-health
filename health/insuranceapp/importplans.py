@@ -21,14 +21,34 @@ def importZipCodes():
                 continue
 
 def importAll():
-    importBlue()
-    importChinese()
-    importContra()
-    importMolina()
-    importHealthNet()
-    importSharp()
-    importSutter()
-    importValley()
+		importKaiser()
+    # importBlue()
+#     importChinese()
+#     importContra()
+#     importMolina()
+#     importHealthNet()
+#     importSharp()
+#     importSutter()
+#     importValley()
+
+def importKaiser():
+    medals = ['catastrophic','bronze', 'silver', 'gold', 'platinum']
+    kaiser_provider, created = Provider.objects.get_or_create(name='Kaiser Health Plan',
+                                                              url='https://healthy.kaiserpermanente.org')
+    
+    for medal in medals:
+    		for r_area in range(1,20):
+					age = 21
+					str_premium = getKaiserHealthPlan(medal, r_area)
+					premium = float(str_premium)
+					areas = GeographicArea.objects.filter(state='CA')
+					plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
+																	age=age,
+																	price=premium,
+																	provider=kaiser_provider)
+					plan.save()
+					for area in areas:
+							plan.areas.add(area)
 
 def importSutter():
     medals = ['bronze', 'silver', 'gold', 'platinum']
