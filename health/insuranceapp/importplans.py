@@ -38,12 +38,11 @@ def importKaiser():
     
     for medal in medals:
     		for r_area in range(1,20):
-					age = 21
 					str_premium = getKaiserHealthPlan(medal, r_area)
 					premium = float(str_premium)
 					areas = GeographicArea.objects.filter(state='CA')
 					plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
-																	age=age,
+																	age=21,
 																	price=premium,
 																	provider=kaiser_provider)
 					plan.save()

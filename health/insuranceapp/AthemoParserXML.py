@@ -307,26 +307,26 @@ def getBlueShieldPlan(tier, age, area):
         return sheetObama.cell('F' + base2).value
     elif str(tier) == 'catastrophic':
         return sheetObama.cell('G' + base2).value
-    
+
 
 def getKaiserHealthPlan(tier, area):
-    sheetObama = bookObama.get_sheet_by_name("Kaiser Foundation Health Plan")
+    sheetObama = bookObama.get_sheet_by_name("Kaiser Foundation Health Pla")
     base = 0
     if area == 1:
-        base = 23
+        base = 4
     else:
-        base = 66
+        base = 47
     		
-    base2 = base + area
+    base2 = str(base + area)
     
     if str(tier) == 'platinum':
-        return sheetObama.cell('H' + base2).value
+        return str(sheetObama.cell('H' + base2).value)
     elif str(tier) == 'gold':
-        return sheetObama.cell('I' + base2).value
+        return str(sheetObama.cell('I' + base2).value)
     elif str(tier) == 'silver':
-        return sheetObama.cell('J' + base2).value
+        return str(sheetObama.cell('J' + base2).value)
     elif str(tier) == 'bronze':
-        return sheetObama.cell('F' + base2).value
+        return str(sheetObama.cell('F' + base2).value)
     elif str(tier) == 'catastrophic':
-        return sheetObama.cell('G' + base2).value
+        return str(sheetObama.cell('G' + base2).value)
 
