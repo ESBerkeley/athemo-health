@@ -7,6 +7,12 @@ from django.core import serializers
 from models import GeographicArea
 from utils import get_plans_data, doctor_use_by_age, prescription_use_by_age, get_subsidy
 
+# import the logging library
+#import logging
+
+# Get an instance of a logger
+#logger = logging.getLogger(__name__)
+
 def home(request):
     #title = request.GET['title']
     #msg = request.GET['msg']
@@ -60,6 +66,12 @@ def ajax_get_plans(request):
             for age in ages:
                 prescription_use += prescription_use_by_age(age)
 
+        '''logger.info(
+            'Ages:' + str(ages) +
+            'Zip:' + str(zip_code) +
+            'MedVisits:' + str(doctor_use) +
+            'Prescriptions:' + str(prescription_use)
+        )'''
         try:
             area = GeographicArea.objects.select_related().get(zip_code=zip_code)
             plans = area.plan_set.filter(age=21)
