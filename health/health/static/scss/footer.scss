@@ -43,6 +43,14 @@ html, body {
     text-decoration: underline;
 }
 
-.pull-right .footer-item {
-    font-size: 14px;
+.pull-right .container {
+    margin-top: 20px;
+    display: table;
+
+    .footer-icon {
+        display: table-cell;
+        vertical-align: middle;
+        float: left;
+        margin-right: 10px;
+    }
 }
