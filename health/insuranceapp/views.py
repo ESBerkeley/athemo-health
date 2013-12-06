@@ -24,7 +24,7 @@ def household_info(request):
 def ajax_get_plans(request):
     #if request.is_ajax() and request.method == 'GET':
     if request.method == 'GET':
-        zip_code = 95388
+        zip_code = 0
         income = 30000
         #zip_code=5&income=&age=&medical_visits=&prescription_use=&medal=all
         doctor_use = 0
