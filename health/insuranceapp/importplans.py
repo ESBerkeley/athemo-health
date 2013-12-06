@@ -32,7 +32,7 @@ def importAll():
 
 def importSutter():
     medals = ['bronze', 'silver', 'gold', 'platinum']
-    sutter_provider, created = Provider.objects.get_or_create(name='Sutter Health Plan',
+    sutter_provider, created = Provider.objects.get_or_create(name='Sutter Health',
                                                               url='http://www.sutterhealth.org/')
     for medal in medals:
         age = 21
@@ -54,7 +54,7 @@ def importSutter():
 
 def importVentura():
     medals = ['bronze', 'silver', 'gold', 'platinum']
-    ventura_provider, created = Provider.objects.get_or_create(name='Ventura Health Plan',
+    ventura_provider, created = Provider.objects.get_or_create(name='Ventura Health',
                                                               url='http://www.vchca.org/')
     for medal in medals:
         age = 21
@@ -71,7 +71,7 @@ def importVentura():
 
 def importValley():
     medals = ['bronze', 'silver', 'gold', 'platinum']
-    valley_provider, created = Provider.objects.get_or_create(name='Valley Health Plan',
+    valley_provider, created = Provider.objects.get_or_create(name='Valley Health',
                                                               url='http://www.valleyhealthplan.org/')
     for medal in medals:
         age = 21
@@ -88,7 +88,7 @@ def importValley():
 
 def importContra():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
-    contra_provider, created = Provider.objects.get_or_create(name='Contra Health Plan', url='http://cchealth.org/healthplan/')
+    contra_provider, created = Provider.objects.get_or_create(name='Contra Costa Health', url='http://cchealth.org/healthplan/')
     for medal in medals:
         age = 21
         str_premium = getContraHealthPlan(medal, age)
@@ -101,7 +101,7 @@ def importContra():
 
 def importSharp():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
-    sharp_provider, created = Provider.objects.get_or_create(name='Sharp Health Plan', url='https://www.sharphealthplan.com/')
+    sharp_provider, created = Provider.objects.get_or_create(name='Sharp Health', url='https://www.sharphealthplan.com/')
     for medal in medals:
         age = 21
         str_premium = getSharpHealthPlan(medal, age)
@@ -128,7 +128,7 @@ def importHealthNet():
 
 def importChinese():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
-    chinese_provider, created = Provider.objects.get_or_create(name='Chinese Health Plan',
+    chinese_provider, created = Provider.objects.get_or_create(name='Chinese Community Health',
                                                               url='http://www.cchphmo.com/')
     for medal in medals:
         age = 21
@@ -150,7 +150,7 @@ def importChinese():
 
 def importMolina():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
-    molina_provider, created = Provider.objects.get_or_create(name='Molina Health Plan', url='www.molinahealthcare.com')
+    molina_provider, created = Provider.objects.get_or_create(name='Molina Healthcare', url='www.molinahealthcare.com')
     for medal in medals:
         age = 21
         #For Sutter Health Plans
@@ -169,7 +169,7 @@ def importMolina():
 
 def importBlue():
     medals = ['bronze', 'silver', 'gold', 'platinum', 'catastrophic']
-    blue_provider, created = Provider.objects.get_or_create(name='Blue Health Plan', url='http://www.bcbs.com/')
+    blue_provider, created = Provider.objects.get_or_create(name='Blue Shield', url='http://www.bcbs.com/')
     for medal in medals:
         age = 21
         #For Sutter Health Plans
