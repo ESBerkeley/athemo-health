@@ -22,10 +22,11 @@ html, body {
 }
 
 .footer {
+    border-top: 1px solid #dedede;
     height: 80px; /* .push must be the same height as .footer */
     clear: both;
-    background-color: #252525;
-    color: white;
+    background-color: #f7f7f7;
+    //color: white;
 }
 
 .footer-item {
@@ -33,13 +34,13 @@ html, body {
     height: 80px;
     line-height: 80px;
     padding: 0 20px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
-    color: white;
+    //color: white;
 }
 
 .footer-item:hover {
-    color: white;
+    //color: white;
     text-decoration: underline;
 }
 

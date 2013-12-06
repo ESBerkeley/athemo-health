@@ -1,0 +1,83 @@
+.top-bar {
+  height: 160px;
+  background-color: #2a56a3;
+  margin-top: -20px;
+  color: white;
+  .container {
+    height: 100%;
+    .row {
+      height: 100%;
+      .col-md-12 {
+        display: table;
+        height: 100%;
+        .title {
+          display: table-cell;
+          vertical-align: middle;
+          font-size: 52px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          font-family: 'Alegreya Sans SC', sans-serif;
+          //font-family: Montserrat, sans-serif;
+          span {
+            font-size: 44px;
+          }
+        }
+        .caption {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: right;
+          font-size: 26px;
+          color: #4ccead;
+          //font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+.middle-content {
+  .heading {
+    margin-top: 35px;
+    text-align: center;
+    font-weight: 300;
+    font-size: 42px;
+    color: #2a56a3;
+  }
+  .heading-caption {
+    margin-top: 10px;
+    font-size: 24px;
+    color: #5c595c;
+    font-weight: 300;
+  }
+  .team {
+    margin-top: 15px;
+    .team-col {
+      .image {
+        margin-top: 15px;
+        height: 175px;
+        width: 175px;
+        img {
+          height: 175px;
+          width: 175px;
+        }
+      }
+      .name {
+        margin-top: 5px;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+
+  .small-heading {
+    margin-top: 40px;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .small-heading-caption {
+    margin-top: 5px;
+    font-size: 18px;
+  }
+}

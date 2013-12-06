@@ -14,11 +14,16 @@ def home(request):
 
 
 def about(request):
-    return render_to_response('about.html',context_instance=RequestContext(request))
+    return render_to_response('about.html', context_instance=RequestContext(request))
 
+def contact(request):
+    return render_to_response('contact.html', context_instance=RequestContext(request))
+
+def team(request):
+    return render_to_response('team.html', context_instance=RequestContext(request))
 
 def household_info(request):
-    return render_to_response('household_info.html',context_instance=RequestContext(request))
+    return render_to_response('household_info.html', context_instance=RequestContext(request))
 
 
 def ajax_get_plans(request):
