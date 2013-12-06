@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.core import serializers
 from models import GeographicArea
-from utils import get_plans_data, doctor_use_by_age, prescription_use_by_age
+from utils import get_plans_data, doctor_use_by_age, prescription_use_by_age, get_subsidy
 
 def home(request):
     #title = request.GET['title']
@@ -14,11 +14,16 @@ def home(request):
 
 
 def about(request):
-    return render_to_response('about.html',context_instance=RequestContext(request))
+    return render_to_response('about.html', context_instance=RequestContext(request))
 
+def contact(request):
+    return render_to_response('contact.html', context_instance=RequestContext(request))
+
+def team(request):
+    return render_to_response('team.html', context_instance=RequestContext(request))
 
 def household_info(request):
-    return render_to_response('household_info.html',context_instance=RequestContext(request))
+    return render_to_response('household_info.html', context_instance=RequestContext(request))
 
 
 def ajax_get_plans(request):
@@ -72,11 +77,19 @@ def ajax_get_plans(request):
             from itertools import chain
             result_plans = list(chain(bronze_plans, silver_plans, gold_plans, platinum_plans))
 
+        second_lowest_silver_plans = plans.filter(medal='Silver').order_by('price')[:2]
+        if second_lowest_silver_plans.exists():
+            silver_plan = second_lowest_silver_plans[second_lowest_silver_plans.count()-1]
+            second_lowest_silver_price = float(silver_plan.price) * 12
+            yearly_subsidy = get_subsidy(ages, income, second_lowest_silver_price)
+            monthly_subsidy = yearly_subsidy/12
+        else:
+            monthly_subsidy = 0
         #result_plans.prefetch_related('provider')
         if not result_plans:
             data = serializers.serialize('json', [])
             return HttpResponse(data, content_type='application/json')
-        plans = get_plans_data(result_plans, ages, income, prescription_use, doctor_use)
+        plans = get_plans_data(result_plans, ages, prescription_use, doctor_use, monthly_subsidy)
         data = serializers.serialize('json',
                                      plans,
                                      relations=('provider',),

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% load scss %}
+    <link href="{{ STATIC_URL }}{% scss 'scss/information.scss' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="top-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        Contact
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-square-o fa-stack-2x"></i>
+                          <i class="fa fa-phone fa-stack-1x"></i>
+                        </span>
+                    </div>
+                    <div class="caption">Call me maybe!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container middle-content">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="heading">Talk to us</div>
+                <div class="heading-caption">
+                    We're a constantly growing website and we want to hear anything you have to say!
+                    Feel free to leave some feedback, comments, complaints, or maybe you just want to chat with us.
+                    We're excited to hear your thoughts!
+                </div>
+
+                <div class="small-heading">Contact Us</div>
+                <div class="small-heading-caption">
+                    <div class="email">athemo@gmail.com</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

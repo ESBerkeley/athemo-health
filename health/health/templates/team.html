@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% load scss %}
+    <link href="{{ STATIC_URL }}{% scss 'scss/information.scss' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="top-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        Team
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-square-o fa-stack-2x"></i>
+                          <i class="fa fa-users fa-stack-1x"></i>
+                        </span>
+                    </div>
+                    <div class="caption">Who are we?</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container middle-content">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="heading">Meet Us</div>
+                <div class="row team">
+                    <center>
+                    <div class="team-col col-md-4">
+                        <div class="image">
+                            <img src="{{ STATIC_URL }}images/team/doge.jpg" class="img-circle">
+                        </div>
+                        <div class="name">Eric Xiao</div>
+                        <div class="image">
+                            <img src="{{ STATIC_URL }}images/team/doge.jpg" class="img-circle">
+                        </div>
+                        <div class="name">Tony Hung</div>
+                    </div>
+                    <div class="team-col col-md-4">
+                        <div class="image">
+                            <img src="{{ STATIC_URL }}images/team/doge.jpg" class="img-circle">
+                        </div>
+                        <div class="name">Seung Joo Lee</div>
+                        <div class="image">
+                            <img src="{{ STATIC_URL }}images/team/doge.jpg" class="img-circle">
+                        </div>
+                        <div class="name">Hemant Bhonsle</div>
+                    </div>
+                    <div class="team-col col-md-4">
+                        <div class="image">
+                            <img src="{{ STATIC_URL }}images/team/doge.jpg" class="img-circle">
+                        </div>
+                        <div class="name">Renee Yao</div>
+                        <div class="image">
+                            <img src="{{ STATIC_URL }}images/team/doge.jpg" class="img-circle">
+                        </div>
+                        <div class="name">Kevin Liang</div>
+                    </div>
+                    </center>
+                </div>
+
+                <div class="small-heading">Who are we</div>
+                <div class="small-heading-caption">
+                    We're all UC Berkeley students that want to blah blah blah.
+                    We're all UC Berkeley students that want to blah blah blah.
+                    We're all UC Berkeley students that want to blah blah blah.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

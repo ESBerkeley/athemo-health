@@ -3,6 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <!-- note: not using local bootstrap css file to save server requests -->
     {% load scss %}
 
@@ -13,6 +14,7 @@
     <link href="{{ STATIC_URL }}{% scss 'scss/footer.scss' %}" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300,400,500,700,300italic,400italic,500italic,700italic' rel='stylesheet' type='text/css'>
     {% block head %}
     {% endblock %}
 </head>
@@ -25,7 +27,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="home"><a href="{% url 'home' %}">Home</a></li>
+                    <li id="home"><a href="{% url 'home' %}">Find Plans</a></li>
                     <li id="about"><a href="{% url 'about' %}">About</a></li>
                 </ul>
             </div>
@@ -39,17 +41,16 @@
 <div class="footer">
     <div class="container">
         <div class="pull-left">
-            <a href="#"><div class="footer-item">About</div></a>
-            <a href="#"><div class="footer-item">Contact</div></a>
-            <a href="#"><div class="footer-item">Team</div></a>
-            <a href="#"><div class="footer-item">Terms</div></a>
-            <a href="#"><div class="footer-item">Donate</div></a>
+            <a href="{% url 'about' %}"><div class="footer-item">About</div></a>
+            <a href="{% url 'contact' %}"><div class="footer-item">Contact</div></a>
+            <a href="{% url 'team' %}"><div class="footer-item">Team</div></a>
+{#            <a href="#"><div class="footer-item">Terms</div></a>#}
         </div>
         <div class="pull-right">
-            <div class="container">
-                <img class="footer-icon" src="../static/images/facebook-icon.png" width="35" height="35">
-                <img class="footer-icon" src="../static/images/twitter-icon.png" width="35" height="35">
-            </div>
+{#            <div class="container">#}
+{#                <img class="footer-icon" src="../static/images/facebook-icon.png" width="35" height="35">#}
+{#                <img class="footer-icon" src="../static/images/twitter-icon.png" width="35" height="35">#}
+{#            </div>#}
         </div>
     </div>
 </div>
