@@ -1,7 +1,7 @@
 __author__ = 'ericxiao'
 #from django.db import models
 from django.contrib import admin
-from models import HealthcarePlan, GeographicArea
+from models import HealthcarePlan, GeographicArea, Provider
 
 '''class ItemForSaleAdmin(admin.ModelAdmin):
     list_display = ('title', 'time_created', 'owner', 'price', 'category')
@@ -20,3 +20,4 @@ class HealthcarePlanAdmin(admin.ModelAdmin):
 
 admin.site.register(HealthcarePlan, HealthcarePlanAdmin)
 admin.site.register(GeographicArea, GeographicAreaAdmin)
+admin.site.register(Provider)
