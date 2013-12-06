@@ -314,7 +314,7 @@ def getKaiserHealthPlan(tier, area):
     base = 0
     if area == 1:
         base = 23
-    else
+    else:
     		base = 66
     		
     base2 = base + area
