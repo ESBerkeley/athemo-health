@@ -18,6 +18,10 @@ body {
 	font-weight: 600;
   text-align: right;
 }
+
+.popover-body {
+	width: 250px;
+}
 /*info-col CSS*/
 
 
@@ -289,6 +293,7 @@ body {
           background-color: white;
         }
         .options {
+        	z-index: 99999999;
           padding-left: 0;
           background-color: white;
           border-top: 0;
