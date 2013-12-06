@@ -28,7 +28,7 @@ def importAll():
     importHealthNet()
     importSharp()
     importSutter()
-    importVallet()
+    importValley()
 
 def importSutter():
     medals = ['bronze', 'silver', 'gold', 'platinum']
@@ -69,19 +69,19 @@ def importVentura():
         for area in areas:
             plan.areas.add(area)
 
-def importVallet():
+def importValley():
     medals = ['bronze', 'silver', 'gold', 'platinum']
-    vallet_provider, created = Provider.objects.get_or_create(name='Vallet Health Plan',
+    valley_provider, created = Provider.objects.get_or_create(name='Valley Health Plan',
                                                               url='http://www.valleyhealthplan.org/')
     for medal in medals:
         age = 21
-        str_premium = getValletHealthPlan(medal, age)
+        str_premium = getValleyHealthPlan(medal, age)
         premium = float(str_premium)
         areas = GeographicArea.objects.filter(state='CA')
         plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
                                 age=age,
                                 price=premium,
-                                provider=vallet_provider)
+                                provider=valley_provider)
         plan.save()
         for area in areas:
             plan.areas.add(area)
@@ -175,7 +175,7 @@ def importBlue():
         #For Sutter Health Plans
         for r_area in range(1,19):
             #try:
-            str_premium = getBlueHealthPlan(medal, age, r_area)
+            str_premium = getBlueShieldPlan(medal, age, r_area)
             premium = float(str_premium)
             areas = GeographicArea.objects.filter(rating_area=r_area, state='CA')
             plan, created = HealthcarePlan.objects.get_or_create(medal=medal.capitalize(),
