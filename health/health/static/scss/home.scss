@@ -328,6 +328,7 @@ body {
         overflow:hidden;
         .title {
           float: left;
+          z-index: 999;
         }
         .value {
           font-weight: 600;
