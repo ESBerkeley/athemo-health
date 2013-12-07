@@ -190,19 +190,15 @@ function createMobileButton() {
     );
 
     $(".wrapper").on("click", "#seeMoreButtonWrapper", function() {
-        setTimeout(function () {
-            $(".plan-parent").addClass("plan-parent-show");
-        }, 500);
+        $(".plan-parent").addClass("plan-parent-show");
         $(".info-col").addClass("info-col-hidden");
         $("#seeMoreButton").addClass("button-hidden");
         $("#seeLessButton").removeClass("button-hidden");
     })
 
     $(".wrapper").on("click", "#seeLessButtonWrapper", function() {
-        setTimeout(function () {
-            $(".info-col").removeClass("info-col-hidden")
-            $(".plan-col").removeClass("plan-col-show");
-        }, 500);
+        $(".info-col").removeClass("info-col-hidden")
+        $(".plan-parent").removeClass("plan-parent-show");
         $("#seeMoreButton").removeClass("button-hidden");
         $("#seeLessButton").addClass("button-hidden");
     })
